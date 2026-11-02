@@ -1,0 +1,26 @@
+﻿Component,Setting
+Primary features (A9),"CV_Current_Taper_Slope_A_per_s, CV_Duration_s, CV_End_Current_A, CV_Median_Current_A, Charge_End_V, Charge_Max_V, Charge_Start_V, Charge_Terminal_Voltage_Std_V, Pre_Discharge_Voltage_V"
+Excluded protocol-shortcut predictors,"Charge_Voltage_Rise_Slope_V_per_s, Pre_CV_CC_Median_Current_A"
+Eligibility mask,"Qref-independent; complete A9 required before model fitting. XJTU 10,427/10,427 eligible. HUST 146,121/146,122 eligible; HUST_7-7 raw cycle 1 excluded once for incomplete A9 features, without imputation."
+Cross-validation,Deterministic five-fold grouped CV by Cell_ID. XJTU: 11/11/11/11/11 cells; HUST: 16/16/15/15/15; XJTU initial_test: 9/9/10/10/9. Same frozen folds reused across references.
+Imputation,"SimpleImputer(strategy=""median"", add_indicator=False), fit on current outer training-fold rows only. Eligible primary A9 rows are complete after the eligibility mask."
+Scaling,"Ridge only: StandardScaler(with_mean=True, with_std=True), training-fold fit only. RF and GB: no scaling."
+Ridge Regression,"{""alpha"": 1.0, ""fit_intercept"": true, ""solver"": ""auto""}"
+Random Forest Regressor,"{""bootstrap"": true, ""max_depth"": 12, ""max_features"": ""sqrt"", ""min_samples_leaf"": 3, ""n_estimators"": 300, ""n_jobs"": 1, ""random_state"": 20260928}"
+Gradient Boosting Regressor,"{""learning_rate"": 0.05, ""loss"": ""squared_error"", ""max_depth"": 3, ""min_samples_leaf"": 3, ""n_estimators"": 200, ""random_state"": 20260928, ""subsample"": 1.0}"
+Evaluation,"Predicted_Capacity_Ah = Predicted_SOH_Fraction × Qref_Ah after prediction; metrics computed per held-out cell, then summarized across cells."
+Robustness,"A8 = A9 minus CV_Duration_s; B10 = A9 plus Raw_Cycle_Index; POSTCYCLE5 = eligible A9 rows with Raw_Cycle_Index > 5 (XJTU 10,327; HUST 145,737)."
+Bootstrap,"XJTU A8: 5,000 deterministic Cell_ID resamples, seed 20260928, shared resample matrix across Qrefs; statistic = median(GB cell MAE_Q) − median(RF cell MAE_Q)."
+Software,Python 3.12.6; numpy 2.5.3; pandas 2.2.3; scipy 1.18.1; scikit-learn 1.7.2; global seed 20260928.
+Frozen fold allocation,
+Dataset,Fold_ID
+XJTU,1
+XJTU,2
+XJTU,3
+XJTU,4
+XJTU,5
+HUST,1
+HUST,2
+HUST,3
+HUST,4
+HUST,5

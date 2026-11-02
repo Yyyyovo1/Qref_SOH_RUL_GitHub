@@ -1,0 +1,41 @@
+[2026-09-27T14:13:06+08:00] Finalization version: 1.0.0
+[2026-09-27T14:13:06+08:00] Python version: 3.12.6
+[2026-09-27T14:13:06+08:00] numpy version: 2.2.6
+[2026-09-27T14:13:06+08:00] pandas version: 2.3.2
+[2026-09-27T14:13:06+08:00] Pilot v1 source directory: .\xjtu_batch1_pipeline\outputs\xjtu_batch1_pilot_v1
+[2026-09-27T14:13:06+08:00] Raw MAT directory: .\Batch-1
+[2026-09-27T14:13:06+08:00] Requested final output directory: .\xjtu_batch1_pipeline\outputs\xjtu_batch1_pilot_final_v1
+[2026-09-27T14:13:06+08:00] Pilot v1 source SHA256: xjtu_file_manifest.csv=35732bf5a5121ca6d748d0f02cc5330f09b1e688baf21372840b542978274ce9
+[2026-09-27T14:13:06+08:00] Pilot v1 source SHA256: xjtu_cycle_capacity_qc.csv=17527e9b5c663a08c05ad9d864cebf769abd29ea50588b87cb954acf072accfd
+[2026-09-27T14:13:06+08:00] Pilot v1 source SHA256: xjtu_qc_flagged_cycles.csv=d95300c83b2c22abd20877737dfce818a509b51f4ef6002fed82e2223df142c1
+[2026-09-27T14:13:06+08:00] Pilot v1 source SHA256: xjtu_qref_summary.csv=d2da9675aa6f24b859d5d04275b0c317116dd7b631721bef326dda3029a46fe0
+[2026-09-27T14:13:06+08:00] Pilot v1 source SHA256: xjtu_soh_labels_long.csv=ba9bedd52f8469e9b87997f6b96ace83584a20f146460644f273905f2570e218
+[2026-09-27T14:13:06+08:00] Pilot v1 source SHA256: xjtu_eol_sensitivity.csv=d9130a1068f4f4835fe313eed505cfac4856f101bf4d2d62bebf0fe8fd5057d5
+[2026-09-27T14:13:06+08:00] Pilot v1 source SHA256: xjtu_eol_pairwise_shift.csv=6a4623c3b6652792cfa46dec853001956571d015dd74ddc55176809cf822e611
+[2026-09-27T14:13:06+08:00] Pilot v1 source SHA256: xjtu_rul_sensitivity.csv=404d397e7f30eb9282f708e08f38bc2104f432669fe908e8d57c67dd63552f93
+[2026-09-27T14:13:06+08:00] Pilot v1 source SHA256: xjtu_pilot_summary.csv=d17aad37d27487aa4a706486567e25333466289aafb0f0c23a59c5f542c4ba9f
+[2026-09-27T14:13:06+08:00] Pilot v1 source SHA256: xjtu_batch1_config.json=66178c9b385d3d7997e342465e607f83ee014cca42c7c0b2508c082062b46077
+[2026-09-27T14:13:06+08:00] Pilot v1 source SHA256: processing_log.txt=488282940dc7548a84e36496db177950fd985aef7a960784a9667b3b50167e0f
+[2026-09-27T14:13:06+08:00] Raw MAT SHA-256 verification before finalization: PASSED
+[2026-09-27T14:13:06+08:00] Phase F1: apply the two authorized manual-review decisions
+[2026-09-27T14:13:06+08:00] Manual review rows=2; EXCLUDE=2
+[2026-09-27T14:13:06+08:00] Phase F2: recalculate Qref, SOH, EOL, pairwise EOL, RUL, and summary
+[2026-09-27T14:13:07+08:00] Phase F3: run final manual-review regression tests
+[2026-09-27T14:13:07+08:00] Final regression test - battery1_cycle390_final_exclude: PASSED
+[2026-09-27T14:13:07+08:00] Final regression test - battery3_cycle393_final_exclude: PASSED
+[2026-09-27T14:13:07+08:00] Final regression test - battery1_nominal_eol_right_censored: PASSED
+[2026-09-27T14:13:07+08:00] Final regression test - battery3_nominal_eol_right_censored: PASSED
+[2026-09-27T14:13:07+08:00] Final regression test - auto_qc_and_capacity_unchanged: PASSED
+[2026-09-27T14:13:07+08:00] Final regression test - final_include_gate_only: PASSED
+[2026-09-27T14:13:07+08:00] Final regression test - censored_eol_and_rul_preserved: PASSED
+[2026-09-27T14:13:07+08:00] Final regression test - recalculation_matches_confirmed_v1_exclusions: PASSED
+[2026-09-27T14:13:07+08:00] Final regression test - unique_keys_and_indices_preserved: PASSED
+[2026-09-27T14:13:07+08:00] ALL IN-MEMORY FINAL REGRESSION TESTS PASSED
+[2026-09-27T14:13:08+08:00] Pilot v1 and raw MAT hash recheck before output: PASSED
+[2026-09-27T14:13:08+08:00] Phase F4: write the ten requested final outputs to a temporary directory
+[2026-09-27T14:13:08+08:00] Phase F5: re-read and validate all final CSV outputs
+[2026-09-27T14:13:08+08:00] Post-write final CSV validation: PASSED
+[2026-09-27T14:13:09+08:00] Pilot v1 automatic outputs unchanged: PASSED
+[2026-09-27T14:13:09+08:00] Raw MAT SHA-256 final recheck: PASSED
+[2026-09-27T14:13:09+08:00] ALL FINAL REGRESSION TESTS PASSED
+[2026-09-27T14:13:09+08:00] FINALIZATION COMPLETED SUCCESSFULLY

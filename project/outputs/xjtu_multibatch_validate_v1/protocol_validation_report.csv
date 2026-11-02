@@ -1,0 +1,6 @@
+﻿Batch_ID,Adapter_Manual_Decision,Validation_Status,Canonical_File_Count,Cycle_Count,Unknown_Protocol_Count,Primary_Capacity_Candidate_Count,Info_Anomaly_Count,Review_Anomaly_Count,Regression_Test_Count,Regression_Failure_Count,Representative_Cell_ID,Full_55_Cell_Run_Executed,Run_Authorization_Status
+2,APPROVED,PASS,15,3742,0,3727,0,0,8,0,B2_3C_battery-3,NO,WAITING_FOR_HUMAN_APPROVAL
+3,APPROVED,PASS,8,4616,0,920,0,0,20,0,B3_R2.5_battery-4,NO,WAITING_FOR_HUMAN_APPROVAL
+4,APPROVED,PASS,8,5678,0,945,0,0,5,0,B4_R3_battery-4,NO,WAITING_FOR_HUMAN_APPROVAL
+5,APPROVED_WITH_KNOWN_INFO_RULE,PASS,8,1983,0,173,10,0,17,0,B5_RW_battery-1|B5_RW_battery-4,NO,WAITING_FOR_HUMAN_APPROVAL
+6,APPROVED_WITH_KNOWN_INFO_RULE,PASS,8,8404,0,1453,84,0,17,0,B6_Sim_satellite_battery-1|B6_Sim_satellite_battery-2,NO,WAITING_FOR_HUMAN_APPROVAL

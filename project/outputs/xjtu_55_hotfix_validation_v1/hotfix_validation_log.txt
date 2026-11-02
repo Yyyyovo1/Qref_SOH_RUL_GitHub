@@ -1,0 +1,46 @@
+XJTU 55-cell early-median5 hotfix validation
+Completed_UTC: 2026-09-27T09:05:06.016512+00:00
+Python: 3.12.6
+Pipeline_Version: 1.2.1-hotfix
+numpy: 2.2.6
+pandas: 2.3.2
+scipy: 1.15.3
+h5py: 3.14.0
+PRE_HOTFIX_Directory: .\outputs\xjtu_55_final_v1
+PRE_HOTFIX_Files_Hashed: 23
+PRE_HOTFIX_Unchanged: YES
+Cycle_QC_Rows_Read: 27642
+Qref_Cells_Read: 55
+Numeric_Conversion: Diagnostic_Index=pd.to_numeric(errors='raise')
+Numeric_Conversion: Raw_Cycle_Index=pd.to_numeric(errors='raise')
+Numeric_Conversion: Cumulative_Aging_Operation_Count=pd.to_numeric(errors='raise')
+Selection_Filter: Primary_Capacity_Eligible=YES AND Final_Include=YES AND Auto_QC_Flag!=INVALID_CANDIDATE
+Ordering: Diagnostic_Index numeric ascending, then Raw_Cycle_Index numeric ascending
+Corrected_Qref_Cells_Changed: 47
+Regression_Tests_PASS: 10
+Regression_Tests_FAIL: 0
+Unit_Tests: 15 PASS, 0 FAIL
+Batch5_CHECK_Count: 5
+Batch5_CHECK_Set: B5_RW_battery-4:C252|B5_RW_battery-5:C274|B5_RW_battery-6:C219|B5_RW_battery-7:C186|B5_RW_battery-8:C208
+Batch5_Manual_Decisions_Changed: NO
+Review_Plots_Created: 5
+Review_Plots_Data: direct raw MAT samples
+Review_Plots_Visual_QA: PASS_ALL_5
+Discharge_Current_Axis_Offset_Display: DISABLED
+Smoothing: NONE
+Interpolation: NONE
+Capacity_Correction: NONE
+EOL_Recomputed: NO
+RUL_Recomputed: NO
+HUST_Processing: NO
+Model_Training: NO
+Outputs:
+  - batch5_check_manual_review.csv
+  - corrected_qref_preview.csv
+  - early_median5_hotfix_regression.csv
+  - review_plots/B5_RW_battery-4_cycle252_review.png
+  - review_plots/B5_RW_battery-5_cycle274_review.png
+  - review_plots/B5_RW_battery-6_cycle219_review.png
+  - review_plots/B5_RW_battery-7_cycle186_review.png
+  - review_plots/B5_RW_battery-8_cycle208_review.png
+HOTFIX VALIDATION COMPLETE — WAITING FOR MANUAL CHECK REVIEW

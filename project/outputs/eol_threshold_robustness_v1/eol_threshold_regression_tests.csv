@@ -1,0 +1,26 @@
+Test_ID,Expected,Observed,Status,Details
+XJTU_CELL_COUNT_55,55,55,PASS,
+HUST_CELL_COUNT_77,77,77,PASS,
+THRESHOLDS_EXACTLY_075_080_085,0.75|0.80|0.85,0.75|0.80|0.85,PASS,
+NO_QREF_REDEFINITION,one frozen Qref value per Dataset/Cell/Qref across thresholds,True,PASS,
+NO_HUST_INITIAL_TEST_INVENTED,0,0,PASS,
+NO_RAW_REPROCESSING,frozen output artifacts only,XJTU Final V2 SOH/Qref/EOL; HUST Final V1 primary/Qref/EOL; Cross-Dataset Summary V1,PASS,No raw MAT or PKL path is opened by this pipeline.
+NO_SMOOTHING,NO,NO,PASS,No smoothing operation exists in the threshold pipeline.
+NO_INTERPOLATION,NO,NO,PASS,No cycle or EOL interpolation is performed.
+NO_THRESHOLD_ROUNDING,all available thresholds equal fraction*unrounded Qref in memory,PASS=1329;TOTAL=1329,PASS,
+XJTU_CENSORING_RULES_PRESERVED,0 violations,0,PASS,
+HUST_DENSE_CENSORING_RULES_PRESERVED,0 violations,0,PASS,
+NO_CENSORED_EOL_POINT_LABEL,0,0,PASS,
+NO_CENSORED_RUL_POINT_LABEL,0,0,PASS,
+80PCT_RESULTS_REPRODUCE_FROZEN_RESULTS,451 frozen cell-Qref rows; zero mismatches,"{""hust_mismatch_count"": 0, ""key_match"": true, ""mismatch_count"": 0, ""row_count_current"": 451, ""row_count_frozen"": 451, ""xjtu_mismatch_count"": 0}",PASS,
+HUST_80PCT_NOMINAL_RIGHT_COUNT_77,77,77,PASS,
+HUST_80PCT_FIRST_EXACT_COUNT_77,77,77,PASS,
+HUST_80PCT_MEDIAN5_EXACT_COUNT_77,77,77,PASS,
+XJTU_FROZEN_80PCT_RESULTS_REPRODUCED,0,0,PASS,
+HUST_STOPPING_CONTEXT_RETAINED,all HUST rows annotated; 3 threshold-specific categories,cell_rows=693;audit_rows=9;categories=3,PASS,
+NOMINAL_ABSOLUTE_THRESHOLD_CONTROLS,XJTU 1.5/1.6/1.7; HUST 0.825/0.880/0.935,XJTU:0.75=1.5|XJTU:0.80=1.6|XJTU:0.85=1.7|HUST:0.75=0.8250000000000001|HUST:0.80=0.8800000000000001|HUST:0.85=0.935,PASS,
+QREF_THRESHOLD_DIRECTION_ORDERING,0,0,PASS,
+EOL_ORDERING_CONSISTENCY_AUDIT,0,0,PASS,Overlapping censored bounds remain INDETERMINATE rather than being forced consistent.
+EXACT_EOL_DELTA_ONLY_WHEN_BOTH_EXACT,0,0,PASS,
+EARLIER_BY_VALUE_IS_LOWER_BOUND_ONLY,0,0,PASS,
+FROZEN_PRIMARY_AND_ML_ARTIFACT_METADATA_UNCHANGED,YES,YES,PASS,

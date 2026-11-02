@@ -1,0 +1,69 @@
+XJTU Batch-1 Pilot Final Manual-Review Report
+================================================
+Generated: 2026-09-27T14:13:08+08:00
+Source automatic output: .\xjtu_batch1_pipeline\outputs\xjtu_batch1_pilot_v1
+Automatic QC flags were preserved without modification.
+No capacity smoothing, interpolation, imputation, correction, or cycle renumbering was performed.
+
+Manual review decisions
+-----------------------
+2C_battery-1 Raw Cycle 390: Manual_Decision=EXCLUDE; Final_Include=NO
+  Auto_QC_Flag=INVALID_CANDIDATE
+  Manual_Reason=Main discharge did not reach the expected 2.5 V cutoff and showed abnormal voltage behavior during discharge. Keep the original INVALID_CANDIDATE status and exclude from primary analysis.
+2C_battery-3 Raw Cycle 393: Manual_Decision=EXCLUDE; Final_Include=NO
+  Auto_QC_Flag=INVALID_CANDIDATE
+  Manual_Reason=Charge reached approximately 4.2002 V but CV charging terminated at approximately 0.2018 A rather than the normal approximately 0.10 A cutoff. The following discharge was complete, but the capacity is not protocol-comparable because the starting SOC was affected by incomplete charging. Do not impute or correct capacity.
+
+Cycle-level descriptive counts
+------------------------------
+2C_battery-1: total=390; PASS=389; CHECK=0; INVALID_CANDIDATE=1; Final_Include_YES=389; Final_Include_NO=1
+2C_battery-2: total=407; PASS=407; CHECK=0; INVALID_CANDIDATE=0; Final_Include_YES=407; Final_Include_NO=0
+2C_battery-3: total=393; PASS=392; CHECK=0; INVALID_CANDIDATE=1; Final_Include_YES=392; Final_Include_NO=1
+2C_battery-4: total=396; PASS=396; CHECK=0; INVALID_CANDIDATE=0; Final_Include_YES=396; Final_Include_NO=0
+2C_battery-5: total=403; PASS=403; CHECK=0; INVALID_CANDIDATE=0; Final_Include_YES=403; Final_Include_NO=0
+2C_battery-6: total=408; PASS=408; CHECK=0; INVALID_CANDIDATE=0; Final_Include_YES=408; Final_Include_NO=0
+2C_battery-7: total=402; PASS=402; CHECK=0; INVALID_CANDIDATE=0; Final_Include_YES=402; Final_Include_NO=0
+2C_battery-8: total=420; PASS=420; CHECK=0; INVALID_CANDIDATE=0; Final_Include_YES=420; Final_Include_NO=0
+
+Qref ranges (Ah)
+----------------
+nominal: 2.000000 to 2.000000
+initial_test: 1.987000 to 2.043000
+first_standard: 1.858000 to 1.938000
+early_median5: 1.872000 to 1.944000
+
+EOL status counts
+-----------------
+early_median5: RIGHT_CENSORED=8
+first_standard: RIGHT_CENSORED=8
+fixed_absolute_1p6Ah: OBSERVED=5
+fixed_absolute_1p6Ah: RIGHT_CENSORED=3
+initial_test: OBSERVED=4
+initial_test: RIGHT_CENSORED=4
+nominal: OBSERVED=5
+nominal: RIGHT_CENSORED=3
+
+Observed pairwise EOL shifts
+-----------------------------
+2C_battery-5: nominal -> initial_test; Delta_EOL_Cycles=-8
+2C_battery-6: nominal -> initial_test; Delta_EOL_Cycles=-9
+2C_battery-7: nominal -> initial_test; Delta_EOL_Cycles=-19
+2C_battery-8: nominal -> initial_test; Delta_EOL_Cycles=-1
+Cells with observed/censored status change: 2C_battery-2|2C_battery-5|2C_battery-6|2C_battery-7|2C_battery-8
+
+Regression tests
+----------------
+battery1_cycle390_final_exclude: PASSED
+battery3_cycle393_final_exclude: PASSED
+battery1_nominal_eol_right_censored: PASSED
+battery3_nominal_eol_right_censored: PASSED
+auto_qc_and_capacity_unchanged: PASSED
+final_include_gate_only: PASSED
+censored_eol_and_rul_preserved: PASSED
+recalculation_matches_confirmed_v1_exclusions: PASSED
+unique_keys_and_indices_preserved: PASSED
+
+Final status
+------------
+ALL FINAL REGRESSION TESTS PASSED
+FINAL MANUAL-REVIEW DATASET COMPLETED

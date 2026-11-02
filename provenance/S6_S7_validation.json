@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "comparisons": 80,
+  "differences": [],
+  "numpy": "2.2.3",
+  "python": "3.12.6",
+  "bootstrap_draw_sha256": "2e8a1afa9101de2c4af7927c31f1e112adde5be2922437d03422aa90207e1ded",
+  "source_sha256": "1e0de8c4fa7be2fdb1b62e02c6f7d0c2c295f14301efb04a924674ac94d0597c",
+  "statistic": "median(GB cell MAE_Q) - median(RF cell MAE_Q)",
+  "cell_order": "lexicographic Cell_ID"
+}

@@ -1,0 +1,16 @@
+﻿Artifact_Type,Candidate_Path,Found,Usable,Reason
+A8_CELL_LEVEL_METRICS_EXPECTED_PATH,outputs/soh_ml_robustness_v1/soh_robustness_a8_cell_metrics.csv,NO,NO,Expected A8 cell-level file is absent.
+A8_CELL_LEVEL_METRICS_EXPECTED_PATH,outputs/soh_ml_robustness_v1/soh_robustness_cell_metrics.csv,NO,NO,Alternative robustness cell-level file is absent.
+A8_CELL_LEVEL_METRICS_EXPECTED_PATH,outputs/soh_ml_robustness_v1/a8_cell_metrics.csv,NO,NO,Alternative A8 cell-level file is absent.
+A8_AGGREGATE_SUMMARY,outputs/soh_ml_robustness_v1/soh_robustness_a8_summary.csv,YES,NO,"Contains 18 aggregate rows (9 XJTU rows) and reproduces all nine frozen XJTU medians, but has no Cell_ID-level MAE_Q_Ah rows."
+PRIMARY_CELL_LEVEL_METRICS,outputs/soh_primary_benchmark_v1/soh_primary_cell_metrics.csv,YES,NO,"Contains 1,188 PRIMARY rows only; Analysis_ID values are XJTU_PRIMARY_COMMON_QREFS_55_CELL and HUST_PRIMARY_COMMON_QREFS_77_CELL, not ROBUSTNESS_A8."
+PRIMARY_HELD_OUT_PREDICTIONS,outputs/soh_primary_benchmark_v1/soh_primary_predictions.csv,YES,NO,"Contains 1,408,932 held-out prediction rows for frozen PRIMARY analyses only; there are no ROBUSTNESS_A8 or A8_MINUS_CV_DURATION rows."
+PRIMARY_XJTU_BATCH_CELL_METRICS,outputs/soh_primary_benchmark_v1/soh_primary_xjtu_batch_metrics.csv,YES,NO,"Contains held-out PRIMARY cell metrics, not A8-minus-CV-duration model results."
+CROSS_DATASET_CELL_LEVEL,outputs/cross_dataset_summary_v1/cross_dataset_cell_level.csv,YES,NO,Contains Qref/EOL/RUL descriptive rows and no model-level MAE_Q_Ah results.
+PRIOR_TARGETED_BOOTSTRAP_AGGREGATES,outputs/xjtu_a8_rankflip_verification_v1/,YES,NO,Contains four aggregate bootstrap/regression CSV files only; no 495-row Cell_ID x Qref x Model metric table and no held-out predictions.
+A8_HELD_OUT_PREDICTIONS_EXPECTED_PATH,outputs/soh_ml_robustness_v1/soh_robustness_a8_predictions.csv,NO,NO,Expected A8 held-out prediction file is absent.
+A8_SERIALIZED_MODELS_OR_PREPROCESSORS,"workspace recursive search (*.joblib, *.pkl, *.pickle, *.sav, *.bin, *.onnx, *.pt, *.pth, *.model, *.skops)",NO,NO,"No A8 estimator, scaler, imputer, or fitted pipeline artifact was found. The .pkl files present are raw HUST data or library test data."
+PARQUET_OR_FEATHER_CACHE,"workspace recursive search (*.parquet, *.feather)",NO,NO,No parquet or feather artifacts exist in the workspace.
+ROBUSTNESS_STAGING_DIRECTORY,outputs/.soh_ml_robustness_v1_staging_8ou3dioi/,YES,NO,Directory exists but contains zero files.
+TASK_RELATED_TEMP_CACHE,LOCAL_HOME/AppData/Local/Temp/ recursive candidate search,NO,NO,No A8/robustness/rank-flip/cell-metric/prediction candidate with a supported data-artifact extension was found.
+ROBUSTNESS_PIPELINE_PERSISTENCE_AUDIT,soh_ml_robustness_repro/pipeline.py,YES,NO,"Source audit shows experiment_cell_metrics is held in memory and only aggregate summaries/bootstrap tables are written; A8 cell metrics, predictions, and fitted models are not persisted."

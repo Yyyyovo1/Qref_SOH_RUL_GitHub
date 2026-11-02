@@ -1,0 +1,138 @@
+HUST 4-cell raw protocol validation
+Processing timestamp UTC: 2026-09-27T13:20:42.951324+00:00
+Python version: 3.12.6
+numpy version: 2.2.6
+pandas version: 2.3.2
+matplotlib version: 3.10.6
+
+Scope controls:
+- Fixed cells only: HUST_2-5, HUST_9-3, HUST_4-7, HUST_10-3
+- Four raw cycles per cell: cycle 1, cycle 2, half-up middle, final
+- No Qref/SOH/EOL/RUL calculation
+- No model training
+- No smoothing, interpolation, capacity correction, or raw-file writes
+
+Validation config:
+{
+  "charge_cccv_status": "Constant current-constant voltage charge",
+  "charge_stage1_status": "Constant current charge",
+  "cycles_per_cell": 4,
+  "dataset": "HUST_77_LFP_GRAPHITE",
+  "input_directory": ".\\HUST 77",
+  "nominal_capacity_Ah": 1.1,
+  "output_directory": ".\\outputs\\hust_4cell_protocol_validate_v1",
+  "paper_reported_terminal_discharge_CRate": 1.0,
+  "pipeline_phase": "FOUR_CELL_RAW_PROTOCOL_VALIDATION_ONLY",
+  "prohibited_analyses": [
+    "QREF",
+    "SOH",
+    "EOL",
+    "RUL",
+    "MODEL_TRAINING",
+    "FULL_77_CELL_ANALYSIS"
+  ],
+  "raw_column_map": {
+    "capacity_mAh": "Capacity (mAh)",
+    "current_mA": "Current (mA)",
+    "cycle_index": "Cycle number",
+    "status": "Status",
+    "time_s": "Time (s)",
+    "voltage_V": "Voltage (V)"
+  },
+  "raw_data_policy": {
+    "capacity_correction": false,
+    "delete": false,
+    "interpolate": false,
+    "modify": false,
+    "move": false,
+    "rename": false,
+    "smooth": false
+  },
+  "scan_directory": ".\\outputs\\hust_scan_v1",
+  "selected_cells": [
+    "HUST_2-5",
+    "HUST_9-3",
+    "HUST_4-7",
+    "HUST_10-3"
+  ],
+  "validation_thresholds": {
+    "capacity_match_abs_tolerance_mAh": 0.001,
+    "cv_transition_current_fraction": 0.9,
+    "cv_transition_voltage_below_max_V": 0.03,
+    "discharge_current_detection_threshold_A": -0.05,
+    "stage_sum_match_abs_tolerance_mAh": 0.001,
+    "terminal_1C_current_abs_max_A": 1.12,
+    "terminal_1C_current_abs_min_A": 1.08,
+    "terminal_2C_current_abs_max_A": 2.25,
+    "terminal_2C_current_abs_min_A": 2.15,
+    "terminal_low_voltage_max_V": 2.05,
+    "terminal_low_voltage_min_V": 1.85,
+    "within_cell_terminal_current_consistency_A": 0.05
+  },
+  "workspace": "."
+}
+
+Selected raw-file SHA-256 verification:
+- 10-3.pkl: before=9b27d2726e351cb70b3707495a0171c8afd384bab18fe4422dda89227fa9222d after=9b27d2726e351cb70b3707495a0171c8afd384bab18fe4422dda89227fa9222d unchanged=YES
+- 2-5.pkl: before=1092a099e19424b0af54421761be8fcbbf7d8b7837710bee9bb38816a4ab4cd4 after=1092a099e19424b0af54421761be8fcbbf7d8b7837710bee9bb38816a4ab4cd4 unchanged=YES
+- 4-7.pkl: before=0cd29061c172c6ed937f72ba354d895420d4085dfaac004c9cf7be4bfe7f52d0 after=0cd29061c172c6ed937f72ba354d895420d4085dfaac004c9cf7be4bfe7f52d0 unchanged=YES
+- 9-3.pkl: before=9c6a1208639b2b611a229092b2a0982696d4aced3ca04fe7a5d8900da1d2949c after=9c6a1208639b2b611a229092b2a0982696d4aced3ca04fe7a5d8900da1d2949c unchanged=YES
+Frozen scan output unchanged: YES
+
+Selected cycles:
+- HUST_2-5 cycle 1 (INITIAL): RAW_CYCLE_1
+- HUST_2-5 cycle 2 (SECOND): RAW_CYCLE_2
+- HUST_2-5 cycle 694 (MIDDLE): ROUND_HALF_UP_OF_(1+LAST)/2_TARGET_694
+- HUST_2-5 cycle 1386 (FINAL): LAST_RAW_CYCLE_INDEX
+- HUST_9-3 cycle 1 (INITIAL): RAW_CYCLE_1
+- HUST_9-3 cycle 2 (SECOND): RAW_CYCLE_2
+- HUST_9-3 cycle 953 (MIDDLE): ROUND_HALF_UP_OF_(1+LAST)/2_TARGET_953
+- HUST_9-3 cycle 1905 (FINAL): LAST_RAW_CYCLE_INDEX
+- HUST_4-7 cycle 1 (INITIAL): RAW_CYCLE_1
+- HUST_4-7 cycle 2 (SECOND): RAW_CYCLE_2
+- HUST_4-7 cycle 1109 (MIDDLE): ROUND_HALF_UP_OF_(1+LAST)/2_TARGET_1109
+- HUST_4-7 cycle 2216 (FINAL): LAST_RAW_CYCLE_INDEX
+- HUST_10-3 cycle 1 (INITIAL): RAW_CYCLE_1
+- HUST_10-3 cycle 2 (SECOND): RAW_CYCLE_2
+- HUST_10-3 cycle 925 (MIDDLE): ROUND_HALF_UP_OF_(1+LAST)/2_TARGET_925
+- HUST_10-3 cycle 1848 (FINAL): LAST_RAW_CYCLE_INDEX
+
+Observed terminal-stage summary:
+- Validation cycles: 16
+- Approximate 1C terminal stages: 0
+- Approximate 2C terminal stages: 16
+- Terminal current median (A): -2.1994
+- Terminal end voltage range (V): 1.9267 to 1.9971
+- Stage mapping validated: 16/16
+
+Capacity semantics regression:
+- Native dq matches: 16/16
+- Maximum absolute native/raw difference (mAh): 2.27373675443e-13
+- Maximum absolute full/stage-sum difference (mAh): 0
+
+Review plots generated: 8
+
+Regression tests:
+- CELL_COUNT_SELECTED: PASS (expected=4; observed=4)
+- CYCLES_PER_CELL_SELECTED: PASS (expected=4 for each fixed cell; observed=HUST_2-5=4|HUST_9-3=4|HUST_4-7=4|HUST_10-3=4)
+- TOTAL_VALIDATION_CYCLES: PASS (expected=16; observed=16)
+- RAW_TIME_ORDER_MONOTONIC: PASS (expected=PASS for all 16; observed=16/16 PASS)
+- FOUR_DISCHARGE_STAGES_IDENTIFIED: PASS (expected=PASS for all 16; observed=16/16 PASS)
+- TERMINAL_STAGE_REACHES_LOW_VOLTAGE: PASS (expected=PASS for all 16; observed=16/16 PASS)
+- NATIVE_DQ_MATCHES_RAW_RECONSTRUCTION: PASS (expected=PASS for all 16 at abs difference <= 0.001 mAh; observed=16/16 PASS; max_abs_diff=2.27373675443e-13 mAh)
+- CAPACITY_SEMANTICS_STILL_VALID: PASS (expected=PASS; observed=16/16 PASS)
+- RAW_STATUS_STAGE_MAPPING_VALIDATED: PASS (expected=PASS for all 16; observed=16/16 PASS)
+- TERMINAL_STAGE_CURRENT_CLASS: PASS (expected=All 16 approximately 2C or all 16 approximately 1C; observed=APPROX_1C=0; APPROX_2C=16; total=16)
+- PROTOCOL_CONSISTENT_ACROSS_SELECTED_LIFE_POSITIONS: PASS (expected=PASS for all 4 cells; observed=4/4 PASS)
+- PHYSICAL_FUNCTION_VALUES_ALLOWED: PASS (expected=PASS; observed=PASS)
+
+ALL REGRESSION TESTS PASSED
+
+HUST 4-CELL PROTOCOL VALIDATION COMPLETE
+
+FINAL ASSESSMENT:
+RAW_DATA_PROTOCOL_DIFFERS_FROM_PAPER
+
+RAW PROTOCOL IS INTERNALLY CONSISTENT
+
+READY FOR HUMAN REVIEW BEFORE QREF PILOT

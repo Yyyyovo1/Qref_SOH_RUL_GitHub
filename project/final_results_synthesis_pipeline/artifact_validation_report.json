@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "validated_csv_count": 10,
+  "validator": "@oai/artifact-tool Workbook.fromCSV + header/data/error inspection",
+  "files": [
+    {
+      "file": "table_dataset_overview.csv",
+      "rows": 3,
+      "columns": 11,
+      "status": "PASS"
+    },
+    {
+      "file": "table_qref_effect_summary.csv",
+      "rows": 7,
+      "columns": 15,
+      "status": "PASS"
+    },
+    {
+      "file": "table_eol_80pct_summary.csv",
+      "rows": 6,
+      "columns": 15,
+      "status": "PASS"
+    },
+    {
+      "file": "table_threshold_robustness.csv",
+      "rows": 21,
+      "columns": 21,
+      "status": "PASS"
+    },
+    {
+      "file": "table_soh_ml_primary.csv",
+      "rows": 18,
+      "columns": 15,
+      "status": "PASS"
+    },
+    {
+      "file": "table_soh_ml_robustness.csv",
+      "rows": 72,
+      "columns": 16,
+      "status": "PASS"
+    },
+    {
+      "file": "supplementary_plan.csv",
+      "rows": 10,
+      "columns": 4,
+      "status": "PASS"
+    },
+    {
+      "file": "discussion_evidence_map.csv",
+      "rows": 11,
+      "columns": 6,
+      "status": "PASS"
+    },
+    {
+      "file": "claim_strength_audit.csv",
+      "rows": 10,
+      "columns": 5,
+      "status": "PASS"
+    },
+    {
+      "file": "final_results_consistency_tests.csv",
+      "rows": 36,
+      "columns": 6,
+      "status": "PASS"
+    }
+  ]
+}

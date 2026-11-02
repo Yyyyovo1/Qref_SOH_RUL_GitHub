@@ -1,0 +1,3 @@
+﻿Dataset,Nominal_Qref_Ah,EOL_SOH_Threshold,Computed_Nominal_80pct_Threshold_Ah,Frozen_Fixed_Absolute_Control_Ah,Absolute_Difference_Ah,Match_Within_Tolerance,Frozen_Nominal_Cell_Count,Frozen_Fixed_Control_Cell_Count,EOL_Status_Matches_Nominal_All_Cells,EOL_Cycle_And_Bounds_Match_Nominal_All_Cells,Cross_Chemistry_Numeric_Comparison
+XJTU,2,0.8,1.6,1.6,0,YES,55,55,YES,YES,NOT_PERFORMED_DIFFERENT_CHEMISTRY_NOMINALS
+HUST,1.1,0.8,0.88,0.88,-1.11022302463e-16,YES,77,77,YES,YES,NOT_PERFORMED_DIFFERENT_CHEMISTRY_NOMINALS

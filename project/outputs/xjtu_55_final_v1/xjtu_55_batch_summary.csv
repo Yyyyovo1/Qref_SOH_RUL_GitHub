@@ -1,0 +1,7 @@
+﻿Batch_ID,Canonical_Cell_Count,Total_Raw_Cycles,PASS_Count,Invalid_Candidate_Count,Check_Count,Primary_Capacity_Observation_Count,Known_INFO_Count,Qref_nominal_Available_Cell_Count,Qref_initial_test_Available_Cell_Count,Qref_first_comparable_Available_Cell_Count,Qref_early_median5_comparable_Available_Cell_Count
+1,8,3219,3217,2,0,3209,0,8,8,8,8
+2,15,3742,3742,0,0,3727,0,15,15,15,15
+3,8,4616,4616,0,0,920,0,8,8,8,8
+4,8,5678,5678,0,0,945,0,8,8,8,8
+5,8,1983,1978,0,5,168,10,8,0,8,8
+6,8,8404,8404,0,0,1453,84,8,8,8,8

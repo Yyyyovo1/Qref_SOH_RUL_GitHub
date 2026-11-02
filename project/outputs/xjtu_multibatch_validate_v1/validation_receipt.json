@@ -1,0 +1,69 @@
+{
+  "candidate_config_hashes": {
+    "batch2_config_final_candidate.json": "0a40415c943eba25d17f684c803dd6aa82ce28be6ffaa55a5c556c0424875eed",
+    "batch3_config_final_candidate.json": "9326c1a30306e7555f8494f70cbf37d7aab72a32f4abd3143182357832ca86c3",
+    "batch4_config_final_candidate.json": "6488c5972c65357efaaee52de67d7d36e15b6f8277a637203afd5da0940bbf32",
+    "batch5_config_final_candidate.json": "3bfafe5a213b174bd94ab87130abe790ac9759a24227fa51ef48325be6412041",
+    "batch6_config_final_candidate.json": "c82e1f6b32d80602ab8c4e48a250eb506e46abccd0cca9aa3a0401d56b80ee12"
+  },
+  "failed_regression_test_count": 0,
+  "frozen_batch1_directory": ".\\xjtu_batch1_pipeline\\outputs\\xjtu_batch1_pilot_final_v1",
+  "frozen_batch1_hashes": {
+    "xjtu_cycle_capacity_final.csv": "e89beadac83feeaf541d1358f9e1eefaeada40fd0dc2587e625f1399728a6f29",
+    "xjtu_eol_pairwise_shift_final.csv": "db65b7e90e89572b81e4b5c650a21b22c0815af38b6329bb4f9a26ac25eabca9",
+    "xjtu_eol_sensitivity_final.csv": "98acba210413662be01614c7c31adaa8b33747a30fddf72516337ad6ceeaa128",
+    "xjtu_manual_qc_review.csv": "6dd099b3eab6cb5d4e9052ece5b712bc6b2a7210282e67ffbe7b99588dc470ce",
+    "xjtu_pilot_summary_final.csv": "68500d931dcf0afe998fe8b6b3aee15576870c7f14d48ee03772e0b768f591b6",
+    "xjtu_qref_summary_final.csv": "512631a252b768fed18dc65cd1ffef7cbceedc2852b9f2cdacb277a096448913",
+    "xjtu_rul_sensitivity_final.csv": "3aa6d0642afbc1376d466398eb6ace3a653794123ca45cdd27c6b0e4cbc67df6",
+    "xjtu_soh_labels_long_final.csv": "e9b981fb12ac08b3c26a193c11ae80edd9aedbc644b028d7f87592799c58d080"
+  },
+  "full_55_cell_run_authorized": false,
+  "full_55_cell_run_executed": false,
+  "info_anomaly_count": 94,
+  "locked_scan_artifact_hashes": {
+    "batch2_config_draft.json": "b8290e685fc3820f9e6c402c791a9a36d4ce837ae12382671ee0c5d208762b65",
+    "batch3_config_draft.json": "a564caadaef3f99241075b2249942a59db49481a304589a43f49c0deb042ead5",
+    "batch4_config_draft.json": "4e6b296c5a3de2099a7afffafec2521e56fd3ce36d05e1e4f6aaf280de11c0d0",
+    "batch5_config_draft.json": "701e709b3699bd28efa355bd1432b709b5efb095cf567bb23463f1cbb973de0b",
+    "batch6_config_draft.json": "f167a289b51dc6e13e6e1fe3a1fb07e58c3b63597e127cc6312274b646db9fbc",
+    "processing_log_scan.txt": "0b548b2d882b812d6eeb8824ac37f54a8649a266d6ee16b9af7ed36b27ba8c00",
+    "representative_validation_plan.csv": "ea2b530a8509445dc45ecae427189cdd9fbc438ef979f8d632839acaf44b6f05",
+    "xjtu_description_catalog.csv": "706cfd94a8142817ad18be545ecebc67af4497b49a902e1abe4d63518048ed71",
+    "xjtu_duplicate_report.csv": "cd76432e6f30bfd5579af6f6bd48dfed1db6f55975d926ca1ee789ed38724a93",
+    "xjtu_file_manifest.csv": "4c98fdd6d5a418d3f3806ca01215ffafc5e1f5c82a81ffbffb3e2df0b7e9d49e",
+    "xjtu_primary_capacity_candidate_inventory.csv": "e5c1d9e046acbbbaca8b15a5fe94fb15333b6e0c7c67e0e4a98a611d3b7ea85a",
+    "xjtu_protocol_anomalies.csv": "373c572cac66d1e0b26f1c8971e197fb303efedc837fe00d2b95e4802e4c7501",
+    "xjtu_protocol_inventory.csv": "d328656a4bb15c0dd3faff233d1eeb8b09dfd66d0fbb964775eb47a03361179c",
+    "xjtu_schema_inventory.csv": "745996cf70b4b1a7961556677068ff3299698c0997465f1e9a436774585ec963"
+  },
+  "locked_scan_hashes": {
+    "batch2_config_draft.json": "b8290e685fc3820f9e6c402c791a9a36d4ce837ae12382671ee0c5d208762b65",
+    "batch3_config_draft.json": "a564caadaef3f99241075b2249942a59db49481a304589a43f49c0deb042ead5",
+    "batch4_config_draft.json": "4e6b296c5a3de2099a7afffafec2521e56fd3ce36d05e1e4f6aaf280de11c0d0",
+    "batch5_config_draft.json": "701e709b3699bd28efa355bd1432b709b5efb095cf567bb23463f1cbb973de0b",
+    "batch6_config_draft.json": "f167a289b51dc6e13e6e1fe3a1fb07e58c3b63597e127cc6312274b646db9fbc",
+    "xjtu_protocol_inventory.csv": "d328656a4bb15c0dd3faff233d1eeb8b09dfd66d0fbb964775eb47a03361179c"
+  },
+  "manual_review_file": ".\\xjtu_multibatch_manual_protocol_review_v1.json",
+  "manual_review_file_sha256": "db6322fc3a0c98b517de96e5e519167d4417ea83f184c9665556507a0759661d",
+  "next_required_artifact": "run_approval.json",
+  "regression_test_count": 70,
+  "review_anomaly_count": 0,
+  "scan_directory": ".\\outputs\\xjtu_multibatch_scan_v2",
+  "validated_at_utc": "2026-09-27T08:12:54.071053+00:00",
+  "validated_protocol_inventory_sha256": "72f9a1dad65d273c15f2c36b7f8d8a3650db1c55e5f1c5e8e2ae5030ec91bceb",
+  "validation_output_hashes_excluding_receipt": {
+    "batch2_config_final_candidate.json": "0a40415c943eba25d17f684c803dd6aa82ce28be6ffaa55a5c556c0424875eed",
+    "batch3_config_final_candidate.json": "9326c1a30306e7555f8494f70cbf37d7aab72a32f4abd3143182357832ca86c3",
+    "batch4_config_final_candidate.json": "6488c5972c65357efaaee52de67d7d36e15b6f8277a637203afd5da0940bbf32",
+    "batch5_config_final_candidate.json": "3bfafe5a213b174bd94ab87130abe790ac9759a24227fa51ef48325be6412041",
+    "batch6_config_final_candidate.json": "c82e1f6b32d80602ab8c4e48a250eb506e46abccd0cca9aa3a0401d56b80ee12",
+    "protocol_anomalies_v2.csv": "e0779011cc630fba02de8fb868a9e68809068a2756cd5ae157c106f9962bee88",
+    "protocol_validation_report.csv": "c464f9e1eb13a3ac5ef9f8522020bb5fe8a47bbf46038b68bde5c2e368ac02a9",
+    "regression_test_results.csv": "1257d2f0c49efcf60d99d860bc75a109743dab159bbb7498f5f0d511b764a311",
+    "validation_log.txt": "739ebfcf6d5a7a2d05e7b058d40e46dc6d473e3524df5ef8977029a4f13211e4",
+    "xjtu_protocol_inventory_validated.csv": "72f9a1dad65d273c15f2c36b7f8d8a3650db1c55e5f1c5e8e2ae5030ec91bceb"
+  },
+  "validation_status": "VALIDATION_PASSED_AWAITING_HUMAN_RUN_APPROVAL"
+}

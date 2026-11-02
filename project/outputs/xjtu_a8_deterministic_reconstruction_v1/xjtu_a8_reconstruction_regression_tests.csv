@@ -1,0 +1,33 @@
+﻿Test_ID,Status,Observed,Expected,Failure_Message,Hard_Failure
+XJTU_CELL_COUNT_55,PASS,55,55,,YES
+XJTU_OBSERVATION_COUNT_10427,PASS,10427,10427,,YES
+A8_FEATURE_COUNT_8,PASS,8,8,,YES
+A8_EXACTLY_A9_MINUS_CV_DURATION,PASS,CV_Current_Taper_Slope_A_per_s|CV_End_Current_A|CV_Median_Current_A|Charge_End_V|Charge_Max_V|Charge_Start_V|Charge_Terminal_Voltage_Std_V|Pre_Discharge_Voltage_V,CV_Current_Taper_Slope_A_per_s|CV_End_Current_A|CV_Median_Current_A|Charge_End_V|Charge_Max_V|Charge_Start_V|Charge_Terminal_Voltage_Std_V|Pre_Discharge_Voltage_V,,YES
+NO_CYCLE_INDEX,PASS,False,False,,YES
+NO_PROTOCOL_SHORTCUT_FEATURES,PASS,NONE,NONE,,YES
+NO_CAPACITY_AS_FEATURE,PASS,NONE,NONE,,YES
+NO_QREF_AS_FEATURE,PASS,NONE,NONE,,YES
+NO_RUL_EOL_AS_FEATURE,PASS,NONE,NONE,,YES
+FROZEN_FOLDS_EXACT_MATCH,PASS,"fits=45;folds=[np.int64(1), np.int64(2), np.int64(3), np.int64(4), np.int64(5)]",45 fits using frozen folds 1-5,,YES
+NO_SAME_CELL_TRAIN_TEST,PASS,0,0,,YES
+FEATURE_ROWS_IDENTICAL_ACROSS_QREFS,PASS,"{""early_median5_comparable"": ""40fc5ae9c9d09310246357039446dc651e432a053c40fe40d8fcbf3fbfa214e2"", ""first_comparable"": ""40fc5ae9c9d09310246357039446dc651e432a053c40fe40d8fcbf3fbfa214e2"", ""nominal"": ""40fc5ae9c9d09310246357039446dc651e432a053c40fe40d8fcbf3fbfa214e2""}",one identical physical-key hash across three Qrefs,,YES
+MODEL_PARAMETERS_MATCH_FROZEN_PLAN,PASS,"{""Gradient Boosting Regressor"": ""2756d6a421f2ed32692d03fb8eed6017a139760b98eb35f12c9146f823d634d4"", ""Random Forest Regressor"": ""c687c4910e08dba6a0ca06c7008463dba3131a8b0fde1b0bf40a610984b403e0"", ""Ridge Regression"": ""f59e0d298750b54d9ab8312c6a68a4eaf4910bea81042dd3a1c4711dcb307e5b""}",all 45 fits match frozen model-plan hashes,,YES
+PREPROCESSING_TRAIN_ONLY,PASS,"imputer_scopes=['CURRENT_TRAINING_FOLD_ONLY'];scaler_scopes=['CURRENT_TRAINING_FOLD_ONLY', 'NOT_APPLICABLE']",train-fold-only imputer and Ridge scaler; no tree scaling,,YES
+HELDOUT_PREDICTION_ROWS_93843,PASS,93843,93843,,YES
+HELDOUT_PREDICTION_KEYS_UNIQUE_93843,PASS,0,0,,YES
+CELL_METRIC_ROWS_495,PASS,495,495,,YES
+CELL_METRIC_KEYS_UNIQUE_495,PASS,0,0,,YES
+ALL_NINE_FROZEN_MEDIANS_REPRODUCED,PASS,pass=9;max_error=4.8572257327350599e-17,9 PASS with absolute error <= 1e-12,,YES
+ALL_THREE_FROZEN_RANKINGS_REPRODUCED,PASS,pass_rows=9,all three Qref rankings reproduced,,YES
+CORRECTED_STATISTIC_IS_DIFFERENCE_OF_MEDIANS,PASS,median(GB cell MAE_Q_Ah) - median(RF cell MAE_Q_Ah),median(GB) - median(RF),,YES
+PRIMARY_STATISTIC_NOT_MEDIAN_OF_PAIRED_DIFFERENCES,PASS,NO,NO,,YES
+BOOTSTRAP_UNIT_CELL_ID,PASS,Cell_ID;cycle_resampling=NO,Cell_ID only,,YES
+SAME_BOOTSTRAP_DRAWS_ACROSS_QREFS,PASS,2e8a1afa9101de2c4af7927c31f1e112adde5be2922437d03422aa90207e1ded,2e8a1afa9101de2c4af7927c31f1e112adde5be2922437d03422aa90207e1ded,,YES
+BOOTSTRAP_REPLICATES_5000,PASS,5000,5000,,YES
+PREDICTED_CAPACITY_FORMULA_EXACT,PASS,0,<=1e-15,,YES
+ABSOLUTE_ERROR_Q_FORMULA_EXACT,PASS,0,<=1e-15,,YES
+ONLY_XJTU_ROBUSTNESS_A8_ROWS,PASS,datasets=['XJTU'];experiments=['ROBUSTNESS_A8'];features=['A8_MINUS_CV_DURATION'],XJTU|ROBUSTNESS_A8|A8_MINUS_CV_DURATION,,YES
+FROZEN_PRIMARY_FILES_UNCHANGED,PASS,ce230e7dd3ba01879743366345af16340477ec1f7714da887652ceadfc7fa15d,ce230e7dd3ba01879743366345af16340477ec1f7714da887652ceadfc7fa15d,,YES
+FROZEN_ROBUSTNESS_FILES_UNCHANGED,PASS,dd84dccc8dc574301fe9912fa4716adfa7b76ee1fa0eb04ab9156b09e08d6cad,dd84dccc8dc574301fe9912fa4716adfa7b76ee1fa0eb04ab9156b09e08d6cad,,YES
+FROZEN_PRIOR_TARGETED_FILES_UNCHANGED,PASS,d7027bce05016af8f0ce1a2f9cdc937009e2312462669b3723db224aa36c93bc,d7027bce05016af8f0ce1a2f9cdc937009e2312462669b3723db224aa36c93bc,,YES
+FROZEN_INPUT_FILES_UNCHANGED,PASS,"{""feature_extraction_regression_tests"": ""9e64b072b77935bb96da65774d405394c6e5d4c0b1cba2a8a8128a321e57d002"", ""feature_matrix_xjtu"": ""ef94c790be657e5effd9de7f907cc0394ee4e4fa4cdd787d23077964e7aeaa66"", ""frozen_a8_summary"": ""17a24fc388b9ab849ed4f56ec8992c2db7d95c54e313ff24ca05387cf94c764b"", ""metric_plan"": ""533a27d5e2b17a24d0ccbfd331badd1762d8bc72fc47ad1c2d21d81187715e62"", ""ml_design_regression_tests"": ""fbcbe9314156414a0665b57cd4542138dfd57ddd37513649065e5cf244bde300"", ""model_hyperparameter_plan"": ""06b7ebf85447adb278fdb0314e70c7f9de92a4951716f596e790fb92fdb401aa"", ""preprocessing_plan"": ""d1d6168d6ee609ec7c5882d5f04edc54ac50d4b77cffad15eafb92ce53d2b5ec"", ""primary_feature_freeze"": ""8c633be74b3021c29dff5dbc86415b80c867528cc14f9b196e3a20c2860227fa"", ""primary_regression_tests"": ""4e90aa7b91cf5deb78b60d453f5d926e0326ccc8dee54af312dc3a6c8493384d"", ""xjtu_frozen_folds"": ""a9d63f1231e8ea3a97242fea8f89c1fe87c6dc485cf84109c8366e0ccd44f160"", ""xjtu_primary_eligible_mask"": ""42eff06bb2f51b135baeddf78d1b84f5c1b3829a2e1711de249933247093decf"", ""xjtu_soh_labels"": ""255ce7ecf699d330847c3e6aa0d1bcf25358688ab5e6a401409d84f23fc8266d""}","{""feature_extraction_regression_tests"": ""9e64b072b77935bb96da65774d405394c6e5d4c0b1cba2a8a8128a321e57d002"", ""feature_matrix_xjtu"": ""ef94c790be657e5effd9de7f907cc0394ee4e4fa4cdd787d23077964e7aeaa66"", ""frozen_a8_summary"": ""17a24fc388b9ab849ed4f56ec8992c2db7d95c54e313ff24ca05387cf94c764b"", ""metric_plan"": ""533a27d5e2b17a24d0ccbfd331badd1762d8bc72fc47ad1c2d21d81187715e62"", ""ml_design_regression_tests"": ""fbcbe9314156414a0665b57cd4542138dfd57ddd37513649065e5cf244bde300"", ""model_hyperparameter_plan"": ""06b7ebf85447adb278fdb0314e70c7f9de92a4951716f596e790fb92fdb401aa"", ""preprocessing_plan"": ""d1d6168d6ee609ec7c5882d5f04edc54ac50d4b77cffad15eafb92ce53d2b5ec"", ""primary_feature_freeze"": ""8c633be74b3021c29dff5dbc86415b80c867528cc14f9b196e3a20c2860227fa"", ""primary_regression_tests"": ""4e90aa7b91cf5deb78b60d453f5d926e0326ccc8dee54af312dc3a6c8493384d"", ""xjtu_frozen_folds"": ""a9d63f1231e8ea3a97242fea8f89c1fe87c6dc485cf84109c8366e0ccd44f160"", ""xjtu_primary_eligible_mask"": ""42eff06bb2f51b135baeddf78d1b84f5c1b3829a2e1711de249933247093decf"", ""xjtu_soh_labels"": ""255ce7ecf699d330847c3e6aa0d1bcf25358688ab5e6a401409d84f23fc8266d""}",,YES

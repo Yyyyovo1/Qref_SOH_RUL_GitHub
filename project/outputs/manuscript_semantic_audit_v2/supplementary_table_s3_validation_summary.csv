@@ -1,0 +1,8 @@
+﻿Dataset,Batch_ID,Cell_Count,PASS_Cell_Count,FAIL_Cell_Count,First5_Comparable_Ah_Mismatch_Count,First5_Source_Cycles_Mismatch_Count,Other_Field_Mismatch_Count
+HUST,,77,77,0,0,0,0
+XJTU,1,8,8,0,0,0,0
+XJTU,2,15,0,15,15,15,0
+XJTU,3,8,0,8,8,8,0
+XJTU,4,8,0,8,8,8,0
+XJTU,5,8,0,8,8,8,0
+XJTU,6,8,0,8,8,8,0

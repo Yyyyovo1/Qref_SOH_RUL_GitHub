@@ -1,0 +1,1 @@
+Figure 6. Primary A9 SOH benchmark summarized by median held-out-cell error. Physical-capacity-space MAE_Q in Ah is contrasted with SOH-label-space MAE in percentage points for Ridge, Random Forest, and Gradient Boosting across common Qref definitions. Results are cell-first summaries using frozen folds and model fits.

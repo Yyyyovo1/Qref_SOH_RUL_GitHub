@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "compared_values": 3093,
+  "errors": [],
+  "tables_present": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5",
+    "S6",
+    "S7",
+    "S8",
+    "S9"
+  ],
+  "hidden_sheets": [
+    "_S9_Audit_Detail"
+  ],
+  "coverage": "S2 endpoint counts; S3 Qref and source cycles; S4 primary numeric metrics; S5 shared frozen columns; S9 aggregate counts. S1/S8 presence only; S6/S7 use reproduce_s6_s7.py."
+}

@@ -1,0 +1,19 @@
+﻿Dataset,Qref_Definition,Model_A,Model_B,Difference_Definition,Cell_Count,Median_Difference_ModelB_minus_ModelA,Bootstrap_95CI_Lower,Bootstrap_95CI_Upper,Bootstrap_Replicates,Bootstrap_Seed,Bootstrap_Unit,Paired_By_Cell,Cycle_Level_Resampling
+XJTU,nominal,Random Forest Regressor,Gradient Boosting Regressor,Cell_MAE_Q_Ah_ModelB_minus_ModelA,55,0.0036208970066551,0.0024589005746291,0.0043320368405358,5000,3231370390,Cell_ID,YES,NO
+XJTU,nominal,Random Forest Regressor,Ridge Regression,Cell_MAE_Q_Ah_ModelB_minus_ModelA,55,0.0140528905719705,0.0100324670754132,0.01624734848089,5000,1536310593,Cell_ID,YES,NO
+XJTU,nominal,Gradient Boosting Regressor,Ridge Regression,Cell_MAE_Q_Ah_ModelB_minus_ModelA,55,0.0111274975668526,0.0067282720872011,0.0127586886345157,5000,1223424325,Cell_ID,YES,NO
+XJTU,first_comparable,Random Forest Regressor,Gradient Boosting Regressor,Cell_MAE_Q_Ah_ModelB_minus_ModelA,55,0.0019128686857906,0.0010658327563469,0.0031019261150488,5000,3265155362,Cell_ID,YES,NO
+XJTU,first_comparable,Random Forest Regressor,Ridge Regression,Cell_MAE_Q_Ah_ModelB_minus_ModelA,55,0.0103664968771174,0.0069326082246187,0.0142535614344957,5000,1956760428,Cell_ID,YES,NO
+XJTU,first_comparable,Gradient Boosting Regressor,Ridge Regression,Cell_MAE_Q_Ah_ModelB_minus_ModelA,55,0.0086542534411368,0.0060871712168178,0.0114837365053262,5000,3409699464,Cell_ID,YES,NO
+XJTU,early_median5_comparable,Random Forest Regressor,Gradient Boosting Regressor,Cell_MAE_Q_Ah_ModelB_minus_ModelA,55,0.0013824826689181,2.1175715566972e-06,0.0025829996500238,5000,15012555,Cell_ID,YES,NO
+XJTU,early_median5_comparable,Random Forest Regressor,Ridge Regression,Cell_MAE_Q_Ah_ModelB_minus_ModelA,55,0.0091111726247472,0.0053499544368751,0.0138322387126831,5000,2643121252,Cell_ID,YES,NO
+XJTU,early_median5_comparable,Gradient Boosting Regressor,Ridge Regression,Cell_MAE_Q_Ah_ModelB_minus_ModelA,55,0.0092126236456558,0.0063774790501679,0.0128139490561607,5000,3311691531,Cell_ID,YES,NO
+HUST,nominal,Random Forest Regressor,Gradient Boosting Regressor,Cell_MAE_Q_Ah_ModelB_minus_ModelA,77,0.0011193662377263,0.000594915643478701,0.0022482061754087,5000,3527746084,Cell_ID,YES,NO
+HUST,nominal,Random Forest Regressor,Ridge Regression,Cell_MAE_Q_Ah_ModelB_minus_ModelA,77,0.0086307344033453,0.0070408953098213,0.0103400155997822,5000,3020066698,Cell_ID,YES,NO
+HUST,nominal,Gradient Boosting Regressor,Ridge Regression,Cell_MAE_Q_Ah_ModelB_minus_ModelA,77,0.0078878784766036,0.0062242735594751,0.0093969196028944,5000,31785223,Cell_ID,YES,NO
+HUST,first_comparable,Random Forest Regressor,Gradient Boosting Regressor,Cell_MAE_Q_Ah_ModelB_minus_ModelA,77,0.0009389008917885,0.000153408118547402,0.0019084398941957,5000,472407788,Cell_ID,YES,NO
+HUST,first_comparable,Random Forest Regressor,Ridge Regression,Cell_MAE_Q_Ah_ModelB_minus_ModelA,77,0.0094946548176992,0.0075665735735518,0.0114018083363408,5000,3215696344,Cell_ID,YES,NO
+HUST,first_comparable,Gradient Boosting Regressor,Ridge Regression,Cell_MAE_Q_Ah_ModelB_minus_ModelA,77,0.0088567019930507,0.0061183502584405,0.0099839816227656,5000,2221040262,Cell_ID,YES,NO
+HUST,early_median5_comparable,Random Forest Regressor,Gradient Boosting Regressor,Cell_MAE_Q_Ah_ModelB_minus_ModelA,77,0.0010783082504351,-0.0001285985838472,0.0018800634051554,5000,12987703,Cell_ID,YES,NO
+HUST,early_median5_comparable,Random Forest Regressor,Ridge Regression,Cell_MAE_Q_Ah_ModelB_minus_ModelA,77,0.0098690590500321,0.0078480597544008,0.0111480018264013,5000,4153557659,Cell_ID,YES,NO
+HUST,early_median5_comparable,Gradient Boosting Regressor,Ridge Regression,Cell_MAE_Q_Ah_ModelB_minus_ModelA,77,0.0094583960175491,0.0068865920939884,0.0102288697025321,5000,310989459,Cell_ID,YES,NO

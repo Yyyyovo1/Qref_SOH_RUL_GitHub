@@ -1,0 +1,23 @@
+{
+  "status": "APPROVED",
+  "approved_by": "USER_EXPLICIT_AUTHORIZATION",
+  "approved_at": "2026-09-27T16:27:10+08:00",
+  "authorized_command": "python xjtu_pipeline.py run",
+  "authorized_output_directory": "outputs/xjtu_55_final_v1",
+  "validation_receipt_sha256": "1c6c236af546881b3950b1aba456815803ebcc30d77118cf2bbcf13f45d76e81",
+  "validated_protocol_inventory_sha256": "72f9a1dad65d273c15f2c36b7f8d8a3650db1c55e5f1c5e8e2ae5030ec91bceb",
+  "authorization_attachment_sha256": "e2b8593445b978bb79d60387ad3935963905293f754acdc71005694b66179008",
+  "frozen_rules": [
+    "Batch-1 final data and manual QC",
+    "Batch-2 through Batch-6 validated protocol adapters",
+    "Qref definitions",
+    "Primary_Capacity_Eligible rules",
+    "80 percent SOH EOL threshold",
+    "fixed absolute 1.600 Ah control",
+    "EXACT, INTERVAL, and RIGHT censoring definitions",
+    "no interpolation",
+    "no smoothing",
+    "no cycle renumbering"
+  ],
+  "machine_learning_authorized": false
+}

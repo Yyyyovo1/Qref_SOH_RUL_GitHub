@@ -1,0 +1,11 @@
+Supplement_ID,Proposed_Item,Recommendation,Rationale
+S1,CALCE QC workflow and manual-review logic,RECOMMENDED,Documents method-development and reproducibility support without elevating CALCE to an independent biological replication.
+S2,XJTU batch protocol mapping and censoring rules,RECOMMENDED,"Supports interpretation of sparse diagnostics, cumulative aging operation counts, and interval censoring."
+S3,HUST paper-versus-raw protocol discrepancy audit,RECOMMENDED,Documents why QC used the raw-observed protocol and why HUST is a mechanism-level replication.
+S4,Full cell-level Qref summary,RECOMMENDED,Provides traceability for every cell-level reference definition and Qref deviation.
+S5,"Full 75%, 80%, and 85% transition tables",RECOMMENDED,"Preserves all exact, interval, right-censored, effect-bound, and RUL-availability transitions."
+S6,ML feature-leakage audit,RECOMMENDED,Documents the frozen A9 predictor set and excluded protocol-shortcut features.
+S7,Feature-extraction QC and missingness,RECOMMENDED,Explains the single excluded HUST A9 row and verifies common physical populations across Qrefs.
+S8,XJTU A8 corrected bootstrap details,RECOMMENDED,"Reports the difference-of-medians statistic, confidence intervals, rank frequencies, and descriptive rank-flip stability."
+S9,XJTU initial-test 47-cell secondary analysis,RECOMMENDED,Keeps the XJTU-only initial-test comparison separate from the common cross-dataset definitions.
+S10,Additional per-cell and per-batch ML metrics,OPTIONAL_IF_SPACE,Supports heterogeneity review without duplicating the primary cell-first summary.

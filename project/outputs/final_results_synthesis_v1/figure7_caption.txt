@@ -1,0 +1,1 @@
+Figure 7. Model rank positions under median held-out-cell MAE_Q for the primary A9 benchmark, A8 without CV duration, B10 with cycle index, and the post-cycle-5 analysis. The XJTU A8 RF/GB reversal under measured Qrefs is descriptive; corrected difference-of-medians bootstrap confidence intervals crossed zero.

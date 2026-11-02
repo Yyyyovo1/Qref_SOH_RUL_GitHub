@@ -1,0 +1,149 @@
+Pipeline version: 1.0.0
+Processing timestamp UTC: 2026-09-27T05:32:10.631086+00:00
+Python version: 3.12.6
+Python executable: .\xjtu_batch1_pipeline\.venv\Scripts\python.exe
+numpy version: 2.2.6
+scipy version: 1.15.3
+pandas version: 2.3.2
+matplotlib version: 3.10.6
+Input directory: .\Batch-1
+Requested output directory: .\xjtu_batch1_pipeline\outputs\xjtu_batch1_pilot_v1
+Config values:
+  {
+    "EOL_SOH_threshold": 0.8,
+    "battery1_capacity_regression_tolerance_Ah": 0.002,
+    "battery1_current_regression_tolerance_A": 0.05,
+    "battery1_cycle1_expected_discharge_current_A": -0.4,
+    "battery1_cycle2_expected_discharge_current_A": -2.0,
+    "battery1_cycle390_expected_min_voltage_V": 2.8445,
+    "battery1_cycle390_voltage_tolerance_V": 0.01,
+    "battery1_expected_capacities_Ah": {
+      "1": 1.991,
+      "2": 1.863,
+      "3": 1.871,
+      "389": 1.642,
+      "390": 1.592,
+      "4": 1.877,
+      "5": 1.883,
+      "6": 1.888
+    },
+    "battery1_expected_cycle_count": 390,
+    "battery1_qref_expected_Ah": {
+      "early_median5": 1.877,
+      "first_standard": 1.863,
+      "initial_test": 1.991,
+      "nominal": 2.0
+    },
+    "canonical_filename_template": "2C_battery-{battery_id}.mat",
+    "capacity_jump_abs_threshold_Ah": 0.08,
+    "capacity_jump_relative_threshold": 0.05,
+    "capacity_match_abs_tolerance_Ah": 0.005,
+    "capacity_match_relative_tolerance": 0.01,
+    "charge_complete_min_V": 4.18,
+    "charge_current_detection_threshold_A": 0.01,
+    "charge_cutoff_V": 4.2,
+    "csv_float_format": "%.12g",
+    "cycle1_charge_current_A": 1.0,
+    "cycle1_cv_cutoff_A": 0.04,
+    "cycle1_cv_cutoff_upper_A": 0.06,
+    "cycle1_discharge_current_A": -0.4,
+    "cycle1_discharge_current_abs_tolerance_A": 0.08,
+    "discharge_complete_max_V": 2.55,
+    "discharge_current_detection_threshold_A": -0.05,
+    "discharge_cutoff_V": 2.5,
+    "discharge_end_voltage_max_V": 2.6,
+    "duplicate_filename_template": "2C_battery-{battery_id}(1).mat",
+    "expected_battery_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "figure_dpi": 180,
+    "fixed_absolute_EOThreshold_Ah": 1.6,
+    "nominal_capacity_Ah": 2.0,
+    "pipeline_version": "1.0.0",
+    "standard_charge_current_A": 4.0,
+    "standard_cv_cutoff_A": 0.1,
+    "standard_cv_cutoff_upper_A": 0.13,
+    "standard_discharge_current_A": -2.0,
+    "standard_discharge_current_abs_tolerance_A": 0.2,
+    "voltage_jump_threshold_V": 0.5,
+    "voltage_spike_current_threshold_A": -0.1,
+    "voltage_spike_threshold_V": 4.3
+  }
+Phase 1: input inventory and independent schema validation
+Input scan: 8 canonical files and 8 confirmed byte-identical duplicates
+Input file: 2C_battery-1.mat; role=CANONICAL; bytes=44388077; sha256=336a0c25c9d6e4c18a231c0b4004edfb44fbd7808533490cddf4d073ce854dbb; included=YES
+Input file: 2C_battery-1(1).mat; role=DUPLICATE_CONFIRMED; bytes=44388077; sha256=336a0c25c9d6e4c18a231c0b4004edfb44fbd7808533490cddf4d073ce854dbb; included=NO
+Input file: 2C_battery-2.mat; role=CANONICAL; bytes=46247857; sha256=55da58e12c472b4c447698770a9b4dbd9f56f96a64b89c4b9b07ac191ecc1201; included=YES
+Input file: 2C_battery-2(1).mat; role=DUPLICATE_CONFIRMED; bytes=46247857; sha256=55da58e12c472b4c447698770a9b4dbd9f56f96a64b89c4b9b07ac191ecc1201; included=NO
+Input file: 2C_battery-3.mat; role=CANONICAL; bytes=44350323; sha256=5fe79f7fb1d7848ccec49845203d46ba4b1f9c551f6603f54a917bd06d57c59c; included=YES
+Input file: 2C_battery-3(1).mat; role=DUPLICATE_CONFIRMED; bytes=44350323; sha256=5fe79f7fb1d7848ccec49845203d46ba4b1f9c551f6603f54a917bd06d57c59c; included=NO
+Input file: 2C_battery-4.mat; role=CANONICAL; bytes=45003278; sha256=333a202e89686e7bafe4c28bb46d0a0a95f2e4699de9cebc58fa98b680bbf577; included=YES
+Input file: 2C_battery-4(1).mat; role=DUPLICATE_CONFIRMED; bytes=45003278; sha256=333a202e89686e7bafe4c28bb46d0a0a95f2e4699de9cebc58fa98b680bbf577; included=NO
+Input file: 2C_battery-5.mat; role=CANONICAL; bytes=45819718; sha256=eb4ba517f8d1593e9e08697be1fb0a52e6f95be50311fcca1a0b10fc316b9cd8; included=YES
+Input file: 2C_battery-5(1).mat; role=DUPLICATE_CONFIRMED; bytes=45819718; sha256=eb4ba517f8d1593e9e08697be1fb0a52e6f95be50311fcca1a0b10fc316b9cd8; included=NO
+Input file: 2C_battery-6.mat; role=CANONICAL; bytes=46401249; sha256=8aa9ccbba5e0bcd58a3d8371cd9f6336d62ccd86554d6ba4c92e9a6efa6d8bee; included=YES
+Input file: 2C_battery-6(1).mat; role=DUPLICATE_CONFIRMED; bytes=46401249; sha256=8aa9ccbba5e0bcd58a3d8371cd9f6336d62ccd86554d6ba4c92e9a6efa6d8bee; included=NO
+Input file: 2C_battery-7.mat; role=CANONICAL; bytes=45614404; sha256=35608e4781253e48c22729ad3bf15114a2d41c89e664f38e74977ee566975246; included=YES
+Input file: 2C_battery-7(1).mat; role=DUPLICATE_CONFIRMED; bytes=45614404; sha256=35608e4781253e48c22729ad3bf15114a2d41c89e664f38e74977ee566975246; included=NO
+Input file: 2C_battery-8.mat; role=CANONICAL; bytes=47859917; sha256=c3186b4f06e7a3d80a2a172739ab31611d7514203ec9fea653a1c630b0e2f636; included=YES
+Input file: 2C_battery-8(1).mat; role=DUPLICATE_CONFIRMED; bytes=47859917; sha256=c3186b4f06e7a3d80a2a172739ab31611d7514203ec9fea653a1c630b0e2f636; included=NO
+Schema 2C_battery-1.mat: status=PASS; data_cycles=390; cycle_life=390; issues=NONE
+Schema 2C_battery-2.mat: status=PASS; data_cycles=407; cycle_life=407; issues=NONE
+Schema 2C_battery-3.mat: status=PASS; data_cycles=393; cycle_life=393; issues=NONE
+Schema 2C_battery-4.mat: status=PASS; data_cycles=396; cycle_life=396; issues=NONE
+Schema 2C_battery-5.mat: status=PASS; data_cycles=403; cycle_life=403; issues=NONE
+Schema 2C_battery-6.mat: status=PASS; data_cycles=408; cycle_life=408; issues=NONE
+Schema 2C_battery-7.mat: status=PASS; data_cycles=402; cycle_life=402; issues=NONE
+Schema 2C_battery-8.mat: status=PASS; data_cycles=420; cycle_life=420; issues=NONE
+Phase 2: process canonical 2C_battery-1.mat only
+Battery 1 processed cycles: 390
+Phase 3: battery-1 regression tests
+Regression test - battery1 schema test: PASSED
+Regression test - battery1 capacity test: PASSED
+Regression test - battery1 protocol test: PASSED
+Regression test - battery1 cycle390 anomaly test: PASSED
+Regression test - battery1 Qref test: PASSED
+Regression test - battery1 EOL censoring test: PASSED
+ALL BATTERY-1 REGRESSION TESTS PASSED
+Phase 4: process canonical batteries 2-8
+Battery 2 processed cycles: 407
+Battery 3 processed cycles: 393
+Battery 4 processed cycles: 396
+Battery 5 processed cycles: 403
+Battery 6 processed cycles: 408
+Battery 7 processed cycles: 402
+Battery 8 processed cycles: 420
+Phase 5: finalize cycle-level QC tables
+QC 2C_battery-1: cycles=390; PASS=389; CHECK=0; INVALID_CANDIDATE=1
+QC 2C_battery-2: cycles=407; PASS=407; CHECK=0; INVALID_CANDIDATE=0
+QC 2C_battery-3: cycles=393; PASS=392; CHECK=0; INVALID_CANDIDATE=1
+QC 2C_battery-4: cycles=396; PASS=396; CHECK=0; INVALID_CANDIDATE=0
+QC 2C_battery-5: cycles=403; PASS=403; CHECK=0; INVALID_CANDIDATE=0
+QC 2C_battery-6: cycles=408; PASS=408; CHECK=0; INVALID_CANDIDATE=0
+QC 2C_battery-7: cycles=402; PASS=402; CHECK=0; INVALID_CANDIDATE=0
+QC 2C_battery-8: cycles=420; PASS=420; CHECK=0; INVALID_CANDIDATE=0
+Phase 6: calculate four Qref definitions
+Phase 7: calculate unclipped SOH labels for primary-included aging cycles
+Phase 8: calculate EOL sensitivity and right censoring
+Phase 9: calculate RUL labels without fabricating censored targets
+Phase 10: prepare pilot summary and figures
+In-memory validation: QC keys unique; Raw Cycle indices preserved without compression: PASSED
+In-memory validation: No INVALID or REVIEW cycle entered primary EOL detection: PASSED
+In-memory validation: Right-censored EOL cycles and RUL labels remain NA: PASSED
+In-memory validation: All Qref source cycles are explicit and primary-included: PASSED
+Raw MAT SHA-256 recheck before output: PASSED
+Phase 11: re-read and validate all output CSV files
+Post-write CSV validation: PASSED
+No duplicate keys; Cell_ID complete; Raw Cycle indices preserved
+INVALID cycles excluded from primary EOL; censored RUL values are NA
+Qref source cycles remain traceable
+Raw MAT SHA-256 final recheck: PASSED
+ALL REGRESSION TESTS PASSED
+PIPELINE COMPLETED SUCCESSFULLY

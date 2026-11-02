@@ -1,0 +1,180 @@
+{
+  "EOL_SOH_threshold": 0.8,
+  "approval_gate": {
+    "run_is_not_authorized_by_this_candidate_config": true,
+    "separate_run_approval_file": "run_approval.json",
+    "separate_run_approval_status_required": "APPROVED",
+    "validation_status_required": "VALIDATION_PASSED_AWAITING_HUMAN_RUN_APPROVAL"
+  },
+  "batch_id": 2,
+  "capacity_jump_abs_threshold_Ah": 0.08,
+  "capacity_jump_relative_threshold": 0.05,
+  "capacity_match_abs_tolerance_Ah": 0.005,
+  "capacity_match_relative_tolerance": 0.01,
+  "charge_cc_estimation_quantile": 0.999,
+  "charge_complete_min_V": 4.18,
+  "charge_current_detection_threshold_A": 0.05,
+  "config_status": "VALIDATED_FINAL_CANDIDATE_AWAITING_RUN_APPROVAL",
+  "discharge_current_detection_threshold_A": -0.05,
+  "expected_canonical_count": 15,
+  "expected_protocol_summary": "Cycle 1 BOL 0.2C full test; recurring 3C charge and 1C full discharge",
+  "fixed_absolute_EOThreshold_Ah": 1.6,
+  "full_discharge_end_voltage_max_V": 2.6,
+  "full_discharge_min_voltage_max_V": 2.55,
+  "known_information_anomaly_policy": {
+    "CC_PLATEAU_NOT_OBSERVED_HIGH_SOC_START": {
+      "applicable_when": "Batch-6 GEO charge reaches >=4.18 V and CV terminal current <=0.13 A with no other charge truncation evidence",
+      "requires_human_review": false,
+      "severity": "INFO"
+    },
+    "DESCRIPTION_CHARGE_CURRENT_MISMATCH": {
+      "applicable_when": "Batch-5 RANDOM_WALK_AGING otherwise valid",
+      "requires_human_review": false,
+      "severity": "INFO"
+    },
+    "GEO_AGING_REACHED_FULL_CUTOFF": {
+      "applicable_when": "Batch-6 GEO_AGING_PARTIAL otherwise valid",
+      "reclassify_as_capacity_diagnostic": false,
+      "requires_human_review": false,
+      "severity": "INFO"
+    },
+    "unknown_or_unexplained_anomalies_require_human_review": true
+  },
+  "locked_scan_hashes": {
+    "batch2_config_draft.json": "b8290e685fc3820f9e6c402c791a9a36d4ce837ae12382671ee0c5d208762b65",
+    "batch3_config_draft.json": "a564caadaef3f99241075b2249942a59db49481a304589a43f49c0deb042ead5",
+    "batch4_config_draft.json": "4e6b296c5a3de2099a7afffafec2521e56fd3ce36d05e1e4f6aaf280de11c0d0",
+    "batch5_config_draft.json": "701e709b3699bd28efa355bd1432b709b5efb095cf567bb23463f1cbb973de0b",
+    "batch6_config_draft.json": "f167a289b51dc6e13e6e1fe3a1fb07e58c3b63597e127cc6312274b646db9fbc",
+    "xjtu_protocol_inventory.csv": "d328656a4bb15c0dd3faff233d1eeb8b09dfd66d0fbb964775eb47a03361179c"
+  },
+  "manual_protocol_review": {
+    "full_55_cell_run_authorized": false,
+    "review_file": "xjtu_multibatch_manual_protocol_review_v1.json",
+    "review_file_sha256": "db6322fc3a0c98b517de96e5e519167d4417ea83f184c9665556507a0759661d",
+    "status": "REPRESENTATIVE_PROTOCOL_ADAPTER_APPROVED"
+  },
+  "minimum_protocol_confidence_for_auto_match": 0.75,
+  "nominal_capacity_Ah": 2.0,
+  "partial_discharge_target_V": 3.0,
+  "partial_discharge_voltage_tolerance_V": 0.18,
+  "protocol_classification_weights": {
+    "charge_current": 0.1,
+    "charge_voltage": 0.075,
+    "cv_cutoff": 0.075,
+    "description": 0.35,
+    "discharge_current": 0.25,
+    "discharge_mode": 0.15
+  },
+  "protocols": [
+    {
+      "Charge_Current_Tolerance_A": 0.2,
+      "Counts_As_Aging_Operation": false,
+      "Description_Markers": [
+        "initial",
+        "0.2c discharge",
+        "capacity test"
+      ],
+      "Discharge_Current_Tolerance_A": 0.1,
+      "Discharge_Mode": "FULL_TO_2P5V",
+      "Expected_CV_Cutoff_Upper_A": 0.06,
+      "Expected_Charge_Current_A": 1.0,
+      "Expected_Discharge_Current_A": -0.4,
+      "Initial_Test": true,
+      "Primary_Capacity_Eligible": "NO",
+      "Primary_Capacity_Reason": "BOL_INITIAL_TEST_QREF_ONLY",
+      "Protocol_Class": "INITIAL_CAPACITY_TEST",
+      "Recurring_Comparable": false
+    },
+    {
+      "Charge_Current_Tolerance_A": 0.7,
+      "Counts_As_Aging_Operation": true,
+      "Description_Markers": [
+        "3c charge",
+        "1c discharge"
+      ],
+      "Discharge_Current_Tolerance_A": 0.25,
+      "Discharge_Mode": "FULL_TO_2P5V",
+      "Expected_CV_Cutoff_Upper_A": 0.13,
+      "Expected_Charge_Current_A": 6.0,
+      "Expected_Discharge_Current_A": -2.0,
+      "Initial_Test": false,
+      "Primary_Capacity_Eligible": "YES",
+      "Primary_Capacity_Reason": "RECURRING_PROTOCOL_COMPARABLE_1C_FULL_DISCHARGE",
+      "Protocol_Class": "STANDARD_FULL_DISCHARGE_1C",
+      "Recurring_Comparable": true
+    }
+  ],
+  "rest_current_abs_threshold_A": 0.05,
+  "scan_observation_summary": {
+    "canonical_files_observed": 15,
+    "cycles_scanned": 3742,
+    "human_approval_required_before_validate_or_run": true,
+    "protocol_class_counts": {
+      "INITIAL_CAPACITY_TEST": 15,
+      "STANDARD_FULL_DISCHARGE_1C": 3727
+    },
+    "scan_status": "NEEDS_REVIEW",
+    "unknown_protocol_count": 0
+  },
+  "schema_field_aliases": {
+    "capacity": [
+      "capacity_Ah",
+      "capacity",
+      "Capacity_Ah",
+      "Capacity"
+    ],
+    "current": [
+      "current_A",
+      "current",
+      "Current_A",
+      "Current"
+    ],
+    "description": [
+      "description",
+      "protocol_description",
+      "step_description"
+    ],
+    "relative_time": [
+      "relative_time_min",
+      "relative_time_s",
+      "time_min",
+      "time_s",
+      "test_time_s",
+      "test_time_min"
+    ],
+    "summary_cycle_life": [
+      "cycle_life",
+      "cycle_count",
+      "Cycle_Life"
+    ],
+    "summary_discharge_capacity": [
+      "discharge_capacity_Ah",
+      "discharge_capacity",
+      "Discharge_Capacity_Ah"
+    ],
+    "voltage": [
+      "voltage_V",
+      "voltage",
+      "Voltage_V",
+      "Voltage"
+    ]
+  },
+  "scientific_definitions_frozen_from_batch1": {
+    "EOL_SOH_threshold": 0.8,
+    "capacity_jump_alone_is_check_only": true,
+    "fixed_absolute_EOThreshold_Ah": 1.6,
+    "no_interpolation": true,
+    "no_smoothing": true,
+    "preserve_raw_cycle_index": true,
+    "qref_definitions": [
+      "nominal",
+      "initial_test",
+      "first_comparable",
+      "early_median5_comparable"
+    ]
+  },
+  "voltage_jump_threshold_V": 0.5,
+  "voltage_spike_current_threshold_A": -0.1,
+  "voltage_spike_threshold_V": 4.3
+}

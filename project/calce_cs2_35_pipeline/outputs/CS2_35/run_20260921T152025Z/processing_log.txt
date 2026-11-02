@@ -1,0 +1,38 @@
+2026-09-21 23:20:25,546 | INFO | CALCE CS2-35 pipeline version 1.0.0
+2026-09-21 23:20:25,546 | INFO | Input directory: .\CS2_35
+2026-09-21 23:20:25,547 | INFO | Output directory: .\calce_cs2_35_pipeline\outputs\run_20260921T152025Z
+2026-09-21 23:20:25,547 | INFO | Workbook count: 26
+2026-09-21 23:20:25,616 | INFO | Runtime: Python 3.12.6 | Windows-11-10.0.22631-SP0 | openpyxl 3.1.5 | pandas 2.2.3 | numpy 2.2.3 | matplotlib 3.10.0
+2026-09-21 23:20:25,618 | INFO | QC thresholds: {'counter_zero_tolerance_ah': 0.005, 'counter_decrease_tolerance_ah': 0.0001, 'stats_channel_agreement_tolerance_ah': 0.001, 'cc_current_min_a': 0.4, 'cc_current_max_a': 0.7, 'cc_max_current_std_a': 0.08, 'cc_complete_min_records': 5, 'cc_complete_min_duration_s': 300.0, 'cc_complete_min_charge_delta_ah': 0.02, 'cc_expected_end_voltage_min_v': 4.15, 'cv_voltage_min_v': 4.15, 'cv_voltage_max_v': 4.25, 'cv_min_records': 5, 'cv_min_duration_s': 300.0, 'cv_min_charge_delta_ah': 0.005, 'cv_min_start_current_a': 0.1, 'cv_max_end_current_a': 0.08, 'cv_min_current_drop_a': 0.05, 'discharge_candidate_current_max_a': -0.8, 'discharge_min_records': 5, 'discharge_min_duration_s': 300.0, 'discharge_min_capacity_delta_ah': 0.05, 'discharge_mean_current_min_a': -1.25, 'discharge_mean_current_max_a': -0.95, 'discharge_start_voltage_min_v': 3.5, 'discharge_start_voltage_max_v': 4.25, 'discharge_cutoff_voltage_min_v': 2.55, 'discharge_cutoff_voltage_max_v': 2.85, 'capacity_jump_abs_ah': 0.12, 'capacity_jump_relative': 0.15}
+2026-09-21 23:20:25,618 | INFO | Cycle 2 benchmark PASS: expected 0.8699526000 Ah; Statistics 0.869952616649 Ah; Channel 0.869952616649 Ah
+2026-09-21 23:20:26,592 | INFO | Read CS2_35_10_15_10.xlsx: Channel cycles=50; Statistics cycles=0
+2026-09-21 23:20:27,514 | INFO | Read CS2_35_10_22_10.xlsx: Channel cycles=50; Statistics cycles=0
+2026-09-21 23:20:28,437 | INFO | Read CS2_35_10_29_10.xlsx: Channel cycles=50; Statistics cycles=50
+2026-09-21 23:20:28,628 | INFO | Read CS2_35_11_01_10.xlsx: Channel cycles=10; Statistics cycles=9
+2026-09-21 23:20:29,569 | INFO | Read CS2_35_11_08_10.xlsx: Channel cycles=50; Statistics cycles=50
+2026-09-21 23:20:30,507 | INFO | Read CS2_35_11_23_10.xlsx: Channel cycles=50; Statistics cycles=50
+2026-09-21 23:20:30,672 | INFO | Read CS2_35_11_24_10.xlsx: Channel cycles=9; Statistics cycles=8
+2026-09-21 23:20:31,577 | INFO | Read CS2_35_12_06_10.xlsx: Channel cycles=50; Statistics cycles=50
+2026-09-21 23:20:32,457 | INFO | Read CS2_35_12_13_10.xlsx: Channel cycles=50; Statistics cycles=50
+2026-09-21 23:20:33,328 | INFO | Read CS2_35_12_20_10.xlsx: Channel cycles=50; Statistics cycles=50
+2026-09-21 23:20:33,754 | INFO | Read CS2_35_12_23_10.xlsx: Channel cycles=25; Statistics cycles=24
+2026-09-21 23:20:34,506 | INFO | Read CS2_35_1_10_11(1).xlsx: Channel cycles=50; Statistics cycles=50
+2026-09-21 23:20:35,245 | INFO | Read CS2_35_1_10_11.xlsx: Channel cycles=50; Statistics cycles=50
+2026-09-21 23:20:35,917 | INFO | Read CS2_35_1_18_11.xlsx: Channel cycles=50; Statistics cycles=50
+2026-09-21 23:20:36,514 | INFO | Read CS2_35_1_24_11.xlsx: Channel cycles=50; Statistics cycles=50
+2026-09-21 23:20:36,878 | INFO | Read CS2_35_1_28_11.xlsx: Channel cycles=37; Statistics cycles=36
+2026-09-21 23:20:37,242 | INFO | Read CS2_35_2_10_11.xlsx: Channel cycles=50; Statistics cycles=50
+2026-09-21 23:20:37,604 | INFO | Read CS2_35_2_4_11.xlsx: Channel cycles=50; Statistics cycles=50
+2026-09-21 23:20:37,664 | INFO | Read CS2_35_8_17_10.xlsx: Channel cycles=1; Statistics cycles=0
+2026-09-21 23:20:37,690 | INFO | Read CS2_35_8_18_10.xlsx: Channel cycles=1; Statistics cycles=0
+2026-09-21 23:20:37,715 | INFO | Read CS2_35_8_19_10.xlsx: Channel cycles=1; Statistics cycles=0
+2026-09-21 23:20:38,765 | INFO | Read CS2_35_8_30_10.xlsx: Channel cycles=50; Statistics cycles=0
+2026-09-21 23:20:39,773 | INFO | Read CS2_35_9_21_10.xlsx: Channel cycles=50; Statistics cycles=0
+2026-09-21 23:20:40,749 | INFO | Read CS2_35_9_30_10.xlsx: Channel cycles=50; Statistics cycles=0
+2026-09-21 23:20:41,634 | INFO | Read CS2_35_9_7_10.xlsx: Channel cycles=45; Statistics cycles=0
+2026-09-21 23:20:41,781 | INFO | Read CS2_35_9_8_10.xlsx: Channel cycles=7; Statistics cycles=0
+2026-09-21 23:20:41,858 | INFO | Verified all source workbook SHA-256 checksums are unchanged
+2026-09-21 23:20:42,105 | INFO | Cycle records: all=986; canonical=886
+2026-09-21 23:20:42,106 | INFO | Canonical QC counts: {'PASS': 840, 'INVALID_CANDIDATE': 32, 'CHECK': 14}
+2026-09-21 23:20:42,106 | INFO | Flagged output rows: 146
+2026-09-21 23:20:42,106 | INFO | Completed successfully; six requested outputs written

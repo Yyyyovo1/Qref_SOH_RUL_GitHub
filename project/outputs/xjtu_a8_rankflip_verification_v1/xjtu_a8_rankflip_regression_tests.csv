@@ -1,0 +1,12 @@
+﻿Test_ID,Status,Observed,Expected,Failure_Message,Hard_Failure
+A8_CELL_METRICS_UNCHANGED,PASS,before=c14dd1bc7195c5a1f1660f231c1d7753316aa607e3290676acfe384f0ef2d785;after=c14dd1bc7195c5a1f1660f231c1d7753316aa607e3290676acfe384f0ef2d785;frozen_summary_match=True,cell metric hash unchanged during bootstrap and reconstructed summary matches frozen A8,,YES
+XJTU_CELL_COUNT_55,PASS,55,55,,YES
+PAIRED_BY_CELL_ID,PASS,ci_rows=3;rank_rows=9;rankflip_rows=2,all resampling paired by the same 55 Cell_ID values,,YES
+NO_CYCLE_RESAMPLING,PASS,NO,NO,,YES
+SAME_FROZEN_FOLDS_MODEL_FITS,PASS,fits=45;prediction_rows=93843;overlap=0;summary_max_abs=4.22e-15,"45 exact XJTU A8 fits on frozen folds when reconstruction is required, with frozen-summary reconciliation",,YES
+NO_RETRAINING_UNLESS_REQUIRED,PASS,retraining=YES;source=MISSING_FROM_FROZEN_ROBUSTNESS_OUTPUT,retrain only when frozen XJTU A8 cell metrics are absent,,YES
+BOOTSTRAP_REPLICATES_5000,PASS,5000,5000 for every bootstrap output row,,YES
+PRIMARY_AND_ROBUSTNESS_FILES_UNCHANGED,PASS,primary_equal=True;robustness_equal=True;frozen_inputs_equal=True,"all frozen Primary, Robustness, feature, label, fold, and model-plan hashes unchanged",,YES
+A8_RECONSTRUCTION_MATCHES_FROZEN_SUMMARY,PASS,rows=9;max_abs_difference=4.21884749357559e-15,9 XJTU A8 summary rows match within rtol=1e-10 and atol=1e-12,,YES
+OBSERVED_A8_RF_GB_ORDERING_REPRODUCED,PASS,"{'nominal': 'RF_LT_GB', 'first_comparable': 'GB_LT_RF', 'early_median5_comparable': 'GB_LT_RF'}",nominal RF<GB; first_comparable GB<RF; early_median5_comparable GB<RF,,YES
+OUTPUT_GRID_COMPLETE,PASS,"ci=3;rank=9;rankflip=2;rank_sums={'early_median5_comparable': 1.0, 'first_comparable': 1.0, 'nominal': 1.0}","3 CI rows, 9 rank-frequency rows, 2 rank-flip rows, rank frequencies sum to 1",,YES

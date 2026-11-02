@@ -1,0 +1,44 @@
+﻿Record_Type,Name,Value,Path,SHA256,Notes
+INPUT_FILE,feature_matrix_xjtu,2079811,.\outputs\soh_feature_extraction_v1\feature_matrix_xjtu_v1.csv,ef94c790be657e5effd9de7f907cc0394ee4e4fa4cdd787d23077964e7aeaa66,Frozen read-only input
+INPUT_FILE,feature_extraction_regression_tests,8261,.\outputs\soh_feature_extraction_v1\feature_extraction_regression_tests.csv,9e64b072b77935bb96da65774d405394c6e5d4c0b1cba2a8a8128a321e57d002,Frozen read-only input
+INPUT_FILE,xjtu_soh_labels,3960638,.\outputs\xjtu_55_final_v2\xjtu_55_soh_labels_long.csv,255ce7ecf699d330847c3e6aa0d1bcf25358688ab5e6a401409d84f23fc8266d,Frozen read-only input
+INPUT_FILE,xjtu_frozen_folds,12459,.\outputs\soh_ml_design_v1\ml_cell_fold_assignments_xjtu.csv,a9d63f1231e8ea3a97242fea8f89c1fe87c6dc485cf84109c8366e0ccd44f160,Frozen read-only input
+INPUT_FILE,model_hyperparameter_plan,1300,.\outputs\soh_ml_design_v1\ml_model_hyperparameter_plan.csv,06b7ebf85447adb278fdb0314e70c7f9de92a4951716f596e790fb92fdb401aa,Frozen read-only input
+INPUT_FILE,preprocessing_plan,5586,.\outputs\soh_ml_design_v1\ml_preprocessing_plan.csv,d1d6168d6ee609ec7c5882d5f04edc54ac50d4b77cffad15eafb92ce53d2b5ec,Frozen read-only input
+INPUT_FILE,metric_plan,2634,.\outputs\soh_ml_design_v1\ml_metric_plan.csv,533a27d5e2b17a24d0ccbfd331badd1762d8bc72fc47ad1c2d21d81187715e62,Frozen read-only input
+INPUT_FILE,ml_design_regression_tests,5094,.\outputs\soh_ml_design_v1\ml_design_regression_tests.csv,fbcbe9314156414a0665b57cd4542138dfd57ddd37513649065e5cf244bde300,Frozen read-only input
+INPUT_FILE,xjtu_primary_eligible_mask,1295544,.\outputs\soh_primary_benchmark_v1\soh_model_eligible_mask_xjtu.csv,42eff06bb2f51b135baeddf78d1b84f5c1b3829a2e1711de249933247093decf,Frozen read-only input
+INPUT_FILE,primary_feature_freeze,3081,.\outputs\soh_primary_benchmark_v1\soh_primary_feature_freeze_v1.csv,8c633be74b3021c29dff5dbc86415b80c867528cc14f9b196e3a20c2860227fa,Frozen read-only input
+INPUT_FILE,primary_regression_tests,6544,.\outputs\soh_primary_benchmark_v1\soh_primary_regression_tests.csv,4e90aa7b91cf5deb78b60d453f5d926e0326ccc8dee54af312dc3a6c8493384d,Frozen read-only input
+INPUT_FILE,frozen_a8_summary,13549,.\outputs\soh_ml_robustness_v1\soh_robustness_a8_summary.csv,17a24fc388b9ab849ed4f56ec8992c2db7d95c54e313ff24ca05387cf94c764b,Frozen read-only input
+SOURCE_CODE,xjtu_a8_deterministic_reconstruction_repro/config.py,1843,.\xjtu_a8_deterministic_reconstruction_repro\config.py,cede7efa856c30319757fa5eb11e8489c0ddaf213af173dd68f90b9a4bcca712,Reconstruction implementation
+SOURCE_CODE,xjtu_a8_deterministic_reconstruction_repro/pipeline.py,69105,.\xjtu_a8_deterministic_reconstruction_repro\pipeline.py,de1110fbd183fe8c8a439518c3a92c3570703e866585220c0ec1dcd8eb8380a4,Reconstruction implementation including no-retraining staging finalizer
+SOURCE_CODE,reconstruct_xjtu_a8.py,1609,.\reconstruct_xjtu_a8.py,be1804bea1fc08b0338460c9ba1820f3573126cc34cba29df979006d0ec77bf0,Reconstruction entry point including no-retraining staging finalizer
+DERIVED_HASH,A8_FEATURE_MATRIX_SHA256,10427,.\outputs\soh_feature_extraction_v1\feature_matrix_xjtu_v1.csv,b41da357c1c870c07f3cb2d3636acd0ae5db7677bf276d6ed13c54fccf0a792b,10427 rows x 8 frozen A8 features in frozen row order
+DERIVED_HASH,PHYSICAL_OBSERVATION_KEY_SHA256,10427,.\outputs\soh_feature_extraction_v1\feature_matrix_xjtu_v1.csv,40fc5ae9c9d09310246357039446dc651e432a053c40fe40d8fcbf3fbfa214e2,Frozen XJTU physical observation order
+DERIVED_HASH,ALIGNED_KEY_SHA256_nominal,10427,.\outputs\xjtu_55_final_v2\xjtu_55_soh_labels_long.csv,40fc5ae9c9d09310246357039446dc651e432a053c40fe40d8fcbf3fbfa214e2,Aligned target physical-key order
+DERIVED_HASH,ALIGNED_KEY_SHA256_first_comparable,10427,.\outputs\xjtu_55_final_v2\xjtu_55_soh_labels_long.csv,40fc5ae9c9d09310246357039446dc651e432a053c40fe40d8fcbf3fbfa214e2,Aligned target physical-key order
+DERIVED_HASH,ALIGNED_KEY_SHA256_early_median5_comparable,10427,.\outputs\xjtu_55_final_v2\xjtu_55_soh_labels_long.csv,40fc5ae9c9d09310246357039446dc651e432a053c40fe40d8fcbf3fbfa214e2,Aligned target physical-key order
+DERIVED_HASH,BOOTSTRAP_DRAW_SHA256,5000,,2e8a1afa9101de2c4af7927c31f1e112adde5be2922437d03422aa90207e1ded,One Cell_ID resample matrix shared across all Qrefs and bootstrap outputs
+FROZEN_TREE_HASH,soh_primary_benchmark_v1,unchanged,.\outputs\soh_primary_benchmark_v1,ce230e7dd3ba01879743366345af16340477ec1f7714da887652ceadfc7fa15d,Tree digest after reconstruction
+FROZEN_TREE_HASH,soh_ml_robustness_v1,unchanged,.\outputs\soh_ml_robustness_v1,dd84dccc8dc574301fe9912fa4716adfa7b76ee1fa0eb04ab9156b09e08d6cad,Tree digest after reconstruction
+FROZEN_TREE_HASH,xjtu_a8_rankflip_verification_v1,unchanged,.\outputs\xjtu_a8_rankflip_verification_v1,d7027bce05016af8f0ce1a2f9cdc937009e2312462669b3723db224aa36c93bc,Tree digest after reconstruction
+SOFTWARE_VERSION,Python,3.12.6,,,
+SOFTWARE_VERSION,numpy,2.5.3,,,
+SOFTWARE_VERSION,pandas,2.2.3,,,
+SOFTWARE_VERSION,scipy,1.18.1,,,
+SOFTWARE_VERSION,scikit-learn,1.7.2,,,
+MODEL_RANDOM_STATE,Ridge Regression,NOT_APPLICABLE,.\outputs\soh_ml_design_v1\ml_model_hyperparameter_plan.csv,06b7ebf85447adb278fdb0314e70c7f9de92a4951716f596e790fb92fdb401aa,"{""alpha"":1.0,""fit_intercept"":true,""solver"":""auto""}"
+MODEL_RANDOM_STATE,Random Forest Regressor,20260928,.\outputs\soh_ml_design_v1\ml_model_hyperparameter_plan.csv,06b7ebf85447adb278fdb0314e70c7f9de92a4951716f596e790fb92fdb401aa,"{""bootstrap"":true,""max_depth"":12,""max_features"":""sqrt"",""min_samples_leaf"":3,""n_estimators"":300,""n_jobs"":1,""random_state"":20260928}"
+MODEL_RANDOM_STATE,Gradient Boosting Regressor,20260928,.\outputs\soh_ml_design_v1\ml_model_hyperparameter_plan.csv,06b7ebf85447adb278fdb0314e70c7f9de92a4951716f596e790fb92fdb401aa,"{""learning_rate"":0.05,""loss"":""squared_error"",""max_depth"":3,""min_samples_leaf"":3,""n_estimators"":200,""random_state"":20260928,""subsample"":1.0}"
+RUN_PARAMETER,PIPELINE_VERSION,XJTU_A8_DETERMINISTIC_ARTIFACT_RECONSTRUCTION_V1,,,
+RUN_PARAMETER,DATASET,XJTU,,,
+RUN_PARAMETER,EXPERIMENT,ROBUSTNESS_A8,,,
+RUN_PARAMETER,FEATURE_SET,A8_MINUS_CV_DURATION,,,
+RUN_PARAMETER,A8_FEATURES,CV_Current_Taper_Slope_A_per_s|CV_End_Current_A|CV_Median_Current_A|Charge_End_V|Charge_Max_V|Charge_Start_V|Charge_Terminal_Voltage_Std_V|Pre_Discharge_Voltage_V,,,
+RUN_PARAMETER,QREF_DEFINITIONS,nominal|first_comparable|early_median5_comparable,,,
+RUN_PARAMETER,MODELS,Ridge Regression|Random Forest Regressor|Gradient Boosting Regressor,,,
+RUN_PARAMETER,BOOTSTRAP_SEED,20260928,,,
+RUN_PARAMETER,BOOTSTRAP_REPLICATES,5000,,,
+RUN_PARAMETER,BOOTSTRAP_UNIT,Cell_ID,,,
+RUN_PARAMETER,REPRODUCTION_TOLERANCE,1e-12,,,

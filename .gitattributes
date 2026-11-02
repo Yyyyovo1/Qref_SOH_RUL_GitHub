@@ -1,0 +1,7 @@
+# Preserve frozen file bytes, including CSV CRLF line endings.
+* -text
+*.gz.part* binary
+*.xlsx binary
+*.docx binary
+*.pdf binary
+*.png binary

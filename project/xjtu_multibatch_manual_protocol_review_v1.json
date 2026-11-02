@@ -1,0 +1,43 @@
+{
+  "review_status": "REPRESENTATIVE_PROTOCOL_ADAPTERS_VALIDATED",
+  "reviewed_batches": [2, 3, 4, 5, 6],
+  "reviewed_by": "USER_MANUAL_REVIEW",
+  "full_55_cell_run_authorized": false,
+  "source_attachment": "代表性原始 MAT 文件已经完成人工核验",
+  "adapter_decisions": {
+    "2": "APPROVED",
+    "3": "APPROVED",
+    "4": "APPROVED",
+    "5": "APPROVED_WITH_KNOWN_INFO_RULE",
+    "6": "APPROVED_WITH_KNOWN_INFO_RULE"
+  },
+  "anomaly_resolutions": {
+    "DESCRIPTION_CHARGE_CURRENT_MISMATCH": {
+      "scope": "Batch-5 RANDOM_WALK_AGING only",
+      "severity": "INFO",
+      "requires_human_review": false,
+      "effect_on_primary_capacity": "NONE"
+    },
+    "CC_PLATEAU_NOT_OBSERVED_HIGH_SOC_START": {
+      "scope": "Batch-6 GEO_AGING_PARTIAL with complete charge voltage and CV taper",
+      "severity": "INFO",
+      "requires_human_review": false,
+      "effect_on_primary_capacity": "NONE"
+    },
+    "GEO_AGING_REACHED_FULL_CUTOFF": {
+      "scope": "Batch-6 GEO_AGING_PARTIAL otherwise valid",
+      "severity": "INFO",
+      "requires_human_review": false,
+      "effect_on_primary_capacity": "NONE"
+    }
+  },
+  "required_interval_regression": {
+    "Cell_ID": "B6_Sim_satellite_battery-2",
+    "threshold_Ah": 1.6,
+    "last_above_raw_cycle": 1220,
+    "first_below_raw_cycle": 1226,
+    "lower_bound_aging_cycle": 1008,
+    "upper_bound_aging_cycle": 1013,
+    "expected_status": "INTERVAL_CENSORED"
+  }
+}

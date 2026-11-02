@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "original_sha256": "f0d4d2de535b818d4adc1f77591b90bd355b11e3585d8fdafb4df28f006dc958",
+  "public_sha256": "7716f02acb86d4c628b1a40b4e2c1b108e972f6248a3e00b9f07403e51c39381",
+  "changed_archive_entries": [
+    "xl/workbook.xml"
+  ],
+  "change": "Removed xl/workbook.xml x15ac:absPath only. All cell, style, formula, relationship and other archive-entry bytes are identical.",
+  "original_backup": "Delivered separately outside both public repository ZIPs; do not upload it if local-path privacy is required."
+}

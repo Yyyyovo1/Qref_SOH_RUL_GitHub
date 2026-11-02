@@ -1,0 +1,8 @@
+﻿Dataset,Qref_Definition,Dataset_Cell_Count,Point_RUL_Available_Cell_Count,Interval_Bounded_RUL_Only_Cell_Count,Right_Censored_No_Point_RUL_Cell_Count,Qref_Unavailable_RUL_Cell_Count,Point_RUL_Availability_Pct,Source_RUL_Row_Count,Source_Point_RUL_Row_Count,Source_Censored_No_Point_RUL_Row_Count,Source_Interval_Bound_RUL_Row_Count,Source_Qref_Unavailable_Row_Count,Source_Post_EOL_Excluded_Row_Count,Source_Censored_Numeric_RUL_Violation_Count
+HUST,nominal,77,0,0,77,0,0,146122,0,146122,0,0,0,0
+HUST,first_comparable,77,77,0,0,0,100,129232,129232,0,0,0,0,0
+HUST,early_median5_comparable,77,77,0,0,0,100,129449,129449,0,0,0,0,0
+XJTU,nominal,55,20,32,3,0,36.3636363636,10427,5758,1174,3491,0,4,0
+XJTU,first_comparable,55,0,1,54,0,0,10427,0,10409,18,0,0,0
+XJTU,early_median5_comparable,55,0,3,52,0,0,10427,0,10363,64,0,0,0
+XJTU,initial_test,55,6,14,27,8,10.9090909091,10427,2198,6292,1724,173,40,0

@@ -1,0 +1,27 @@
+﻿Test_ID,Category,Expected,Observed,Status,Hard_Stop_On_Failure,Evidence
+NO_FULL_DISCHARGE_DURATION_IN_SAFE_CORE,CAPACITY_PROXY,Full-discharge duration excluded from SAFE_CORE,Excluded; classified HIGH_LEAKAGE_RISK_CAPACITY_PROXY,PASS,YES,ml_feature_leakage_audit.csv
+FEATURES_IDENTICAL_ACROSS_QREFS,FAIRNESS,Feature names and extraction definitions fixed across Qrefs,Fair comparisons with same features=14/14,PASS,YES,ml_fairness_matrix.csv and ml_harmonized_feature_plan.csv
+HARMONIZED_SAFE_CORE_NONEMPTY,FEATURE_AVAILABILITY,At least one leakage-safe harmonized feature,Harmonized SAFE_CORE feature count=11,PASS,YES,ml_feature_inventory.csv
+FROZEN_INPUTS_UNMODIFIED,INPUT_INTEGRITY,SHA-256/size snapshots identical before and after design generation,UNCHANGED,PASS,YES,Pre/post recursive frozen-directory snapshot
+COMMON_QREF_DEFINITIONS_EXACT,LABEL_DEFINITION,"Primary common Qrefs exactly nominal, first_comparable, early_median5_comparable","XJTU=['early_median5_comparable', 'first_comparable', 'initial_test', 'nominal']; HUST=['early_median5_comparable', 'first_comparable', 'nominal']",PASS,YES,Frozen SOH label tables
+EARLY_MEDIAN5_LOOKAHEAD_DOCUMENTED,LABEL_DEFINITION,BOL look-ahead flagged with planned exclusion-of-cycles-1-to-5 sensitivity,Documented rows=2/2,PASS,YES,ml_label_definition_plan.csv
+HUST_INITIAL_TEST_NOT_INVENTED,LABEL_DEFINITION,No HUST initial_test label or plan row,HUST Qrefs=early_median5_comparable|first_comparable|nominal,PASS,YES,Frozen HUST labels and ml_label_definition_plan.csv
+SOH_FORMULA_MATCHES_FROZEN_LABELS,LABEL_DEFINITION,SOH_Fraction equals Capacity_Ah/Qref_Ah within 1e-9,Max absolute error=5.0000004137e-12,PASS,YES,Frozen SOH label tables
+ALL_FEATURE_LEAKAGE_AUDITS_PASS,LEAKAGE,No unsafe feature classified as SAFE_CORE,Pass=90/90,PASS,YES,ml_feature_leakage_audit.csv
+NO_NATIVE_LABEL_AS_FEATURE,LEAKAGE,No dataset-native label in SAFE_CORE,Native matches=0,PASS,YES,Harmonized feature allowlist
+NO_QREF_AS_PRIMARY_INPUT_FEATURE,LEAKAGE,Qref determines labels only and is absent from predictor sets,Qref-named SAFE_CORE features=0,PASS,YES,ml_harmonized_feature_plan.csv
+NO_RUL_OR_EOL_AS_FEATURE,LEAKAGE,No RUL/EOL/future-life feature in SAFE_CORE,RUL/EOL matches=0,PASS,YES,Harmonized feature allowlist
+NO_SOH_AS_FEATURE,LEAKAGE,No SOH label or SOH transform in SAFE_CORE,SOH name matches=0,PASS,YES,Harmonized feature allowlist
+NO_TARGET_CAPACITY_AS_FEATURE,LEAKAGE,No target capacity or transformed capacity in SAFE_CORE,SAFE_CORE=CV_Current_Taper_Slope_A_per_s|CV_Duration_s|CV_End_Current_A|CV_Median_Current_A|Charge_End_V|Charge_Max_V|Charge_Start_V|Charge_Terminal_Voltage_Std_V|Charge_Voltage_Rise_Slope_V_per_s|Pre_CV_CC_Median_Current_A|Pre_Discharge_Voltage_V,PASS,YES,ml_feature_inventory.csv and ml_feature_leakage_audit.csv
+CELL_LEVEL_METRIC_AGGREGATION_REQUIRED,METRICS,Metrics computed per held-out cell before cross-cell summaries,Cell-first metrics=7/7,PASS,YES,ml_metric_plan.csv
+PRIMARY_METRIC_INCLUDES_PHYSICAL_CAPACITY_SPACE,METRICS,Primary ranking metric is physical-capacity MAE,MAE_Q_Ah,PASS,YES,ml_metric_plan.csv
+NO_DEFINITION_SPECIFIC_EOL_TRUNCATION,OBSERVATION_POPULATION,No Qref-specific EOL truncation,All label-plan and intersection rows state NO,PASS,YES,Label and observation plans
+PHYSICAL_OBSERVATION_KEYS_IDENTICAL_ACROSS_COMMON_QREFS,OBSERVATION_POPULATION,All three common Qrefs have identical physical keys within each dataset,Passing pairwise audits=6/6,PASS,YES,ml_observation_intersection_audit.csv
+NO_GLOBAL_PREPROCESSING_BEFORE_CV,PREPROCESSING,All statistical preprocessing fitted on current training cells only,Train-only statistical operations=4/4,PASS,YES,ml_preprocessing_plan.csv
+XJTU_AND_HUST_TRAINED_SEPARATELY,PROTOCOL_CONFOUNDING,No pooled raw-cycle training table,All harmonized plan rows say YES,PASS,YES,ml_harmonized_feature_plan.csv
+NO_FINAL_MODEL_TRAINING_EXECUTED,RUN_SCOPE,Design only; zero model fits,Planned model families=3; fitted models=0,PASS,YES,ml_model_hyperparameter_plan.csv and source-code scope
+XJTU_INITIAL_TEST_USES_COMMON_47_CELL_SUBSET,SECONDARY_BENCHMARK,Nominal versus initial_test uses the same observations and inherited folds for 47 cells,Cells=47; key audit=PASS,PASS,YES,Initial-test assignment and intersection audit
+DETERMINISTIC_FIVE_FOLD_COUNTS_VALID,SPLIT,"Five folds, total imbalance <=1, and XJTU within-batch imbalance <=1","XJTU={1: 11, 2: 11, 3: 11, 4: 11, 5: 11}; HUST={1: 16, 2: 16, 3: 15, 4: 15, 5: 15}",PASS,YES,Fold assignment files
+FOLD_ASSIGNMENTS_IDENTICAL_ACROSS_QREFS,SPLIT,One fixed assignment per dataset applies to all common Qrefs,Applicable common Qrefs=nominal|first_comparable|early_median5_comparable,PASS,YES,XJTU and HUST fold assignment files
+NO_SAME_CELL_ACROSS_TRAIN_TEST,SPLIT,Each cell assigned to exactly one held-out fold,XJTU unique=55/55; HUST unique=77/77,PASS,YES,Cell-level assignment files
+XJTU_INITIAL_FOLDS_INHERIT_PRIMARY_ASSIGNMENTS,SPLIT,The common 47 cells retain their primary XJTU Fold_ID,Matching assignments=47/47,PASS,YES,XJTU primary and 47-cell assignment files

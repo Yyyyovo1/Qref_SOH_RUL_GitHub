@@ -1,0 +1,20 @@
+Pipeline_Version=1.1.0-validate
+Python_Version=3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]
+Platform=Windows-11-10.0.22631-SP0
+NumPy_Version=2.2.6
+pandas_Version=2.3.2
+SciPy_Version=1.15.3
+Validation_Timestamp_UTC=2026-09-27T08:12:54.004798+00:00
+Scan_Directory=.\outputs\xjtu_multibatch_scan_v2
+Frozen_Batch1_Directory=.\xjtu_batch1_pipeline\outputs\xjtu_batch1_pilot_final_v1
+Manual_Review_File=.\xjtu_multibatch_manual_protocol_review_v1.json
+Manual_Review_SHA256=db6322fc3a0c98b517de96e5e519167d4417ea83f184c9665556507a0759661d
+Validated_Protocol_Rows=24423
+Info_Anomaly_Count=94
+Review_Anomaly_Count=0
+Regression_Test_Count=70
+Regression_Test_Failures=0
+Validation_Status=VALIDATION_PASSED_AWAITING_HUMAN_RUN_APPROVAL
+FULL_55_CELL_RUN_EXECUTED=NO
+RUN_APPROVAL_FILE_CREATED=NO
+VALIDATION PASSED — WAITING FOR HUMAN APPROVAL TO RUN

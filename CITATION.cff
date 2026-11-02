@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite it as below and cite the original dataset publications listed in DATA_SOURCES.md."
+title: "Reference capacity as a hidden threshold: code and processed data for SOH/RUL label-definition shift in public lithium-ion battery datasets"
+type: software
+authors:
+  - family-names: Yang
+    given-names: Jianhao
+    affiliation: "School of Materials and Environment, Guangxi Minzu University"
+    email: jianhaoyang98@gmail.com
+license: MIT
+version: "1.0.0"
+keywords:
+  - lithium-ion battery
+  - state of health
+  - remaining useful life
+  - reference capacity
+  - end of life
+  - censoring
+  - benchmark reproducibility
+abstract: >-
+  Code, processed data, and supplementary tables for a study of how the
+  reference capacity used to define capacity-based state of health changes
+  end-of-life thresholds, endpoint censoring, exact point-RUL label
+  availability, and SOH benchmark errors in the XJTU and HUST public datasets.
+  Associated manuscript: technical brief prepared for the International
+  Journal of Prognostics and Health Management.

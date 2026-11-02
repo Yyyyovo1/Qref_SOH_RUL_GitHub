@@ -1,0 +1,142 @@
+[
+  {
+    "path": "project/outputs/hust_77_final_v1/hust_77_cycle_qc.csv",
+    "bytes": 39089405,
+    "sha256": "7480d788ac929de869a351ceafba1ef2c94872d32b6661df946dbfbd3399be5e",
+    "compression": "gzip_split",
+    "parts": [
+      {
+        "path": "project/outputs/hust_77_final_v1/hust_77_cycle_qc.csv.gz.part001",
+        "sha256": "b361387669d33d87e2cfe99e12cb08f3e8249033bc3cf0d30399335270df2370",
+        "bytes": 2597735
+      }
+    ]
+  },
+  {
+    "path": "project/outputs/hust_77_final_v1/hust_77_primary_capacity.csv",
+    "bytes": 26296786,
+    "sha256": "0f4617d3b307cc851e01d59e02224c96734aad1ac8bcae9e69449d5f6ba0b4d1",
+    "compression": "gzip_split",
+    "parts": [
+      {
+        "path": "project/outputs/hust_77_final_v1/hust_77_primary_capacity.csv.gz.part001",
+        "sha256": "8155e2c2588c6ac155f0568f121bf50ac4779fefa41f1544326965f6f3422aae",
+        "bytes": 1105739
+      }
+    ]
+  },
+  {
+    "path": "project/outputs/hust_77_final_v1/hust_77_rul_labels.csv",
+    "bytes": 98350565,
+    "sha256": "ffa591ea5d40f725cc9d5b2f008421744a57bfa98703f31e36ce5e84b9423646",
+    "compression": "gzip_split",
+    "parts": [
+      {
+        "path": "project/outputs/hust_77_final_v1/hust_77_rul_labels.csv.gz.part001",
+        "sha256": "28f32dbff459747e88b08546afdf77d1e2d90838f5fd0bb6fd8e5e4da882fc3c",
+        "bytes": 3269340
+      }
+    ]
+  },
+  {
+    "path": "project/outputs/hust_77_final_v1/hust_77_soh_labels_long.csv",
+    "bytes": 65167291,
+    "sha256": "6e0fc101f7479f783dc37c162ae1b619f11f8f87a60c35ae3f840c120ff923d7",
+    "compression": "gzip_split",
+    "parts": [
+      {
+        "path": "project/outputs/hust_77_final_v1/hust_77_soh_labels_long.csv.gz.part001",
+        "sha256": "e3e700705e7f2d0b8e20a1090b3d19e88e30b2220cc8f536b29e77a9c5f870d5",
+        "bytes": 5857057
+      }
+    ]
+  },
+  {
+    "path": "project/outputs/hust_scan_v1/hust_cycle_inventory.csv",
+    "bytes": 75899284,
+    "sha256": "cefd59eca08b04a1b7c6d4ebfd1a64bd171cf4fd17b3f68bb1198948f6bd92c1",
+    "compression": "gzip_split",
+    "parts": [
+      {
+        "path": "project/outputs/hust_scan_v1/hust_cycle_inventory.csv.gz.part001",
+        "sha256": "4f2866252719712d35b1a7db65f8bcd2f10f624f3fd0a9484d8dcf7e7b123910",
+        "bytes": 9248910
+      }
+    ]
+  },
+  {
+    "path": "project/outputs/soh_feature_extraction_v1/feature_extraction_provenance_hust.csv",
+    "bytes": 259144790,
+    "sha256": "0fbf19b00d40bc8afd3d054105dcc5f1a1eeb86f94e56667cabc1eb9cbbcef63",
+    "compression": "gzip_split",
+    "parts": [
+      {
+        "path": "project/outputs/soh_feature_extraction_v1/feature_extraction_provenance_hust.csv.gz.part001",
+        "sha256": "b3a6dac31210d58f2160caff321b719822b3011b71e15355db1e7c934b63e32b",
+        "bytes": 16487802
+      }
+    ]
+  },
+  {
+    "path": "project/outputs/soh_feature_extraction_v1/feature_extraction_provenance_xjtu.csv",
+    "bytes": 21483677,
+    "sha256": "a42f5450258551f1de63ec389153a1d81cd00e667543b6ea82c8ace7e6911e4e",
+    "compression": "gzip_split",
+    "parts": [
+      {
+        "path": "project/outputs/soh_feature_extraction_v1/feature_extraction_provenance_xjtu.csv.gz.part001",
+        "sha256": "93d94fc28ec7ef619e9270af0054087f48fa3b47397d37af970b09973c7945c2",
+        "bytes": 1763579
+      }
+    ]
+  },
+  {
+    "path": "project/outputs/soh_feature_extraction_v1/feature_matrix_hust_v1.csv",
+    "bytes": 27548840,
+    "sha256": "9ee76120e53dd38c7cb83698ab6631935fdb69ab20d3c1f61213304cb9d07d64",
+    "compression": "gzip_split",
+    "parts": [
+      {
+        "path": "project/outputs/soh_feature_extraction_v1/feature_matrix_hust_v1.csv.gz.part001",
+        "sha256": "acec7f2b16c621d4a00ff6ae4cf96fa24eca6fd071b32e20c0fe716aca54af5c",
+        "bytes": 5266199
+      }
+    ]
+  },
+  {
+    "path": "project/outputs/soh_primary_benchmark_v1/soh_primary_predictions.csv",
+    "bytes": 394670716,
+    "sha256": "bc31309c280ecd67f2b22aace18f4207afc9acf07fddb916f22cbc3682c3502d",
+    "compression": "gzip_split",
+    "parts": [
+      {
+        "path": "project/outputs/soh_primary_benchmark_v1/soh_primary_predictions.csv.gz.part001",
+        "sha256": "9d4347519c22848e44cff01f99bee0c7981fce42b31d75118683812dbe6e108a",
+        "bytes": 20971520
+      },
+      {
+        "path": "project/outputs/soh_primary_benchmark_v1/soh_primary_predictions.csv.gz.part002",
+        "sha256": "91b375bbbe7427225c958f688ee3b6f7aabba6d413c5843b744db94d8e8dd2b2",
+        "bytes": 20971520
+      },
+      {
+        "path": "project/outputs/soh_primary_benchmark_v1/soh_primary_predictions.csv.gz.part003",
+        "sha256": "c4e2b1d81e024ea979bcebd08d4dd97d7f61e90991d2c0445204bfa5b730c73f",
+        "bytes": 6190067
+      }
+    ]
+  },
+  {
+    "path": "project/outputs/xjtu_a8_deterministic_reconstruction_v1/xjtu_a8_heldout_predictions.csv",
+    "bytes": 30206320,
+    "sha256": "6496922741af956a5e5d2953557737148f45c3cbe4dee6451ced214986e2936f",
+    "compression": "gzip_split",
+    "parts": [
+      {
+        "path": "project/outputs/xjtu_a8_deterministic_reconstruction_v1/xjtu_a8_heldout_predictions.csv.gz.part001",
+        "sha256": "818ed9f2f09f84029c9df410617cef6b6db196d00bae4576e6e4c3f96dbd12df",
+        "bytes": 3949058
+      }
+    ]
+  }
+]

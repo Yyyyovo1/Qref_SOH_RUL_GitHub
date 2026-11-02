@@ -1,0 +1,11 @@
+Claim_ID,Candidate_Claim,Classification,Evidence_Basis,Important_Limitation
+A,Qref changes SOH labels.,SUPPORTED_DIRECTLY,SOH equals Q divided by Qref for the frozen capacity observations.,"This is a label-scale statement, not physical degradation."
+B,Qref changes analytical EOL thresholds.,SUPPORTED_DIRECTLY,Every threshold was defined as alpha multiplied by Qref.,The result is definition-dependent.
+C,Qref changes observed EOL timing.,SUPPORTED_WITH_LIMITATION,Exact timing shifts were observed where both events were exact; censored comparisons used bounds.,Do not replace censored pairs with exact deltas.
+D,Qref can change EOL censoring state.,SUPPORTED_DIRECTLY,Frozen 80% transitions changed status in both datasets.,Depends on observation window and sampling density.
+E,Qref can change point-RUL availability.,SUPPORTED_DIRECTLY,Point RUL was available only when exact EOL was observed and changed across Qrefs.,This concerns analytical label availability.
+F,Qref always changes model ranking.,NOT_SUPPORTED,Primary rankings were unchanged across all common Qrefs.,One A8 descriptive reversal was not bootstrap robust.
+G,Qref changes reported model error magnitudes.,SUPPORTED_DIRECTLY,Frozen primary metrics differed across Qref definitions in both label and capacity spaces.,Magnitude and direction varied by dataset and model.
+H,SOH-space error is generally more sensitive to Qref scaling than physical-space error.,SUPPORTED_WITH_LIMITATION,Frozen medians showed larger relative scaling effects in many comparisons.,Not universal across every model-dataset-Qref combination.
+I,The effect is unique to an 80% threshold.,NOT_SUPPORTED,"Effects were retained at 75%, 80%, and 85%, although observability differed.",Threshold-specific censoring must be retained.
+J,Measured Qref is universally superior to nominal.,NOT_SUPPORTED,The study compared consequences of definitions and did not adjudicate universal correctness.,Avoid accuracy or superiority claims.

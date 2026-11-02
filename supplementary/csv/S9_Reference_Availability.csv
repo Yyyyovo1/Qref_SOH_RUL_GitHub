@@ -1,0 +1,13 @@
+﻿Dataset,Reference,Population,Observations,Before,At,After
+XJTU,nominal,SOH-eligible,10427,0,0,10427
+XJTU,first_comparable,SOH-eligible,10427,0,55,10372
+XJTU,first5_comparable,SOH-eligible,10427,220,55,10152
+XJTU,nominal,POSTCYCLE5,10327,0,0,10327
+XJTU,first_comparable,POSTCYCLE5,10327,0,24,10303
+XJTU,first5_comparable,POSTCYCLE5,10327,120,55,10152
+HUST,nominal,SOH-eligible,146122,0,0,146122
+HUST,first_comparable,SOH-eligible,146122,0,77,146045
+HUST,first5_comparable,SOH-eligible,146122,308,77,145737
+HUST,nominal,POSTCYCLE5,145737,0,0,145737
+HUST,first_comparable,POSTCYCLE5,145737,0,0,145737
+HUST,first5_comparable,POSTCYCLE5,145737,0,0,145737

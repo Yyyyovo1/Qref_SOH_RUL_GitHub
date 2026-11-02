@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "packaged_source_files": 566,
+  "byte_identical_files": 523,
+  "transformed_files": 43,
+  "source_release_hash_failures": [],
+  "compressed_files_restored_and_verified": 10,
+  "selected_original_tests": [
+    {
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "compiled_python_files": 97,
+  "python_compile_failures": [],
+  "credential_pattern_hits": [],
+  "python": "3.12.6 (tags/v3.12.6:a4a2d2b, Sep  6 2024, 20:11:23) [MSC v.1940 64 bit (AMD64)]",
+  "numpy": "2.2.3",
+  "pandas": "2.2.3",
+  "verification_scope": "File integrity, lossless restoration, selected existing tests, syntax and private-path scans. No full raw-data pipeline or model training rerun.",
+  "private_local_user_path_scan": "PASS (text files and XML entries inside DOCX/XLSX)",
+  "github_max_packaged_file_bytes": 20971520,
+  "selected_test_files": [
+    "project/tests/test_xjtu_a8_rankflip.py",
+    "project/tests/test_soh_ml_design.py",
+    "project/tests/test_eol_threshold_robustness.py"
+  ]
+}

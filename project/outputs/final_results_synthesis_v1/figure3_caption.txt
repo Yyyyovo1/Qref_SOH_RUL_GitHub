@@ -1,0 +1,1 @@
+Figure 3. Cell-level EOL censoring-state transitions at the 80% threshold for nominal versus first-comparable and early-median-5 Qrefs. Heatmaps show exact, interval-censored, and right-censored states without replacing censored states by point EOL values. Annotations report the corresponding change in cells with point-RUL labels.

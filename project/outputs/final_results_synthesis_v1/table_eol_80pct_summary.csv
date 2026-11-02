@@ -1,0 +1,7 @@
+Dataset,Qref_Definition,Cell_Count,EXACT_Count,INTERVAL_Count,RIGHT_Count,Point_RUL_Available_Count,Point_RUL_Available_Fraction,Comparison_vs_Nominal,Status_Changed_Count,RUL_Availability_Changed_Count,Exact_Delta_Valid_Count,Lower_Bound_Valid_Count,Exact_Delta_EOL_Cycles_Median,Minimum_Observed_Earlier_By_Cycles_Median
+XJTU,nominal,55,20,32,3,20,0.3636363636,REFERENCE_BASELINE,0,0,0,0,,
+XJTU,first_comparable,55,0,1,54,0,0.0000000000,VERSUS_NOMINAL,51,20,0,0,,
+XJTU,early_median5_comparable,55,0,3,52,0,0.0000000000,VERSUS_NOMINAL,49,20,0,0,,
+HUST,nominal,77,0,0,77,0,0.0000000000,REFERENCE_BASELINE,0,0,0,0,,
+HUST,first_comparable,77,77,0,0,77,1.0000000000,VERSUS_NOMINAL,77,77,0,77,,188.0000000000
+HUST,early_median5_comparable,77,77,0,0,77,1.0000000000,VERSUS_NOMINAL,77,77,0,77,,188.0000000000

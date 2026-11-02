@@ -1,0 +1,1 @@
+Figure 2. Cell-level Qref deviation from the within-dataset nominal reference. Points show individual cells and black diamonds show medians. XJTU measured comparable Qrefs were below nominal in all 55 cells; HUST measured comparable Qrefs were above nominal in all 77 cells. The XJTU initial-test definition is shown as a secondary 47-cell analysis and has no HUST analogue.

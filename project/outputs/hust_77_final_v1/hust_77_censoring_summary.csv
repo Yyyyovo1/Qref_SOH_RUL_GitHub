@@ -1,0 +1,8 @@
+﻿Summary_Record_Type,Qref_Definition,Definition_A,Definition_B,Total_Cell_Count,EXACT_OBSERVED_Count,RIGHT_CENSORED_Count,BOTH_EXACT_OBSERVED_Count,BOTH_RIGHT_CENSORED_Count,RIGHT_CENSORED_TO_EXACT_OBSERVED_Count,EXACT_OBSERVED_TO_RIGHT_CENSORED_Count,Exact_Delta_Available_Count,Lower_Bound_Available_Count,Right_Censored_Point_Value_Violation_Count
+EOL_DEFINITION,nominal,,,77,0,77,,,,,,,0
+EOL_DEFINITION,first_comparable,,,77,77,0,,,,,,,0
+EOL_DEFINITION,early_median5_comparable,,,77,77,0,,,,,,,0
+EOL_DEFINITION,fixed_absolute_0p88Ah,,,77,0,77,,,,,,,0
+PAIRWISE_TRANSITION,,nominal,first_comparable,77,,,0,0,77,0,0,77,0
+PAIRWISE_TRANSITION,,nominal,early_median5_comparable,77,,,0,0,77,0,0,77,0
+PAIRWISE_TRANSITION,,first_comparable,early_median5_comparable,77,,,77,0,0,0,77,0,0

@@ -1,0 +1,1 @@
+Figure 5. Fraction of cells with an available point-RUL label across dataset, threshold, and Qref definition. Point RUL is reported only when EOL is exactly observed; interval- and right-censored EOL states retain no artificial point label.

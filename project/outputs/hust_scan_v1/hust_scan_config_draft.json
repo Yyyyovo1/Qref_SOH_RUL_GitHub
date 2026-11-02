@@ -1,0 +1,133 @@
+{
+  "charge_cccv_status": "Constant current-constant voltage charge",
+  "charge_stage1_status": "Constant current charge",
+  "dataset": "HUST_77_LFP_GRAPHITE",
+  "expected_canonical_cell_count": 77,
+  "expected_charge_protocol": {
+    "stage1_CC_current_A": 5.5,
+    "stage1_target_SOC_fraction": 0.8,
+    "stage2_CC_current_A": 1.1,
+    "stage2_target_voltage_V": 3.6,
+    "stage3_CV_voltage_V": 3.6,
+    "stage3_cutoff_current_A": 0.055
+  },
+  "expected_cycle_life_max": 2700,
+  "expected_cycle_life_min": 1100,
+  "expected_discharge_protocol": {
+    "cell_specific_first_three_stages": true,
+    "final_cutoff_voltage_V_approx": 2.0,
+    "final_stage_current_A_approx": -1.1,
+    "stage_count": 4
+  },
+  "fixed_absolute_EOL_threshold_Ah": 0.88,
+  "input_directory": ".\\HUST 77",
+  "native_label_policy": "AUDIT_ONLY_NOT_GROUND_TRUTH",
+  "nominal_capacity_Ah": 1.1,
+  "nominal_voltage_V": 3.3,
+  "output_directory": ".\\outputs\\hust_scan_v1",
+  "pipeline_phase": "SCAN_ONLY",
+  "qref_feasibility_definitions": {
+    "early_median5_comparable": "median of first five valid comparable full-discharge capacities sorted by numeric Raw_Cycle_Index",
+    "first_comparable": "first valid full-discharge capacity under the cell-specific fixed protocol",
+    "initial_test": "UNAVAILABLE_NO_SEPARATE_STANDARDIZED_BOL_TEST unless raw evidence proves otherwise",
+    "nominal": "1.100 Ah"
+  },
+  "raw_column_map": {
+    "capacity_mAh": "Capacity (mAh)",
+    "current_mA": "Current (mA)",
+    "cycle_index": "Cycle number",
+    "status": "Status",
+    "time_s": "Time (s)",
+    "voltage_V": "Voltage (V)"
+  },
+  "raw_data_policy": {
+    "capacity_correction": false,
+    "delete": false,
+    "interpolate": false,
+    "modify": false,
+    "move": false,
+    "rename": false,
+    "smooth": false
+  },
+  "representative_selection": {
+    "count": 8,
+    "life_capacity_quantile_targets": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.25,
+        0.5
+      ],
+      [
+        0.5,
+        1.0
+      ],
+      [
+        0.75,
+        0.0
+      ],
+      [
+        1.0,
+        0.5
+      ],
+      [
+        0.25,
+        1.0
+      ],
+      [
+        0.75,
+        1.0
+      ],
+      [
+        0.5,
+        0.5
+      ]
+    ],
+    "method": "DETERMINISTIC_LIFE_CAPACITY_FINGERPRINT_COVERAGE",
+    "seen_fingerprint_penalty": 0.25
+  },
+  "required_cell_keys": [
+    "rul",
+    "dq",
+    "data"
+  ],
+  "required_discharge_statuses": [
+    "Constant current discharge_0",
+    "Constant current discharge_1",
+    "Constant current discharge_2",
+    "Constant current discharge_3"
+  ],
+  "scan_result": {
+    "cell_count_mismatch": false,
+    "hard_stop_reasons": [],
+    "model_training_executed": false,
+    "run_executed": false,
+    "run_gate": "BLOCKED_PENDING_HUMAN_REVIEW",
+    "scan_status": "HUST_SCAN_COMPLETE_WAITING_FOR_HUMAN_REVIEW",
+    "validate_executed": false
+  },
+  "scan_thresholds": {
+    "capacity_jump_abs_threshold_Ah": 0.05,
+    "capacity_jump_relative_threshold": 0.05,
+    "capacity_semantics_abs_tolerance_mAh": 1.0,
+    "capacity_semantics_relative_tolerance": 0.005,
+    "capacity_semantics_required_match_fraction": 0.95,
+    "charge_complete_min_max_voltage_V": 3.55,
+    "cv_end_current_upper_A": 0.08,
+    "full_discharge_required_traceable_fraction": 0.95,
+    "protocol_baseline_cycle_count": 20,
+    "protocol_change_hard_stop_cell_fraction": 0.1,
+    "protocol_change_min_consecutive_cycles": 3,
+    "protocol_current_abs_tolerance_A": 0.15,
+    "protocol_current_relative_tolerance": 0.1,
+    "severe_discharge_voltage_high_V": 4.0,
+    "severe_discharge_voltage_low_V": 1.0,
+    "stopping_rule_near_0p88_abs_tolerance_Ah": 0.03,
+    "terminal_discharge_complete_max_min_voltage_V": 2.1,
+    "terminal_discharge_end_max_voltage_V": 2.15
+  },
+  "test_temperature_degC": 30.0,
+  "workspace": "."
+}

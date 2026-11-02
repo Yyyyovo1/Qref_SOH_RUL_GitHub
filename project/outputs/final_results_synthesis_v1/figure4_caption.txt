@@ -1,0 +1,1 @@
+Figure 4. Distribution of exact, interval-censored, and right-censored EOL states at 75%, 80%, and 85% for the common Qref definitions. Percentages are calculated within dataset and definition. HUST results are interpreted in the finite released observation-window and stopping-rule context; XJTU includes sparse periodic diagnostics in several batches.
