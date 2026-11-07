@@ -1,0 +1,26 @@
+{
+  "protocol_commit": "4cdf0a2",
+  "qc": {
+    "max_capacity_factor_of_nominal": 1.5,
+    "exclude_cycle_index_zero": true,
+    "protocol_discharge_current_relative_tolerance": 0.1,
+    "capacity_jump_abs_threshold_Ah": 0.05,
+    "capacity_jump_relative_threshold": 0.05,
+    "capacity_jump_is_check_only": true
+  },
+  "author_deletions": {
+    "b1c8": "AUTHOR_EXCLUDED_DID_NOT_REACH_80PCT",
+    "b1c10": "AUTHOR_EXCLUDED_DID_NOT_REACH_80PCT",
+    "b1c12": "AUTHOR_EXCLUDED_DID_NOT_REACH_80PCT",
+    "b1c13": "AUTHOR_EXCLUDED_DID_NOT_REACH_80PCT",
+    "b1c22": "AUTHOR_EXCLUDED_DID_NOT_REACH_80PCT",
+    "b3c2": "AUTHOR_EXCLUDED_NOISY_CHANNEL",
+    "b3c23": "AUTHOR_EXCLUDED_NOISY_CHANNEL",
+    "b3c32": "AUTHOR_EXCLUDED_NOISY_CHANNEL",
+    "b3c37": "AUTHOR_EXCLUDED_NOISY_CHANNEL",
+    "b3c42": "AUTHOR_EXCLUDED_NOISY_CHANNEL",
+    "b3c43": "AUTHOR_EXCLUDED_NOISY_CHANNEL"
+  },
+  "expected_discharge_current_C": -4.0,
+  "endpoint_rules": "frozen HUST detector: first retained cycle with capacity <= theta*Qref; EXACT if previous retained cycle is adjacent, INTERVAL otherwise; no smoothing, interpolation or tolerance"
+}

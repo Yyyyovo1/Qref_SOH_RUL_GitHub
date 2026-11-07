@@ -1,0 +1,42 @@
+{
+  "cells_included": 124,
+  "cells_per_batch": {
+    "1": 41,
+    "2": 43,
+    "3": 40
+  },
+  "cycle_rows_after_merge": 100501,
+  "cycles_retained": 100457,
+  "cycles_excluded_by_reason": {
+    "CAPACITY_NONFINITE_OR_NONPOSITIVE|NO_DISCHARGE_CURRENT_DETECTED": 41,
+    "DISCHARGE_NOT_4C_PROTOCOL_INCONSISTENT": 2,
+    "CAPACITY_ABOVE_1P5_NOMINAL|DISCHARGE_NOT_4C_PROTOCOL_INCONSISTENT": 1
+  },
+  "capacity_jump_flags": 26,
+  "cells_with_capacity_jump_flag": 13,
+  "check1_nominal80_status_counts": {
+    "RIGHT": 81,
+    "EXACT": 43
+  },
+  "check1_exact_cells": 43,
+  "check1_exact_within_1_cycle": 43,
+  "check1_pass": true,
+  "nominal80_right_censored_within_1pct_of_threshold": 81,
+  "t0": {
+    "MIT": {
+      "t0_1": 35,
+      "t0_2": 260,
+      "t0_3": 371
+    },
+    "XJTU": {
+      "t0_1": 107,
+      "t0_2": 141,
+      "t0_3": 201
+    },
+    "HUST": {
+      "t0_1": 294,
+      "t0_2": 656,
+      "t0_3": 937
+    }
+  }
+}

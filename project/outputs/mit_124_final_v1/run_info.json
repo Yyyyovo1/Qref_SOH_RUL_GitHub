@@ -1,0 +1,8 @@
+{
+  "pipeline": "MIT_124_FINAL_V1",
+  "python": "3.12.6",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "numpy": "2.5.3",
+  "pandas": "2.2.3",
+  "h5py": "3.14.0"
+}
