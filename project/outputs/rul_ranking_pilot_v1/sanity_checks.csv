@@ -1,0 +1,7 @@
+﻿Check,Detail,Pass
+1_FROZEN_LABELS,18/18 rows match,True
+2_PHYSICAL_EQUIVALENCE_LABELS,"0 mismatches in 5544; max threshold diff 2.22e-16 Ah; TRAJ 5205/5380 bitwise equal, max rel diff 8.1e-15",True
+3_MONOTONICITY,0 violations in 396 series,True
+4_NO_LEAKAGE,"{""fold_cells_disjoint"": true, ""max_raw_cycle_used_le_t0"": true, ""nocal_matrix_identical_across_qref_theta"": true, ""fold_statistics_from_training_cells_only"": true, ""negative_control_all_cells_differs"": true}",True
+5_BASELINE_WORSE,0.404 of 322 E1/E2 settings,False
+6_DETERMINISM,run compare_runs on two independent output directories,

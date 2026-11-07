@@ -1,0 +1,23 @@
+{
+  "decision": "UNINFORMATIVE",
+  "t0": {
+    "XJTU": 107,
+    "HUST": 294
+  },
+  "comparisons": 2909,
+  "supported_reversals": 32,
+  "supported_reversals_by_eval_set": {
+    "E1": 1,
+    "E2": 1,
+    "E3": 30
+  },
+  "max_S_size": 1,
+  "not_estimable_pair_intervals": 1052,
+  "estimable_pair_intervals": 2350,
+  "not_estimable_method_settings": 186,
+  "check5": {
+    "Settings": 322,
+    "Clearly_Better_Share": 0.40372670807453415,
+    "Pass": false
+  }
+}

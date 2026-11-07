@@ -1,0 +1,49 @@
+{
+  "pipeline": "RUL_RANKING_PILOT_V1",
+  "protocol_commit": "3a4ae5c",
+  "python": "3.12.6",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "numpy": "2.5.3",
+  "pandas": "2.2.3",
+  "scipy": "1.18.1",
+  "scikit_learn": "1.7.2",
+  "lifelines": "0.30.3",
+  "thetas": [
+    0.75,
+    0.76,
+    0.77,
+    0.78,
+    0.79,
+    0.8,
+    0.81,
+    0.82,
+    0.83,
+    0.84,
+    0.85,
+    0.86,
+    0.87,
+    0.88,
+    0.89,
+    0.9,
+    0.91,
+    0.92,
+    0.93,
+    0.94,
+    0.95
+  ],
+  "bootstrap_draw_sha256": {
+    "XJTU": "2e8a1afa9101de2c4af7927c31f1e112adde5be2922437d03422aa90207e1ded",
+    "HUST": "64941d622869e2f2291859efc21083955fdd6602d0caf2dfb3ca7fa732852d2f"
+  },
+  "input_sha256": {
+    "outputs/xjtu_55_final_v2/xjtu_55_soh_labels_long.csv": "255ce7ecf699d330847c3e6aa0d1bcf25358688ab5e6a401409d84f23fc8266d",
+    "outputs/xjtu_55_final_v2/xjtu_55_qref_summary.csv": "743c5b54712358eaebcebae754629ee30c73e62caec77ef2fdcba16942eb4624",
+    "outputs/hust_77_final_v1/hust_77_primary_capacity.csv": "0f4617d3b307cc851e01d59e02224c96734aad1ac8bcae9e69449d5f6ba0b4d1",
+    "outputs/hust_77_final_v1/hust_77_qref_summary.csv": "6b20a5eb597564daca5c0c5f7c0eee73a0e6d19aea979c1856154271e487fb73",
+    "outputs/soh_feature_extraction_v1/feature_matrix_xjtu_v1.csv": "ef94c790be657e5effd9de7f907cc0394ee4e4fa4cdd787d23077964e7aeaa66",
+    "outputs/soh_feature_extraction_v1/feature_matrix_hust_v1.csv": "9ee76120e53dd38c7cb83698ab6631935fdb69ab20d3c1f61213304cb9d07d64",
+    "outputs/soh_ml_design_v1/ml_cell_fold_assignments_xjtu.csv": "a9d63f1231e8ea3a97242fea8f89c1fe87c6dc485cf84109c8366e0ccd44f160",
+    "outputs/soh_ml_design_v1/ml_cell_fold_assignments_hust.csv": "640fbf95e99d39136cc9ac06027483161a59b70aa11c13c2ea7fbe7cf62d6a1c",
+    "outputs/eol_threshold_robustness_v1/eol_threshold_status_summary.csv": "259493c2736d4f9c23a8a6f215bab1c49db36f9d8080d72e0ce56578d57ecec2"
+  }
+}

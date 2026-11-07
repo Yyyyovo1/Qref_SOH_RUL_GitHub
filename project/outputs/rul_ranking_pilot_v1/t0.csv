@@ -1,0 +1,3 @@
+﻿Dataset,T_avail,E_min,E_min_Qref,E_min_Theta,E_min_Cell,t0_raw_cycle,Protocol_Drafting_Value,Matches_Protocol
+XJTU,65,108,nominal,0.89000000000000001,B2_3C_battery-11,107,107,True
+HUST,5,295,first_comparable,0.94999999999999996,HUST_1-6,294,294,True
