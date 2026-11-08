@@ -1,0 +1,36 @@
+{
+  "decision": "WEAK",
+  "t0": {
+    "MIT": [
+      35,
+      260,
+      371
+    ],
+    "XJTU": [
+      107,
+      141,
+      201
+    ],
+    "HUST": [
+      294,
+      656,
+      937
+    ]
+  },
+  "comparisons": 3402,
+  "supported_reversals": 19,
+  "supported_reversals_by_eval_set": {
+    "E1": 7,
+    "E2": 6,
+    "E3": 6
+  },
+  "max_S_size": 1,
+  "estimable_intervals": 2432,
+  "not_estimable_intervals": 970,
+  "not_estimable_method_settings": 124,
+  "check5": {
+    "Settings": 276,
+    "Clearly_Better_Share": 0.7753623188405797,
+    "Pass": true
+  }
+}

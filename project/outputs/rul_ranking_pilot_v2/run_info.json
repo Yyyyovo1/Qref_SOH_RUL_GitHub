@@ -1,0 +1,62 @@
+{
+  "pipeline": "RUL_RANKING_PILOT_V2",
+  "protocol_commit": "4cdf0a2",
+  "mit_freeze_commit": "c4b2787",
+  "python": "3.12.6",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "numpy": "2.5.3",
+  "pandas": "2.2.3",
+  "scipy": "1.18.1",
+  "scikit_learn": "1.7.2",
+  "lifelines": "0.30.3",
+  "thetas": [
+    0.75,
+    0.76,
+    0.77,
+    0.78,
+    0.79,
+    0.8,
+    0.81,
+    0.82,
+    0.83,
+    0.84,
+    0.85,
+    0.86,
+    0.87,
+    0.88,
+    0.89,
+    0.9,
+    0.91,
+    0.92,
+    0.93,
+    0.94,
+    0.95
+  ],
+  "datasets": [
+    "XJTU",
+    "HUST",
+    "MIT"
+  ],
+  "bootstrap_draw_sha256": {
+    "XJTU": "2e8a1afa9101de2c4af7927c31f1e112adde5be2922437d03422aa90207e1ded",
+    "HUST": "64941d622869e2f2291859efc21083955fdd6602d0caf2dfb3ca7fa732852d2f",
+    "MIT": "8b7091dfc117c480dc503f4a6f90044b0062d3367d6e5f0bed66d36de6cf8f46"
+  },
+  "input_sha256": {
+    "outputs/xjtu_55_final_v2/xjtu_55_soh_labels_long.csv": "255ce7ecf699d330847c3e6aa0d1bcf25358688ab5e6a401409d84f23fc8266d",
+    "outputs/xjtu_55_final_v2/xjtu_55_qref_summary.csv": "743c5b54712358eaebcebae754629ee30c73e62caec77ef2fdcba16942eb4624",
+    "outputs/hust_77_final_v1/hust_77_primary_capacity.csv": "0f4617d3b307cc851e01d59e02224c96734aad1ac8bcae9e69449d5f6ba0b4d1",
+    "outputs/hust_77_final_v1/hust_77_qref_summary.csv": "6b20a5eb597564daca5c0c5f7c0eee73a0e6d19aea979c1856154271e487fb73",
+    "outputs/soh_feature_extraction_v1/feature_matrix_xjtu_v1.csv": "ef94c790be657e5effd9de7f907cc0394ee4e4fa4cdd787d23077964e7aeaa66",
+    "outputs/soh_feature_extraction_v1/feature_matrix_hust_v1.csv": "9ee76120e53dd38c7cb83698ab6631935fdb69ab20d3c1f61213304cb9d07d64",
+    "outputs/soh_ml_design_v1/ml_cell_fold_assignments_xjtu.csv": "a9d63f1231e8ea3a97242fea8f89c1fe87c6dc485cf84109c8366e0ccd44f160",
+    "outputs/soh_ml_design_v1/ml_cell_fold_assignments_hust.csv": "640fbf95e99d39136cc9ac06027483161a59b70aa11c13c2ea7fbe7cf62d6a1c",
+    "outputs/eol_threshold_robustness_v1/eol_threshold_status_summary.csv": "259493c2736d4f9c23a8a6f215bab1c49db36f9d8080d72e0ce56578d57ecec2",
+    "outputs/mit_124_final_v1/mit_primary_capacity.csv": "4fb80e3f20fe5f978b78a417371f729f13d37dab4252e57d6d323c92fa4364c9",
+    "outputs/mit_124_final_v1/mit_qref_summary.csv": "ddeb112a073f8c8e4010390d10edac8d9c76b71221307806678a6bdf95aa341d",
+    "outputs/mit_124_final_v1/mit_cell_fold_assignments.csv": "985948262d1c068131f1a9799e91370e8c98541dd3881b3a37ae732f455addb2",
+    "outputs/mit_124_final_v1/mit_endpoint_labels.csv": "bc052f947516fb7dfb74280e9f69e8b7245ec2d5bb377450f1167f4a85da0e8e",
+    "outputs/mit_124_final_v1/mit_check1_cycle_life.csv": "01438622a1d820f1c79724155ef1d85c51e91be606a4f9ef45cb3d1d233a07c7",
+    "outputs/mit_124_final_v1/rul_pilot_v2_t0_all_datasets.csv": "a2c7a3ffc68b51785b77290da081c9a1d75cc8d71ba65c769aacffc5652f8cca"
+  }
+}

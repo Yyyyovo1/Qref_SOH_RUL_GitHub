@@ -1,0 +1,8 @@
+﻿Check,Detail,Pass
+0_T0_MATCHES_FROZEN,"{""recomputed_t0_1"": {""XJTU"": 107, ""HUST"": 294, ""MIT"": 35}, ""frozen"": {""MIT"": [35, 260, 371], ""XJTU"": [107, 141, 201], ""HUST"": [294, 656, 937]}}",True
+1_LABELS,"XJTU/HUST 18/18 rows; MIT {""rows_compared"": 7812, ""rows_expected"": 7812, ""mismatches"": 0, ""check1_exact"": 43, ""check1_exact_within_1"": 43, ""Pass"": true}",True
+2_PHYSICAL_EQUIVALENCE,"{""comparisons"": 10752, ""mismatches"": 0, ""max_threshold_diff_Ah"": 2.220446049250313e-16, ""Pass"": true}; TRAJ max rel diff 1.76e-13",True
+3_MONOTONICITY,0 violations,True
+4_NO_LEAKAGE,"{""fold_cells_disjoint"": true, ""max_raw_cycle_used_le_t0_3"": true, ""design_has_no_qref_column"": true, ""fold_statistics_from_training_rows_only"": true, ""negative_control_all_rows_differs"": true}",True
+5_BASELINE_WORSE,0.775 of 276 E1/E2 settings,True
+6_DETERMINISM,compare two independent output directories,
