@@ -1,0 +1,16 @@
+{
+  "pipeline": "PROTOCOL_VALIDATION_V1",
+  "plan_commit": "3d742cc",
+  "python": "3.12.6",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "numpy": "2.5.3",
+  "pandas": "2.2.3",
+  "input_sha256": {
+    "outputs/soh_primary_benchmark_v1/soh_primary_predictions.csv": "bc31309c280ecd67f2b22aace18f4207afc9acf07fddb916f22cbc3682c3502d",
+    "outputs/xjtu_a8_deterministic_reconstruction_v1/xjtu_a8_cell_metrics.csv": "1e0de8c4fa7be2fdb1b62e02c6f7d0c2c295f14301efb04a924674ac94d0597c",
+    "outputs/rul_ranking_pilot_v2/samples.csv": "83ff9b7027005abc363edf94298b2ca257cbd49212057e2b6c598afc68dc3fb0",
+    "outputs/rul_ranking_pilot_v2/predictions.csv": "058130bc0c7f6355f02ee983cb622efa7fa9f8205f4ba70daa82b1cffdbfcac2",
+    "outputs/rul_ranking_pilot_v2/pair_ci.csv": "a1e46fcaec557295b3327eb53ed9f663e544c04cce419a7907ff18c76f2ac16e",
+    "outputs/rul_ranking_pilot_v2/labels.csv": "cb14194460021e96347d9912b3d7394acad37def32b886f43adbba65d8338882"
+  }
+}

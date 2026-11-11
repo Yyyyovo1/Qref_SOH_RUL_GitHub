@@ -1,0 +1,19 @@
+                              File  Identical
+           consistency_checks.json       True
+                summary_figure.png       True
+                 summary_table.csv       True
+           trapA_noise_summary.csv       True
+         trapA_rul_comparisons.csv       True
+    trapA_rul_noise_by_setting.csv       True
+         trapA_soh_comparisons.csv       True
+            trapA_soh_settings.csv       True
+               trapB_intervals.csv       True
+                trapB_settings.csv       True
+             trapC_comparisons.csv       True
+            trapC_e3_intervals.csv       True
+trapC_prediction_bias_settings.csv       True
+ trapC_prediction_bias_summary.csv       True
+                trapD_crosstab.csv       True
+  trapD_eol_difference_summary.csv       True
+                  trapD_labels.csv       True
+         trapD_setting_summary.csv       True

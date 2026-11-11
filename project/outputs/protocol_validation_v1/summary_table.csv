@@ -1,0 +1,16 @@
+﻿Trap,Group,Common_Practice_Results,Still_Holding_Under_Protocol,Note
+A,SOH main (OWN) XJTU,0,0,
+A,SOH main (OWN) HUST,0,0,
+A,RUL v2 E1+E2 XJTU,28,0,
+A,RUL v2 E1+E2 HUST,31,4,
+A,RUL v2 E1+E2 MIT,14,9,
+A,SOH supplementary (TRAIN),4,0,supplementary scope; not pooled
+A,SOH supplementary (NOM),2,0,supplementary scope; not pooled
+A,"SOH supplementary (A8, OWN)",2,0,supplementary scope; not pooled
+B,SOH 12 settings,12,9,3 of 12 settings: conclusion depends on the information condition
+C,RUL v2 E3 XJTU,0,0,
+C,RUL v2 E3 HUST,2,0,
+C,RUL v2 E3 MIT,0,0,
+D,Endpoint labels XJTU,2274,736,
+D,Endpoint labels HUST,4462,4352,
+D,Endpoint labels MIT,6123,5792,

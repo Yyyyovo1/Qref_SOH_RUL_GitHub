@@ -1,0 +1,43 @@
+{
+  "1_v2_intervals": {
+    "rows": 3402,
+    "expected": 3402,
+    "estimable": 2432,
+    "estimability_equal": true,
+    "values_within_1e-12": true,
+    "better_method_equal": true,
+    "Pass": true
+  },
+  "2_soh_intervals": {
+    "pair_rows": 54,
+    "pair_expected": 54,
+    "pairs_within_1e-9": true,
+    "measured_minus_nominal_rows": 24,
+    "measured_minus_nominal_within_1e-9": true,
+    "a8_rf_gb_matches_negated_s6": true,
+    "Pass": true
+  },
+  "3_strict_labels": {
+    "rows": 16128,
+    "expected": 16128,
+    "Pass": true
+  },
+  "4_mit_tolerance": {
+    "cells": 124,
+    "tolerance_rule_labels": 124,
+    "from_tolerance_clause": 81,
+    "kinds": {
+      "TOLERANCE": 81,
+      "INTERPOLATED": 43
+    },
+    "expected": {
+      "labels": 124,
+      "from_tolerance_clause": 81
+    },
+    "Pass": true
+  },
+  "5_determinism": {
+    "Pass": null,
+    "detail": "compare two independent output directories"
+  }
+}
