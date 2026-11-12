@@ -1,0 +1,53 @@
+{
+  "xjtu_nominal_strict_baseline_by_theta": {
+    "0.75": 0,
+    "0.76": 0,
+    "0.77": 0,
+    "0.78": 0,
+    "0.79": 0,
+    "0.80": 0,
+    "0.81": 0,
+    "0.82": 0,
+    "0.83": 0,
+    "0.84": 0,
+    "0.85": 0,
+    "0.86": 0,
+    "0.87": 0,
+    "0.88": 0,
+    "0.89": 0,
+    "0.90": 4,
+    "0.91": 7,
+    "0.92": 7,
+    "0.93": 8,
+    "0.94": 31,
+    "0.95": 42
+  },
+  "reversal_window_class_counts": {
+    "outside": 12,
+    "inside (grid limit)": 4,
+    "inside": 2,
+    "edge": 1
+  },
+  "reversal_window_class_by_dataset": [
+    {
+      "Dataset": "HUST",
+      "Window_Class": "inside",
+      "n": 2
+    },
+    {
+      "Dataset": "HUST",
+      "Window_Class": "inside (grid limit)",
+      "n": 4
+    },
+    {
+      "Dataset": "MIT",
+      "Window_Class": "edge",
+      "n": 1
+    },
+    {
+      "Dataset": "MIT",
+      "Window_Class": "outside",
+      "n": 12
+    }
+  ]
+}

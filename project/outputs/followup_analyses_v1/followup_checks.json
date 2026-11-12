@@ -1,0 +1,75 @@
+{
+  "1a_mit_strict_exact": {
+    "sizes": {
+      "nominal": 43,
+      "first": 43,
+      "first5": 43
+    },
+    "identical_sets": true,
+    "only_in": {
+      "nominal": [],
+      "first": [],
+      "first5": []
+    }
+  },
+  "1b_mit_tolerance": {
+    "nominal": {
+      "tolerance_rule_labels": 124,
+      "by_kind": {
+        "TOLERANCE": 81,
+        "INTERPOLATED": 43
+      },
+      "of_which_strict_exact": 43,
+      "of_which_strict_right_censored": 81,
+      "strict_exact_not_labeled_by_tolerance_rule": 0,
+      "kind_cross_strict": {
+        "EXACT->INTERPOLATED": 43,
+        "RIGHT->TOLERANCE": 81
+      }
+    },
+    "first": {
+      "tolerance_rule_labels": 46,
+      "by_kind": {
+        "INTERPOLATED": 43,
+        "TOLERANCE": 3
+      },
+      "of_which_strict_exact": 43,
+      "of_which_strict_right_censored": 3,
+      "strict_exact_not_labeled_by_tolerance_rule": 0,
+      "kind_cross_strict": {
+        "EXACT->INTERPOLATED": 43,
+        "RIGHT->TOLERANCE": 3
+      }
+    },
+    "first5": {
+      "tolerance_rule_labels": 46,
+      "by_kind": {
+        "INTERPOLATED": 43,
+        "TOLERANCE": 3
+      },
+      "of_which_strict_exact": 43,
+      "of_which_strict_right_censored": 3,
+      "strict_exact_not_labeled_by_tolerance_rule": 0,
+      "kind_cross_strict": {
+        "EXACT->INTERPOLATED": 43,
+        "RIGHT->TOLERANCE": 3
+      }
+    },
+    "first_and_first5_same_46_cells": true,
+    "measured_46_subset_of_nominal_124": true,
+    "measured_46_subset_of_strict43_plus_tolerance_clause": true
+  },
+  "1c_hust_nominal": {
+    "labels": 77,
+    "all_from_tolerance_clause": true,
+    "strict_status": {
+      "RIGHT": 77
+    },
+    "last_minus_threshold_Ah": {
+      "min": 4.952777999833735e-06,
+      "median": 0.00026831944399985375,
+      "max": 0.0008272916669999075
+    },
+    "all_above_threshold_and_within_1pct": true
+  }
+}

@@ -1,0 +1,20 @@
+﻿Dataset,Theta,Eval_Set,Pair,Setting_1,Setting_2,Better_1,Better_2,Window_Status_Setting_1,Window_Status_Setting_2,Window_Class,Strict_Share_Setting_1,Strict_Share_Setting_2,Tolerance_Share_Setting_1,Tolerance_Share_Setting_2
+HUST,0.94,E3,RF-TRAJ,nominal,first_comparable,RF,TRAJ,inside,inside,inside,1,1,1,1
+HUST,0.94,E3,RF-TRAJ,nominal,early_median5_comparable,RF,TRAJ,inside,inside,inside,1,1,1,1
+HUST,0.95,E1,TRAJ-BASE,nominal,first_comparable,BASE,TRAJ,inside (grid limit),inside (grid limit),inside (grid limit),1,1,1,1
+HUST,0.95,E1,TRAJ-BASE,nominal,early_median5_comparable,BASE,TRAJ,inside (grid limit),inside (grid limit),inside (grid limit),1,1,1,1
+HUST,0.95,E2,TRAJ-BASE,nominal,first_comparable,BASE,TRAJ,inside (grid limit),inside (grid limit),inside (grid limit),1,1,1,1
+HUST,0.95,E2,TRAJ-BASE,nominal,early_median5_comparable,BASE,TRAJ,inside (grid limit),inside (grid limit),inside (grid limit),1,1,1,1
+MIT,0.81,E1,RF-BASE,nominal,first_comparable,RF,BASE,edge,outside,outside,1,0.370968,1,0.540323
+MIT,0.81,E1,RF-BASE,nominal,early_median5_comparable,RF,BASE,edge,outside,outside,1,0.379032,1,0.580645
+MIT,0.81,E1,WAFT-BASE,nominal,first_comparable,WAFT,BASE,edge,outside,outside,1,0.370968,1,0.540323
+MIT,0.81,E1,WAFT-BASE,nominal,early_median5_comparable,WAFT,BASE,edge,outside,outside,1,0.379032,1,0.580645
+MIT,0.81,E2,RF-BASE,nominal,first_comparable,RF,BASE,edge,outside,outside,1,0.370968,1,0.540323
+MIT,0.81,E2,RF-BASE,nominal,early_median5_comparable,RF,BASE,edge,outside,outside,1,0.379032,1,0.580645
+MIT,0.81,E2,WAFT-BASE,nominal,first_comparable,WAFT,BASE,edge,outside,outside,1,0.370968,1,0.540323
+MIT,0.81,E2,WAFT-BASE,nominal,early_median5_comparable,WAFT,BASE,edge,outside,outside,1,0.379032,1,0.580645
+MIT,0.81,E3,RF-WAFT,nominal,first_comparable,RF,WAFT,edge,outside,outside,1,0.370968,1,0.540323
+MIT,0.81,E3,RF-WAFT,nominal,early_median5_comparable,RF,WAFT,edge,outside,outside,1,0.379032,1,0.580645
+MIT,0.82,E1,WAFT-BASE,nominal,first_comparable,WAFT,BASE,edge,outside,outside,1,0.58871,1,0.83871
+MIT,0.82,E3,RF-WAFT,nominal,first_comparable,RF,WAFT,edge,outside,outside,1,0.58871,1,0.83871
+MIT,0.82,E3,RF-WAFT,nominal,early_median5_comparable,RF,WAFT,edge,edge,edge,1,0.612903,1,0.854839

@@ -1,0 +1,13 @@
+﻿Dataset,Rule,Qref,Median_Qref_over_Nominal,Ratio_Min,Ratio_Q1,Ratio_Q3,Ratio_Max,Nominal_Window,Actual_Window,Predicted_Low,Predicted_High,Predicted_Low_Within_Grid,Predicted_High_Within_Grid,Deviation_Low_Actual_minus_Predicted,Deviation_High_Actual_minus_Predicted,Note
+HUST,strict,first,1.07429,1.05351,1.06781,1.08286,1.12019,"[0.81, 0.95]","[0.76, 0.95]",0.753986,0.884304,True,True,0.0060144,,edges at the grid limit (0.75 / 0.95) are censored by the grid and not compared
+HUST,strict,first5,1.07424,1.05311,1.06685,1.08282,1.11854,"[0.81, 0.95]","[0.76, 0.95]",0.754022,0.884346,True,True,0.00597848,,edges at the grid limit (0.75 / 0.95) are censored by the grid and not compared
+HUST,tolerance,first,1.07429,1.05351,1.06781,1.08286,1.12019,"[0.80, 0.95]","[0.75, 0.95]",0.744677,0.884304,False,True,,,edges at the grid limit (0.75 / 0.95) are censored by the grid and not compared
+HUST,tolerance,first5,1.07424,1.05311,1.06685,1.08282,1.11854,"[0.80, 0.95]","[0.75, 0.95]",0.744713,0.884346,False,True,,,edges at the grid limit (0.75 / 0.95) are censored by the grid and not compared
+MIT,strict,first,0.971973,0.943943,0.967472,0.977687,0.995127,"[0.81, 0.95]","[0.84, 0.95]",0.833357,0.977394,True,False,0.00664317,,edges at the grid limit (0.75 / 0.95) are censored by the grid and not compared
+MIT,strict,first5,0.975039,0.94891,0.970839,0.981249,0.997025,"[0.81, 0.95]","[0.83, 0.95]",0.830736,0.97432,True,False,-0.000736001,,edges at the grid limit (0.75 / 0.95) are censored by the grid and not compared
+MIT,tolerance,first,0.971973,0.943943,0.967472,0.977687,0.995127,"[0.80, 0.95]","[0.83, 0.95]",0.823068,0.977394,True,False,0.00693152,,edges at the grid limit (0.75 / 0.95) are censored by the grid and not compared
+MIT,tolerance,first5,0.975039,0.94891,0.970839,0.981249,0.997025,"[0.80, 0.95]","[0.83, 0.95]",0.82048,0.97432,True,False,0.00952,,edges at the grid limit (0.75 / 0.95) are censored by the grid and not compared
+XJTU,strict,first,0.9385,0.8935,0.9325,0.948,0.971,none,none,,,,,,,
+XJTU,strict,first5,0.9615,0.9025,0.93975,0.96675,0.981,none,none,,,,,,,
+XJTU,tolerance,first,0.9385,0.8935,0.9325,0.948,0.971,"[0.80, 0.95]","[0.88, 0.95]",0.852424,1.01225,True,False,0.0275759,,edges at the grid limit (0.75 / 0.95) are censored by the grid and not compared
+XJTU,tolerance,first5,0.9615,0.9025,0.93975,0.96675,0.981,"[0.80, 0.95]","[0.87, 0.95]",0.832033,0.98804,True,False,0.0379667,,edges at the grid limit (0.75 / 0.95) are censored by the grid and not compared
