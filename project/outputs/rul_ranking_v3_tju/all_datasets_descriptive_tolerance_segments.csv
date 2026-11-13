@@ -1,0 +1,9 @@
+﻿Scope,Tolerance_Segment,Estimable_Comparisons,Supported_Reversals,Reversal_Rate
+P0_first_first5,A_30_60,180,0,0
+P0_first_first5,B_60_90,204,0,0
+P0_first_first5,at_least_90,210,0,0
+P0_first_first5,below_30,36,0,0
+P1_nominal_measured,A_30_60,360,0,0
+P1_nominal_measured,B_60_90,408,7,0.017156862745098041
+P1_nominal_measured,at_least_90,396,6,0.015151515151515152
+P1_nominal_measured,below_30,72,2,0.027777777777777776

@@ -1,0 +1,9 @@
+﻿Scope,Segment,Estimable_Events,Reversal_Events
+P0_first_first5,A_30_60,18,0
+P0_first_first5,B_60_90,66,0
+P0_first_first5,at_least_90,36,0
+P0_first_first5,below_30,6,0
+P1_nominal_measured,A_30_60,72,0
+P1_nominal_measured,B_60_90,156,0
+P1_nominal_measured,at_least_90,12,0
+P1_nominal_measured,below_30,12,1

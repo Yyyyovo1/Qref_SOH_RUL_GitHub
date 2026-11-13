@@ -1,0 +1,2 @@
+﻿Dataset,Theta,Eval_Set,Pair,Qref_Pair,Better_1,Better_2,Strict_Share_1,Strict_Share_2,Lower_Strict_Share,Segment,Tolerance_Lower_Share
+NCA,0.75,E3,TRAJ-WAFT,nominal-first5,WAFT,TRAJ,0.77272727272727271,0.22727272727272727,0.22727272727272727,below_30,0.2878787878787879

@@ -1,0 +1,8 @@
+﻿Segment,Lower,Estimable_Comparisons,Supported_Reversals,Reversal_Rate
+A_30_60,measured_lower,108,0,0
+A_30_60,nominal_lower,72,0,0
+B_60_90,measured_lower,336,0,0
+B_60_90,nominal_lower,84,0,0
+at_least_90,measured_lower,24,0,0
+below_30,measured_lower,36,1,0.027777777777777776
+below_30,tie,0,0,

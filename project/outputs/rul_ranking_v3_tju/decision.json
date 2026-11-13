@@ -1,0 +1,113 @@
+{
+  "main": {
+    "P0": {
+      "Estimable_Comparisons": 630,
+      "Supported_Reversals": 0,
+      "Reversal_Rate": 0.0,
+      "Datasets_Used": [
+        "NCA",
+        "NCM"
+      ],
+      "Verdict": "HOLDS"
+    },
+    "P1": {
+      "Datasets_Used": [
+        "NCA"
+      ],
+      "Check5_Pass": {
+        "NCA": true,
+        "NCM": false
+      },
+      "Segments": {
+        "A_30_60": {
+          "Estimable_Comparisons": 180,
+          "Supported_Reversals": 0,
+          "Reversal_Rate": 0.0
+        },
+        "B_60_90": {
+          "Estimable_Comparisons": 420,
+          "Supported_Reversals": 0,
+          "Reversal_Rate": 0.0
+        }
+      },
+      "Verdict": "DOES_NOT_HOLD",
+      "Detail": "rate_A=0.0000, rate_B=0.0000"
+    }
+  },
+  "secondary": {
+    "P0": {
+      "Estimable_Comparisons": 330,
+      "Supported_Reversals": 0,
+      "Reversal_Rate": 0.0,
+      "Datasets_Used": [
+        "NCA"
+      ],
+      "Verdict": "HOLDS"
+    },
+    "P1": {
+      "Datasets_Used": [
+        "NCA"
+      ],
+      "Check5_Pass": {
+        "NCA": true
+      },
+      "Segments": {
+        "A_30_60": {
+          "Estimable_Comparisons": 180,
+          "Supported_Reversals": 0,
+          "Reversal_Rate": 0.0
+        },
+        "B_60_90": {
+          "Estimable_Comparisons": 420,
+          "Supported_Reversals": 0,
+          "Reversal_Rate": 0.0
+        }
+      },
+      "Verdict": "DOES_NOT_HOLD",
+      "Detail": "rate_A=0.0000, rate_B=0.0000"
+    }
+  },
+  "dataset_checks": {
+    "NCA": {
+      "0": true,
+      "1": true,
+      "2": true,
+      "3": true,
+      "4_original": true,
+      "4_amended": true
+    },
+    "NCM": {
+      "0": true,
+      "1": true,
+      "2": true,
+      "3": true,
+      "4_original": false,
+      "4_amended": true
+    }
+  },
+  "main_datasets": [
+    "NCA",
+    "NCM"
+  ],
+  "secondary_datasets": [
+    "NCA"
+  ],
+  "t0": {
+    "NCA": [
+      6,
+      77,
+      110
+    ],
+    "NCM": [
+      5,
+      142,
+      203
+    ]
+  },
+  "comparison_rows": 3888,
+  "estimable_comparisons": 1866,
+  "supported_reversals": 15,
+  "estimable_intervals": 1962,
+  "not_estimable_intervals": 1926,
+  "not_estimable_method_settings": 261
+}
