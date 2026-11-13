@@ -3,6 +3,9 @@
 Labels, samples, methods, evaluation and bootstrap reuse the v1/v2 code unchanged; only the data adapter, the
 theta grid, the static TJU features and the P0 / P1 decision are new. `dev=True` stops after checks 0-4 and method
 estimability (no bootstrap, no comparison, no reversal is computed).
+
+Amendment 01 (commit 840bd85): replacement negative control in check 4 (fold means when fold medians coincide),
+per-dataset exclusion instead of a global stop, and a main (amended check 4) and a secondary (original check 4) verdict.
 """
 
 from __future__ import annotations
@@ -86,7 +89,7 @@ def _check_labels(root: Path, data, det: pd.DataFrame) -> dict:
 
 def _physical_equivalence(data, det: pd.DataFrame) -> dict:
     compare = ["Status", "First_Hit_Raw_Cycle", "EOL_Exact_Index", "EOL_Lower_Index", "EOL_Upper_Index"]
-    bad, n, max_diff = 0, 0, 0.0
+    bad, n, max_diff, bad_by = 0, 0, 0.0, {}
     for r in det[det.Qref_Definition.ne("nominal")].itertuples(index=False):
         nominal = NOMINAL_CAPACITY_AH[r.Dataset]
         thr = (r.Theta * r.Qref_Ah / nominal) * nominal
@@ -95,7 +98,9 @@ def _physical_equivalence(data, det: pd.DataFrame) -> dict:
         max_diff = max(max_diff, abs(thr - r.Threshold_Ah))
         if not all(rec[k] == getattr(r, k) or (pd.isna(rec[k]) and pd.isna(getattr(r, k))) for k in compare):
             bad += 1
-    return {"comparisons": n, "mismatches": bad, "max_threshold_diff_Ah": max_diff, "Pass": bad == 0}
+            bad_by[r.Dataset] = bad_by.get(r.Dataset, 0) + 1
+    return {"comparisons": n, "mismatches": bad, "mismatches_by_dataset": bad_by, "max_threshold_diff_Ah": max_diff,
+            "Pass": bad == 0}
 
 
 # ---------------------------------------------------------------- P0 / P1
@@ -143,10 +148,14 @@ def _rate(g: pd.DataFrame) -> dict:
     return {"Estimable_Comparisons": n, "Supported_Reversals": k, "Reversal_Rate": k / n if n else None}
 
 
-def decide(comp: pd.DataFrame, check5: dict[str, bool]) -> dict:
+def decide(comp: pd.DataFrame, check5: dict[str, bool], ok_datasets: list[str]) -> dict:
+    """P0 over datasets passing checks 0-4; P1 over those that also pass check 5 (section 7, amendment 01)."""
+    comp = comp[comp.Dataset.isin(ok_datasets)]
+    check5 = {d: v for d, v in check5.items() if d in ok_datasets}
     ff = comp[comp.Qref_Pair.eq("first-first5")]
     p0 = _rate(ff)
-    p0["Verdict"] = ("UNTESTABLE" if p0["Estimable_Comparisons"] < MIN_ESTIMABLE_COMPARISONS
+    p0["Datasets_Used"] = list(ok_datasets)
+    p0["Verdict"] = ("UNTESTABLE" if not ok_datasets or p0["Estimable_Comparisons"] < MIN_ESTIMABLE_COMPARISONS
                      else ("HOLDS" if p0["Supported_Reversals"] <= P0_MAX_REVERSALS else "DOES_NOT_HOLD"))
     nm = comp[comp.Setting_1.eq("nominal")]
     used = [d for d, ok in check5.items() if ok]
@@ -227,10 +236,10 @@ def run(root: Path, output_dir: Path | None = None, thetas=THETAS, datasets=DATA
         {"Check": "2_PHYSICAL_EQUIVALENCE", "Detail": json.dumps(phys), "Pass": phys["Pass"]},
         {"Check": "3_MONOTONICITY", "Detail": f"{int(mono.Violations.iat[0])} violations", "Pass": bool(mono.Pass.iat[0])},
     ]
-    if not all(c["Pass"] for c in checks):
-        _write(pd.DataFrame(checks), staging / "sanity_checks.csv")
-        raise PilotError(f"LABEL_CHECKS_FAILED; partial outputs in {staging}")
-    _log(log, "checks 0-3 passed")
+    per_ds = {d: {"0": tuple(t0_re[d]["t0"]) == T0[d], "1": bool(c1["per_dataset_pass"].get(d, False)),
+                  "2": d not in phys["mismatches_by_dataset"],
+                  "3": bool(check_monotonicity(det[det.Dataset.eq(d)]).Pass.iat[0])} for d in datasets}
+    _log(log, "checks 0-3: " + json.dumps(per_ds))
 
     feats, max_used, design_cols, feat_sha = {}, {}, {}, {}
     for d in datasets:
@@ -265,15 +274,23 @@ def run(root: Path, output_dir: Path | None = None, thetas=THETAS, datasets=DATA
                                 "Reason": res.reasons[m], "Samples": len(s),
                                 "TRAJ_Fallback_Fraction": res.traj_fallback_fraction if m == "TRAJ" else np.nan,
                                 "TRAJ_Missing_Fraction": res.traj_missing_fraction if m == "TRAJ" else np.nan})
+                all_med = np.where(np.isnan(np.nanmedian(x, axis=0)), 0.0, np.nanmedian(x, axis=0))
+                all_mean = np.where(np.isnan(np.nanmean(x, axis=0)), 0.0, np.nanmean(x, axis=0))
                 for a in res.audit:
                     rows = a["Train_Rows"]
                     med = np.nanmedian(x[rows], axis=0) if len(rows) else np.full(x.shape[1], np.nan)
                     med = np.where(np.isnan(med), 0.0, med)
-                    all_med = np.where(np.isnan(np.nanmedian(x, axis=0)), 0.0, np.nanmedian(x, axis=0))
+                    mean = np.nanmean(x[rows], axis=0) if len(rows) else np.full(x.shape[1], np.nan)
+                    mean = np.where(np.isnan(mean), 0.0, mean)
+                    neg_match = _sha(all_med) == a["Imputer_Median_SHA256"]
+                    mean_differs = _sha(mean) != _sha(all_mean)
                     audit.append({"Dataset": d, "Theta": theta, "Qref_Definition": q, "Method": a["Method"], "Fold_ID": a["Fold_ID"],
                                   "Train_Folds_Clean": bool((s.Fold_ID.to_numpy()[rows] != a["Fold_ID"]).all()),
                                   "Imputer_Recomputed_Match": _sha(med) == a["Imputer_Median_SHA256"],
-                                  "NegControl_All_Rows_Match": _sha(all_med) == a["Imputer_Median_SHA256"],
+                                  "NegControl_All_Rows_Match": neg_match,
+                                  "Replacement_Mean_Control_Differs": mean_differs if neg_match else np.nan,
+                                  "NegControl_Pass_Original": not neg_match,
+                                  "NegControl_Pass_Amended": (not neg_match) or mean_differs,
                                   "Dropped_Constant_Columns": a.get("Dropped_Constant_Columns", np.nan)})
                 if q != "nominal":
                     nominal = NOMINAL_CAPACITY_AH[d]
@@ -291,20 +308,34 @@ def run(root: Path, output_dir: Path | None = None, thetas=THETAS, datasets=DATA
     _write(est, staging / "method_estimability.csv")
     _write(audit, staging / "preprocessing_audit.csv")
     _write(traj_eq, staging / "check2_traj_equivalence.csv")
-    check4 = {"fold_cells_disjoint": bool(audit.Train_Folds_Clean.all()),
-              "max_raw_cycle_used_le_t0_3": all(max_used[d] <= t0[d][2] for d in datasets),
-              "design_has_no_qref_column": not forbidden,
-              "non_margin_design_identical_across_qref": bool(pd.DataFrame(design_sha).Non_Margin_Rows_Match_Shared_Features.all()),
-              "fold_statistics_from_training_rows_only": bool(audit.Imputer_Recomputed_Match.all()),
-              "negative_control_all_rows_differs": bool((~audit.NegControl_All_Rows_Match).all())}
-    traj_ok = bool(traj_eq.Estimable_Equal.all() and (traj_eq.Max_Rel_Diff <= 1e-9).all())
+    dsha = pd.DataFrame(design_sha)
+    check4 = {}
+    for d in datasets:
+        ad, td = audit[audit.Dataset.eq(d)], traj_eq[traj_eq.Dataset.eq(d)]
+        per_ds[d]["2"] = per_ds[d]["2"] and bool(td.Estimable_Equal.all() and (td.Max_Rel_Diff <= 1e-9).all())
+        common = {"fold_cells_disjoint": bool(ad.Train_Folds_Clean.all()), "max_raw_cycle_used_le_t0_3": bool(max_used[d] <= t0[d][2]),
+                  "design_has_no_qref_column": not [c for c in design_cols[d] if "qref" in c.lower()],
+                  "non_margin_design_identical_across_qref": bool(dsha[dsha.Dataset.eq(d)].Non_Margin_Rows_Match_Shared_Features.all()),
+                  "fold_statistics_from_training_rows_only": bool(ad.Imputer_Recomputed_Match.all())}
+        check4[d] = {**common, "negative_control_original_failures": int((~ad.NegControl_Pass_Original).sum()),
+                     "negative_control_amended_failures": int((~ad.NegControl_Pass_Amended).sum()),
+                     "folds_using_replacement_mean_control": int(ad.NegControl_All_Rows_Match.sum())}
+        per_ds[d]["4_original"] = all(common.values()) and bool(ad.NegControl_Pass_Original.all())
+        per_ds[d]["4_amended"] = all(common.values()) and bool(ad.NegControl_Pass_Amended.all())
     checks[2]["Detail"] += f"; TRAJ max rel diff {traj_eq.Max_Rel_Diff.max():.3g}"
-    checks[2]["Pass"] = checks[2]["Pass"] and traj_ok
-    checks.append({"Check": "4_NO_LEAKAGE", "Detail": json.dumps({**check4, "shared_feature_sha256": feat_sha}), "Pass": all(check4.values())})
-    if not (checks[2]["Pass"] and checks[-1]["Pass"]):
-        _write(pd.DataFrame(checks), staging / "sanity_checks.csv")
-        raise PilotError(f"CHECK_2_OR_4_FAILED; partial outputs in {staging}")
-    _log(log, "checks 2 (TRAJ) and 4 passed")
+    checks[2]["Pass"] = all(per_ds[d]["2"] for d in datasets)
+    checks.append({"Check": "4_NO_LEAKAGE_AMENDED", "Detail": json.dumps({"by_dataset": check4, "shared_feature_sha256": feat_sha}),
+                   "Pass": all(per_ds[d]["4_amended"] for d in datasets)})
+    checks.append({"Check": "4_NO_LEAKAGE_ORIGINAL", "Detail": "negative control on medians only (original section 7)",
+                   "Pass": all(per_ds[d]["4_original"] for d in datasets)})
+    for c in checks[:4]:
+        c["Pass"] = all(per_ds[d][c["Check"][0]] for d in datasets)
+    ok_main = [d for d in datasets if all(per_ds[d][k] for k in ("0", "1", "2", "3", "4_amended"))]
+    ok_secondary = [d for d in datasets if all(per_ds[d][k] for k in ("0", "1", "2", "3", "4_original"))]
+    _write(pd.DataFrame([{"Dataset": d, **{f"Check_{k}": v for k, v in per_ds[d].items()}, "In_Main_Verdict": d in ok_main,
+                          "In_Secondary_Verdict": d in ok_secondary} for d in datasets]), staging / "dataset_checks.csv")
+    _log(log, "checks per dataset evaluated; main datasets [" + ",".join(ok_main) + "]; secondary datasets ["
+         + ",".join(ok_secondary) + "]")
 
     if dev:  # Development run: stop before any bootstrap / comparison.
         _write(pd.DataFrame(checks), staging / "sanity_checks.csv")
@@ -361,8 +392,11 @@ def run(root: Path, output_dir: Path | None = None, thetas=THETAS, datasets=DATA
                        "Pass": c5["Pass"]})
     checks.append({"Check": "6_DETERMINISM", "Detail": "compare two independent output directories", "Pass": None})
     comp = comparison_table(ci, rev, det, tolerance_shares(root))
-    result = decide(comp, check5)
-    desc = descriptives(comp)
+    result = {"main": decide(comp, check5, ok_main), "secondary": decide(comp, check5, ok_secondary),
+              "dataset_checks": per_ds, "main_datasets": ok_main, "secondary_datasets": ok_secondary}
+    desc = {f"main_{k}": v for k, v in descriptives(comp[comp.Dataset.isin(ok_main)]).items()}
+    desc.update({f"secondary_{k}": v for k, v in descriptives(comp[comp.Dataset.isin(ok_secondary)]).items()})
+    desc.update({f"all_datasets_{k}": v for k, v in descriptives(comp).items()})
 
     _write(ci, staging / "pair_ci.csv")
     _write(comp, staging / "comparisons.csv")
