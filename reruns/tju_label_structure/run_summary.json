@@ -1,0 +1,35 @@
+{
+  "grid": [
+    0.6,
+    0.95,
+    36
+  ],
+  "t0": [
+    {
+      "Dataset": "NCA",
+      "T_avail": 6,
+      "E_min": 2.0,
+      "M_Median_Last_Cycle": 221.5,
+      "t0_1": 6,
+      "t0_2": 77,
+      "t0_3": 110
+    },
+    {
+      "Dataset": "NCM",
+      "T_avail": 5,
+      "E_min": 2.0,
+      "M_Median_Last_Cycle": 407.0,
+      "t0_1": 5,
+      "t0_2": 142,
+      "t0_3": 203
+    }
+  ],
+  "cells": {
+    "NCA": 66,
+    "NCM": 55
+  },
+  "notes": [
+    "TRAJ fallback fraction not computable from labels: TRAJ treated as estimable",
+    "bootstrap missing-fraction rule not evaluated (needs resampling of errors)"
+  ]
+}
