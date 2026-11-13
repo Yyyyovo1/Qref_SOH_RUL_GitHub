@@ -1,0 +1,48 @@
+{
+  "pipeline_version": "TJU_NCA_NCM_FINAL_V1",
+  "qc": {
+    "max_capacity_factor_of_nominal": 1.5,
+    "protocol_discharge_current_relative_tolerance": 0.1,
+    "full_discharge_voltage_margin_V": 0.05,
+    "full_charge_voltage_margin_V": 0.02,
+    "capacity_jump_abs_threshold_Ah": 0.05,
+    "capacity_jump_relative_threshold": 0.05,
+    "capacity_jump_is_check_only": true
+  },
+  "min_eligible_cycles_per_cell": 5,
+  "nominal_capacity_Ah": {
+    "NCA": 3.5,
+    "NCM": 3.5
+  },
+  "discharge_cutoff_V": {
+    "NCA": 2.65,
+    "NCM": 2.5
+  },
+  "capacity_definition": "max of 'Q discharge/mA.h' within the cycle (equals its value at the end of the 1C discharge)",
+  "cycle_index": "'cycle number' from the source file",
+  "qref_definitions": {
+    "nominal": "manufacturer nominal capacity (3.5 Ah, Zhu et al. 2022 Table 1)",
+    "first_comparable": "capacity of the first eligible cycle",
+    "early_median5_comparable": "median capacity of the first five eligible cycles"
+  },
+  "qrefs": [
+    "nominal",
+    "first_comparable",
+    "early_median5_comparable"
+  ],
+  "excluded_dataset": "Dataset 3 (NCM+NCA blend, 9 cells): not downloaded, not used",
+  "exclusion_reasons": [
+    "SUPERSEDED_BY_TIME_RESET",
+    "NO_DISCHARGE",
+    "CAPACITY_NONFINITE_OR_NONPOSITIVE",
+    "CAPACITY_ABOVE_1P5_NOMINAL",
+    "DISCHARGE_CURRENT_PROTOCOL_INCONSISTENT",
+    "CHARGE_CURRENT_PROTOCOL_INCONSISTENT",
+    "INCOMPLETE_DISCHARGE",
+    "INCOMPLETE_CHARGE"
+  ],
+  "check_only_flags": [
+    "Capacity_Jump_Flag",
+    "Discharge_Noncontiguous_Flag"
+  ]
+}
