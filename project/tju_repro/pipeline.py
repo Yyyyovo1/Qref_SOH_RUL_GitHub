@@ -69,7 +69,8 @@ def run(project: Path) -> Path:
              "qrefs": list(QREFS), "excluded_dataset": "Dataset 3 (NCM+NCA blend, 9 cells): not downloaded, not used",
              "exclusion_reasons": ["SUPERSEDED_BY_TIME_RESET", "NO_DISCHARGE", "CAPACITY_NONFINITE_OR_NONPOSITIVE",
                                    "CAPACITY_ABOVE_1P5_NOMINAL", "DISCHARGE_CURRENT_PROTOCOL_INCONSISTENT",
-                                   "CHARGE_CURRENT_PROTOCOL_INCONSISTENT", "INCOMPLETE_DISCHARGE", "INCOMPLETE_CHARGE"],
+                                   "CHARGE_CURRENT_PROTOCOL_INCONSISTENT", "INCOMPLETE_DISCHARGE", "INCOMPLETE_CHARGE",
+                                   "DISCHARGE_NOT_FROM_CHARGED_STATE"],
              "check_only_flags": ["Capacity_Jump_Flag", "Discharge_Noncontiguous_Flag"]}
     (out / "tju_qc_rules.json").write_text(json.dumps(rules, indent=2), encoding="utf-8")
     reasons = qc.Exclusion_Reasons[qc.Exclusion_Reasons.ne("")].str.split("|").explode().value_counts().to_dict()

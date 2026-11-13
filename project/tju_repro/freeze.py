@@ -51,6 +51,8 @@ def qc_cycles(inv: pd.DataFrame, manifest: pd.DataFrame) -> pd.DataFrame:
             reasons[i].append("INCOMPLETE_DISCHARGE")
         if not np.isfinite(r.Max_V_Before_Discharge) or r.Max_V_Before_Discharge < CHARGE_CUTOFF_V - QC["full_charge_voltage_margin_V"]:
             reasons[i].append("INCOMPLETE_CHARGE")
+        if not np.isfinite(r.Discharge_Start_V) or r.Discharge_Start_V < QC["min_discharge_start_V"]:
+            reasons[i].append("DISCHARGE_NOT_FROM_CHARGED_STATE")
     out["Exclusion_Reasons"] = ["|".join(x) for x in reasons]
     out["Primary_Capacity_Eligible"] = np.where(out.Exclusion_Reasons.eq(""), "YES", "NO")
     elig = out[out.Primary_Capacity_Eligible.eq("YES")]

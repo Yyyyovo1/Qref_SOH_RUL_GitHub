@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-PIPELINE_VERSION = "TJU_NCA_NCM_FINAL_V1"
-OUTPUT_DIR_NAME = "tju_final_v1"
+PIPELINE_VERSION = "TJU_NCA_NCM_FINAL_V2"
+OUTPUT_DIR_NAME = "tju_final_v2"  # v1 (commit d6c7fa5) superseded: see DATA_INVENTORY_NOTES section 7
 SCAN_DIR_NAME = "tju_scan_v1"
 RAW_DIR = "raw_data/TJU/zenodo_6405084_v2"
 
@@ -35,6 +35,7 @@ QC = {
     "protocol_discharge_current_relative_tolerance": 0.10,
     "full_discharge_voltage_margin_V": 0.05,   # discharge must reach cutoff + margin
     "full_charge_voltage_margin_V": 0.02,      # charge must reach 4.2 V - margin before the discharge
+    "min_discharge_start_V": 3.9,              # v2: the 1C discharge must start from the charged state
     "capacity_jump_abs_threshold_Ah": 0.050,
     "capacity_jump_relative_threshold": 0.050,
     "capacity_jump_is_check_only": True,
