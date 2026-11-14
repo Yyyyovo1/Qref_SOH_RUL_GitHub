@@ -1,0 +1,7 @@
+﻿Qref,Rule,Theta,Labeled_train,Labeled_test1,Labeled_test2,Labeled_Total
+first,strict,0.8,21,22,0,43
+first,tolerance,0.8,22,24,0,46
+first5,strict,0.8,21,22,0,43
+first5,tolerance,0.8,22,24,0,46
+nominal,strict,0.8,21,22,0,43
+nominal,tolerance,0.8,41,43,40,124

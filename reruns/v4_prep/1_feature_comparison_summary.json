@@ -1,0 +1,104 @@
+{
+  "cells": 124,
+  "split_sizes": {
+    "test1": 43,
+    "train": 41,
+    "test2": 40
+  },
+  "cycle_life_equal_all": true,
+  "array_shapes_equal_all": true,
+  "array_max_abs_diff": 0.0004999528731310932,
+  "deltaq_feature_max_abs_diff": {
+    "DeltaQ_Min": 0.00016418632140036138,
+    "DeltaQ_Mean": 0.00010705900072638386,
+    "DeltaQ_Variance": 0.000298406431613607,
+    "DeltaQ_Skewness": 0.01416871452314572,
+    "DeltaQ_Kurtosis": 0.00039730473518129195,
+    "DeltaQ_Value_2V": 0.04022397722992199
+  },
+  "corr_log_var_vs_log_cycle_life_excluding_shortest": -0.9252237082076568,
+  "paper_reports_corr": -0.93,
+  "models": {
+    "variance": [
+      "DeltaQ_Variance"
+    ],
+    "discharge_candidates": [
+      "DeltaQ_Min",
+      "DeltaQ_Mean",
+      "DeltaQ_Variance",
+      "DeltaQ_Skewness",
+      "DeltaQ_Kurtosis",
+      "DeltaQ_Value_2V",
+      "Slope_2_100",
+      "Intercept_2_100",
+      "Slope_91_100",
+      "Intercept_91_100",
+      "QD_Cycle2",
+      "QD_Max_minus_Cycle2",
+      "QD_Cycle100"
+    ],
+    "full_candidates": [
+      "DeltaQ_Min",
+      "DeltaQ_Mean",
+      "DeltaQ_Variance",
+      "DeltaQ_Skewness",
+      "DeltaQ_Kurtosis",
+      "DeltaQ_Value_2V",
+      "Slope_2_100",
+      "Intercept_2_100",
+      "Slope_91_100",
+      "Intercept_91_100",
+      "QD_Cycle2",
+      "QD_Max_minus_Cycle2",
+      "QD_Cycle100",
+      "ChargeTime_Avg_2_6",
+      "Tmax_2_100",
+      "Tmin_2_100",
+      "T_Integral_2_100",
+      "IR_Cycle2",
+      "IR_Min_2_100",
+      "IR_100_minus_2"
+    ],
+    "discharge_selected_in_paper": [
+      "DeltaQ_Min",
+      "DeltaQ_Variance",
+      "DeltaQ_Skewness",
+      "DeltaQ_Kurtosis",
+      "QD_Cycle2",
+      "QD_Max_minus_Cycle2"
+    ],
+    "full_selected_in_paper": [
+      "DeltaQ_Min",
+      "DeltaQ_Variance",
+      "Slope_2_100",
+      "Intercept_2_100",
+      "QD_Cycle2",
+      "ChargeTime_Avg_2_6",
+      "T_Integral_2_100",
+      "IR_Min_2_100",
+      "IR_100_minus_2"
+    ]
+  },
+  "nonfinite_features": {
+    "DeltaQ_Min": 0,
+    "DeltaQ_Mean": 0,
+    "DeltaQ_Variance": 0,
+    "DeltaQ_Skewness": 0,
+    "DeltaQ_Kurtosis": 0,
+    "DeltaQ_Value_2V": 0,
+    "Slope_2_100": 0,
+    "Intercept_2_100": 0,
+    "Slope_91_100": 0,
+    "Intercept_91_100": 0,
+    "QD_Cycle2": 0,
+    "QD_Max_minus_Cycle2": 0,
+    "QD_Cycle100": 0,
+    "ChargeTime_Avg_2_6": 0,
+    "Tmax_2_100": 0,
+    "Tmin_2_100": 0,
+    "T_Integral_2_100": 0,
+    "IR_Cycle2": 0,
+    "IR_Min_2_100": 0,
+    "IR_100_minus_2": 0
+  }
+}

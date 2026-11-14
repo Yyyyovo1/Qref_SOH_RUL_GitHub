@@ -1,0 +1,10 @@
+﻿Dataset,Pair,Window_Points,Window,Estimable_Points,E1_Cells_min,E1_Cells_max
+HUST,first-first5,20,0.76-0.95,20,0,76
+HUST,nominal-first,15,0.81-0.95,15,12,76
+HUST,nominal-first5,15,0.81-0.95,15,12,76
+MIT,first-first5,12,0.84-0.95,12,72,118
+MIT,nominal-first,12,0.84-0.95,12,72,118
+MIT,nominal-first5,13,0.83-0.95,13,72,118
+TJU_NCA,first-first5,6,0.88-0.95,6,0,8
+TJU_NCA,nominal-first,1,0.88-0.88,1,8,8
+TJU_NCA,nominal-first5,1,0.88-0.88,1,8,8
