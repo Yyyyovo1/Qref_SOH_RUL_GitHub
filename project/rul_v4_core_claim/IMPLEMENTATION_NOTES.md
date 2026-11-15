@@ -246,4 +246,23 @@
   - **与 dev_run_2 的比较：** `exp1_fit_hashes.csv` 与 dev_run_2 逐字节相同（SHA-256 `99d4712c…f510ee`），说明在真实数据上，实验 1 的 285 个拟合任务的预测和超参数不随进程数变化。其余 14 个实验 1 文件和 `prereg_hash_check.csv` 也与 dev_run_4 逐字节相同。
 - **查看过的内容：** 检查表、可估计性、哈希和逐字节比较。没有查看或计算任何误差、区间、预测值、超参数数值或比较。
 
-（dev_run_6 的记录在运行后补写。）
+### dev_run_6（代码 `01061f3`，2026-11-15）
+
+- **命令：** `python run_v4_core_claim.py --dev --workers 16 --output-dir ../reruns/v4/dev_run_6`；完整运行，16 个进程，耗时 469.6 秒。
+- **运行记录：** `run_info.json` 中 `code_commit` 为 `01061f3dafa5564559ec8d352c26dec68e17c02b`，`worktree_clean` 为 true，`amendment_02_commit` 为 `2fd53bb`。
+- **存档核对：** `prereg_hash_check.csv` 为 18 行，全部 `Match = True`；原有 17 行与 dev_run_4 相同，新增一行为修订 02。
+- **与 dev_run_4 的比较：** 参与比较的 28 个文件（不含 `run_info.json` 和日志）中，只有 `prereg_hash_check.csv` 不同。其余 27 个文件逐字节相同，包括两张哈希表、`sanity_checks.csv` 和 `dataset_checks.csv`。全部检查通过。
+- **查看过的内容：** 检查表、存档核对表、`run_info.json` 和逐字节比较。没有查看或计算任何误差、区间、预测值或比较。
+
+### 正式运行前补充的测试（只加测试，未改计算代码）
+
+- **排除 `b1c18` 的过滤**（`DESCRIPTIVE_EXCLUDED_CELL` 设为合成数据中真实存在的电芯）：
+  - 排除后的拟合和评价中都不含该电芯；
+  - 原来包含该电芯的设置，电芯数正好少 1，其余设置不变；
+  - C 条件中只有该电芯所在子集少 1 个有标签电芯；
+  - 主分析的输出（区间、反转、H1 计数单位、预测、实验 2、实验 3、`decision.json`）与排除一个不存在的电芯时逐字节相同，只有 `exp1_descriptive_excl_b1c18*` 文件不同。
+- **共同窗口与存档不一致**（分别模拟实验 1 和实验 3）：
+  - 正式运行在任何评价之前停止，没有调用任何评价函数；
+  - `decision.json` 只写停止原因；
+  - 除开发运行允许的文件外，只多出 `decision.json`、`run_info.json` 和日志，没有写出任何比较文件。
+- 这些测试第一次运行时有失败，原因都在测试本身的预期（C 条件表每个模型一行；`c01` 所在的设置数算反；把文件名中的 "equivalence" 当成比较文件）。改正测试后全部通过，代码没有改动。

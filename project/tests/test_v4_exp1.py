@@ -331,3 +331,44 @@ def test_check2_tolerance_fails_on_kind_change_or_large_difference() -> None:
     assert far["tolerance"]["kind_changed"] > 0 and not far["tolerance"]["Pass"]
     same = L1.check2(d, det, tol)                                                # the real rewrite on this data
     assert same["tolerance"]["Pass"] and same["strict"]["Pass"]
+
+
+# ---------------------------------------------------------------- descriptive exclusion of b1c18 (implementation notes 2.3)
+@pytest.mark.parametrize("cell", ["c03", "c01"])   # c03 is in every P cell set; c01 is unlabeled under "first"
+def test_exclusion_removes_the_cell_from_fits_and_evaluation(fast_enet, cell) -> None:
+    inp, *_ = SYN.exp1_inputs()
+    ex = frozenset({cell})
+    main = E1.fit_p_settings(inp)
+    excl = E1.fit_p_settings(inp, exclude=ex)
+    assert len(main.settings) == len(excl.settings)
+    shrunk = 0
+    for (r, q1, q2, t, cells), (r2, p1, p2, t2, cells_x) in zip(main.settings, excl.settings):
+        assert (r, q1, q2, t) == (r2, p1, p2, t2) and cell not in cells_x
+        if cell in cells:
+            assert len(cells_x) == len(cells) - 1 and set(cells_x) == set(cells) - {cell}
+            shrunk += 1
+        else:
+            assert cells_x == cells
+    # c01 is unlabeled under "first", so it is only in nominal-first5 (2 rules); c03 is in all 6 settings
+    assert shrunk == (6 if cell == "c03" else 2)
+    for res in excl.results.values():
+        assert cell not in res.cells and cell not in res.predictions
+    draws, _ = draws_for(len(inp.cells))
+    i = inp.cells.index(cell)
+    with blinding.allow_evaluation():
+        ci_m, _, apes_m = E1.evaluate_p(inp, main, draws)
+        ci_x, _, apes_x = E1.evaluate_p(inp, excl, draws, exclude=ex)
+        cp_x = E1.common_practice(inp, 0.90, ("strict",), ("nominal",), exclude=ex)
+        cp_m = E1.common_practice(inp, 0.90, ("strict",), ("nominal",))
+        ci_m2, _, _ = E1.evaluate_p(inp, E1.fit_p_settings(inp), draws)   # main analysis again, after the exclusion run
+    assert all(np.isnan(v[i]) for ape in apes_x.values() for v in ape.values())
+    m = ci_m.merge(ci_x, on=["Rule", "Pair", "Theta", "Qref_Definition", "Method_Pair"], suffixes=("", "_x"))
+    contains = {(r, f"{SYN.L1.QREF_SHORT[q1]}-{SYN.L1.QREF_SHORT[q2]}", t): cell in cells for r, q1, q2, t, cells in main.settings}
+    for row in m.itertuples(index=False):
+        assert row.Cells_x == row.Cells - (1 if contains[(row.Rule, row.Pair, row.Theta)] else 0)
+    # C condition: one row per model x subset; only the subset that held the cell loses exactly one labeled cell
+    labeled = cell in inp.eol[("strict", "nominal", 0.90)]
+    for a, b in zip(cp_m.itertuples(index=False), cp_x.itertuples(index=False)):
+        assert (a.Model, a.Subset) == (b.Model, b.Subset)
+        assert b.Labeled_Cells == a.Labeled_Cells - (1 if labeled and a.Subset == inp.split[cell] else 0)
+    pd.testing.assert_frame_equal(ci_m, ci_m2)                         # the main analysis is not affected

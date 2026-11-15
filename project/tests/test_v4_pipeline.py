@@ -154,3 +154,50 @@ def test_dev_run_records_dirty_worktree(synthetic_pipeline, tmp_path, monkeypatc
     out = P.run(root, tmp_path / "dev_dirty", dev=True)
     info = json.loads((out / "run_info.json").read_text(encoding="utf-8"))
     assert info["worktree_clean"] is False and info["code_commit"] == "abc1234" and info["amendment_02_commit"] == "2fd53bb"
+
+
+def test_formal_exclusion_of_a_present_cell_leaves_the_main_analysis_unchanged(synthetic_pipeline, tmp_path, monkeypatch) -> None:
+    """DESCRIPTIVE_EXCLUDED_CELL set to a cell that exists (synthetic c03): only the descriptive exclusion files change,
+    and every P setting there has exactly one cell less."""
+    root = synthetic_pipeline
+    absent = P.run(root, tmp_path / "excl_absent", dev=False)          # default b1c18 is not in the synthetic data
+    monkeypatch.setattr(P, "DESCRIPTIVE_EXCLUDED_CELL", "c03")
+    present = P.run(root, tmp_path / "excl_c03", dev=False)
+    cmp = P.compare_outputs(absent, present).set_index("File").Identical
+    changed = set(cmp.index[~cmp])
+    assert changed and all(f.startswith("exp1_descriptive_excl_b1c18") for f in changed), changed
+    for f in ("exp1_pair_ci.csv", "exp1_reversals.csv", "exp1_h1_units.csv", "exp1_predictions.csv", "decision.json",
+              "exp2_equivalence_and_power.csv", "exp3_comparisons.csv"):
+        assert cmp[f], f
+    main = pd.read_csv(present / "exp1_pair_ci.csv", encoding="utf-8-sig")
+    excl = pd.read_csv(present / "exp1_descriptive_excl_b1c18_pair_ci.csv", encoding="utf-8-sig")
+    m = main.merge(excl, on=["Rule", "Pair", "Theta", "Qref_Definition", "Method_Pair"], suffixes=("", "_x"))
+    assert len(m) == len(main) and (m.Cells_x == m.Cells - 1).all()      # c03 is in every synthetic P cell set
+    assert not (present / "exp1_descriptive_excl_b1c18_reversals.csv").read_text(encoding="utf-8-sig") == ""
+
+
+@pytest.mark.parametrize("experiment", ["1", "3"])
+def test_formal_run_stops_before_evaluation_when_windows_differ(synthetic_pipeline, tmp_path, monkeypatch, experiment) -> None:
+    root = synthetic_pipeline
+    original = P.prepare_exp1 if experiment == "1" else P.prepare_exp3
+
+    def mismatching(root_, *args, **kwargs):
+        out = original(root_, *args, **kwargs)
+        checks = args[1] if experiment == "1" else args[2]
+        P._check(checks, experiment, "all", "WINDOWS_EQUAL_PREP", False, {"windows_equal_prep": False})
+        return out
+
+    monkeypatch.setattr(P, "prepare_exp1" if experiment == "1" else "prepare_exp3", mismatching)
+    calls = []
+    for mod, names in ((E1, ("evaluate_p", "reversals")), (E3, ("evaluate_datasets", "evaluate_dataset", "check5"))):
+        for n in names:
+            monkeypatch.setattr(mod, n, lambda *a, _n=n, **k: calls.append(_n))
+    out = P.run(root, tmp_path / f"formal_win_{experiment}", dev=False)
+    dec = json.loads((out / "decision.json").read_text(encoding="utf-8"))
+    assert dec == {"stopped": "COMMON_WINDOWS_DIFFER_FROM_PREP", "experiments": [f"exp{experiment}"]}
+    assert calls == []                                                    # no evaluation function was reached
+    names = {p.name for p in out.iterdir()}
+    extra = {n for n in names if n not in P.DEV_FILES and not n.startswith("exp3_features_")}
+    assert extra == {"decision.json", "run_info.json", "processing_log.txt"}, extra   # no comparison file written
+    assert not any(k in n for n in names - P.DEV_FILES                   # (exp3_check2_traj_equivalence.csv is a dev-safe check)
+                   for k in ("pair_ci", "reversals", "comparisons", "equivalence", "agreement", "check5"))
