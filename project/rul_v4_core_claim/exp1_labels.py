@@ -144,20 +144,52 @@ def check1(root: Path, det: pd.DataFrame, tol: pd.DataFrame) -> dict:
     return {"strict": strict, "tolerance": tol_res, "Pass": bool(strict["Pass"] and tol_res["Pass"])}
 
 
-def check2(d: DatasetInputs, det: pd.DataFrame, tol: pd.DataFrame) -> dict:
-    """Physical equivalence: theta*Qref written as theta'*nominal gives identical labels (strict and tolerance)."""
+TOLERANCE_EOL_REL_TOL = 1e-9  # AMENDMENT_02 section 3 (the v2 TRAJ-equivalence tolerance)
+
+
+def tolerance_row_ok(kind_ref: str, eol_ref: float, kind_alt: str, eol_alt: float) -> tuple[bool, bool, float]:
+    """AMENDMENT_02 section 3 for one row: (same kind, row passes, relative EOL difference or NaN). Labeled rows need
+    |dEOL| / EOL <= 1e-9; unlabeled rows need NaN on both sides."""
+    same_kind = kind_ref == kind_alt
+    if kind_ref == "NO_LABEL":
+        ok = same_kind and np.isnan(eol_ref) and np.isnan(eol_alt)
+        return same_kind, bool(ok), np.nan
+    rel = abs(eol_alt - eol_ref) / abs(eol_ref) if np.isfinite(eol_ref) and np.isfinite(eol_alt) else np.inf
+    return same_kind, bool(same_kind and rel <= TOLERANCE_EOL_REL_TOL), float(rel)
+
+
+def check2(d: DatasetInputs, det: pd.DataFrame, tol: pd.DataFrame, alt_threshold=None) -> dict:
+    """Physical equivalence: theta*Qref written as theta'*nominal. Strict rule: identical labels (v2). Tolerance rule:
+    AMENDMENT_02 (same kind; relative EOL difference <= 1e-9; NaN on both sides when unlabeled). `alt_threshold`
+    replaces the rewritten threshold in tests only."""
     strict = _physical_equivalence({d.name: d}, det)
     cap = d.capacity.sort_values(["Cell_ID", "Endpoint_Index", "Raw_Cycle_Index"], kind="stable")
     series = {c: (g.Endpoint_Index.to_numpy(float), g.Capacity_Ah.to_numpy(float)) for c, g in cap.groupby("Cell_ID")}
-    bad = n = 0
     qref = d.qref
+    n = thr_diff = exact_bad = kind_bad = rel_bad = nan_bad = 0
+    max_abs = max_rel = 0.0
     for r in tol[tol.Qref_Definition.ne("nominal")].itertuples(index=False):
-        thr = (r.Theta * float(qref.at[r.Cell_ID, r.Qref_Definition]) / NOMINAL_AH) * NOMINAL_AH
+        q = float(qref.at[r.Cell_ID, r.Qref_Definition])
+        thr = (r.Theta * q / NOMINAL_AH) * NOMINAL_AH
+        if alt_threshold is not None:
+            thr = alt_threshold(thr)
         kind, eol = tolerance_rule(*series[r.Cell_ID], thr)
         n += 1
-        if not (kind == r.Tolerance_Kind and (eol == r.Tolerance_EOL_Index or (np.isnan(eol) and np.isnan(r.Tolerance_EOL_Index)))):
-            bad += 1
-    tol_res = {"comparisons": n, "mismatches": bad, "Pass": bad == 0}
+        thr_diff += int(thr != r.Threshold_Ah)
+        exact_bad += int(not (kind == r.Tolerance_Kind and (eol == r.Tolerance_EOL_Index or (np.isnan(eol) and np.isnan(r.Tolerance_EOL_Index)))))
+        same_kind, ok, rel = tolerance_row_ok(r.Tolerance_Kind, r.Tolerance_EOL_Index, kind, eol)
+        kind_bad += int(not same_kind)
+        if same_kind and r.Tolerance_Kind == "NO_LABEL":
+            nan_bad += int(not ok)
+        elif same_kind:
+            rel_bad += int(not ok)
+            if np.isfinite(rel):
+                max_rel = max(max_rel, rel)
+                max_abs = max(max_abs, abs(eol - r.Tolerance_EOL_Index))
+    tol_res = {"comparisons": n, "threshold_differs": thr_diff, "mismatches_original_standard": exact_bad,
+               "kind_changed": kind_bad, "labeled_rel_diff_gt_1e-9": rel_bad, "unlabeled_not_both_nan": nan_bad,
+               "max_abs_eol_diff_cycles": max_abs, "max_rel_eol_diff": max_rel, "rel_tol": TOLERANCE_EOL_REL_TOL,
+               "Pass": bool(kind_bad == 0 and rel_bad == 0 and nan_bad == 0)}
     return {"strict": strict, "tolerance": tol_res, "Pass": bool(strict["Pass"] and tol_res["Pass"])}
 
 

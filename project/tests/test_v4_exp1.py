@@ -291,3 +291,43 @@ def test_round5_and_split_rule() -> None:
     sp = S.severson_split(order)
     sizes = pd.Series([v[0] for v in sp.values()]).value_counts().to_dict()
     assert sizes == {"test1": 43, "train": 41, "test2": 40} and sp["b1c0"] == ("test1", 1) and sp["b2c42"][0] == "test1"
+
+
+# ---------------------------------------------------------------- amendment 02: check 2, tolerance rule
+def test_tolerance_row_criterion() -> None:
+    from rul_v4_core_claim.exp1_labels import tolerance_row_ok
+
+    assert tolerance_row_ok("INTERPOLATED", 500.0, "INTERPOLATED", 500.0 + 1e-12)[1]          # rounding-level change
+    assert not tolerance_row_ok("INTERPOLATED", 500.0, "INTERPOLATED", 500.0 * (1 + 2e-9))[1]  # > 1e-9 relative
+    assert tolerance_row_ok("INTERPOLATED", 500.0, "INTERPOLATED", 500.0 * (1 + 0.9e-9))[1]
+    same, ok, _ = tolerance_row_ok("INTERPOLATED", 500.0, "TOLERANCE", 500.0)                  # kind differs
+    assert not same and not ok
+    assert tolerance_row_ok("NO_LABEL", np.nan, "NO_LABEL", np.nan)[1]
+    assert not tolerance_row_ok("NO_LABEL", np.nan, "NO_LABEL", 12.0)[1]
+
+
+def _mit_like_labels():
+    from rul_v4_core_claim import exp1_labels as L1
+
+    d = SYN.dataset_inputs("MIT", n_cells=20, seed=8)
+    det, tol, _ = L1.build_labels(d, thetas=(0.84, 0.86, 0.88, 0.90))
+    return L1, d, det, tol
+
+
+def test_check2_tolerance_passes_one_ulp_threshold_difference() -> None:
+    L1, d, det, tol = _mit_like_labels()
+    r = L1.check2(d, det, tol, alt_threshold=lambda t: np.nextafter(t, np.inf))
+    t = r["tolerance"]
+    assert t["threshold_differs"] > 0.9 * t["comparisons"] > 0  # a few rewritten thresholds step back onto theta*Qref
+    assert t["mismatches_original_standard"] > 0            # the old exact-equality standard would fail here
+    assert t["kind_changed"] == 0 and t["Pass"] and t["max_rel_eol_diff"] < 1e-12
+
+
+def test_check2_tolerance_fails_on_kind_change_or_large_difference() -> None:
+    L1, d, det, tol = _mit_like_labels()
+    big = L1.check2(d, det, tol, alt_threshold=lambda t: t * (1 + 1e-6))       # moves interpolated EOLs by > 1e-9
+    assert big["tolerance"]["labeled_rel_diff_gt_1e-9"] > 0 and not big["tolerance"]["Pass"] and not big["Pass"]
+    far = L1.check2(d, det, tol, alt_threshold=lambda t: t * 1.2)                # changes label kinds
+    assert far["tolerance"]["kind_changed"] > 0 and not far["tolerance"]["Pass"]
+    same = L1.check2(d, det, tol)                                                # the real rewrite on this data
+    assert same["tolerance"]["Pass"] and same["strict"]["Pass"]
