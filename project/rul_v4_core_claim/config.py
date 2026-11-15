@@ -1,5 +1,6 @@
-"""Constants fixed by PROTOCOL_v4.md (commit 74f645a, Zenodo 10.5281/zenodo.24222904) and AMENDMENT_01.md
-(commit 9e912a0, Zenodo 10.5281/zenodo.24223632). Nothing here is tuned on v4 results."""
+"""Constants fixed by PROTOCOL_v4.md (commit 74f645a, Zenodo 10.5281/zenodo.24222904), AMENDMENT_01.md
+(commit 9e912a0, Zenodo 10.5281/zenodo.24223632) and AMENDMENT_02.md (commit 2fd53bb, Zenodo 10.5281/zenodo.24248021).
+Nothing here is tuned on v4 results."""
 
 from __future__ import annotations
 
@@ -23,8 +24,10 @@ PROTOCOL_COMMIT = "74f645a"
 AMENDMENT_01_COMMIT = "9e912a0"
 PROTOCOL_DOI = "10.5281/zenodo.24222904"
 AMENDMENT_01_DOI = "10.5281/zenodo.24223632"
+AMENDMENT_02_COMMIT = "2fd53bb"
+AMENDMENT_02_DOI = "10.5281/zenodo.24248021"
 
-# ------------------------------------------------------------------ archived files (PREREG_RECORD.md, AMENDMENT_01_RECORD.md)
+# ------------------------------------------------------------------ archived files (PREREG_RECORD.md, AMENDMENT_01/02_RECORD.md)
 # Paths relative to the repository root. The run stops if any hash differs.
 ARCHIVED_SHA256 = {
     "project/v4_core_claim/PROTOCOL_v4.md": "f14204f90df78a5cfacc024699b3d2b3399b536de99f1a6751fa5a7ec65ad9b9",
@@ -44,8 +47,10 @@ ARCHIVED_SHA256 = {
     "reruns/v4_prep/severson_features.py": "81a817723239e13db53562084dc712f35f72dcc4b4f49a6d86cb742872fab209",
     "project/v4_core_claim/AMENDMENT_01.md": "1ce6d3a83dd8fa351688d8a860a131a308a145b78c0019f6fc90e6467e96d36e",
     "project/v4_core_claim/IMPLEMENTATION_PLAN_stage1.md": "08f48206391a7db7902a91002748c683570917da96f75cd44b7bd2fb92672679",
+    "project/v4_core_claim/AMENDMENT_02.md": "e1f1937f0e84a23e2eacd2e0aa24dddd657de5cd083d495bc06f0f637d2e7bc2",
 }
-RECORD_FILES = ("project/v4_core_claim/PREREG_RECORD.md", "project/v4_core_claim/AMENDMENT_01_RECORD.md")
+RECORD_FILES = ("project/v4_core_claim/PREREG_RECORD.md", "project/v4_core_claim/AMENDMENT_01_RECORD.md",
+                "project/v4_core_claim/AMENDMENT_02_RECORD.md")
 
 # ------------------------------------------------------------------ paths (relative to the project directory)
 PREP_DIR = "../reruns/v4_prep"

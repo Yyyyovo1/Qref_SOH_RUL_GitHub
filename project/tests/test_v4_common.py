@@ -21,7 +21,41 @@ REPO = Path(__file__).resolve().parents[2]
 
 def test_config_hashes_equal_the_archive_records() -> None:
     assert record_hashes(REPO) == ARCHIVED_SHA256
-    assert len(ARCHIVED_SHA256) == 17
+    assert len(ARCHIVED_SHA256) == 18
+    assert ARCHIVED_SHA256["project/v4_core_claim/AMENDMENT_02.md"] == "e1f1937f0e84a23e2eacd2e0aa24dddd657de5cd083d495bc06f0f637d2e7bc2"
+
+
+def test_archive_check_has_18_rows_on_this_repository() -> None:
+    from rul_v4_core_claim.prereg import check_archived
+
+    table = check_archived(REPO)
+    assert len(table) == 18 and table.Match.all()
+
+
+def _copy_archive(tmp_path) -> Path:
+    import shutil
+
+    from rul_v4_core_claim.config import RECORD_FILES
+
+    for rel in [*ARCHIVED_SHA256, *RECORD_FILES]:
+        (tmp_path / rel).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(REPO / rel, tmp_path / rel)
+    return tmp_path
+
+
+def test_run_stops_when_amendment_02_hash_differs(tmp_path) -> None:
+    from rul_v4_core_claim import pipeline as P
+    from rul_v4_core_claim.prereg import check_archived
+
+    repo = _copy_archive(tmp_path)
+    assert check_archived(repo).Match.all()
+    f = repo / "project/v4_core_claim/AMENDMENT_02.md"
+    f.write_bytes(f.read_bytes() + b" ")
+    with pytest.raises(PilotError, match="ARCHIVED_FILE_CHANGED:project/v4_core_claim/AMENDMENT_02.md"):
+        check_archived(repo)
+    with pytest.raises(PilotError, match="ARCHIVED_FILE_CHANGED"):      # the run stops before any data is loaded
+        P.run(repo / "project", repo / "out", dev=True)
+    assert not (repo / "out").exists()
 
 
 def test_evaluation_functions_raise_while_blinded() -> None:

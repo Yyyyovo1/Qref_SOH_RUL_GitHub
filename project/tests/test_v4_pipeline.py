@@ -27,6 +27,7 @@ def synthetic_pipeline(monkeypatch, tmp_path):
     monkeypatch.setattr(M, "ENET_N_ALPHAS", 10)
     monkeypatch.setattr(P, "INPUT_FILES", ())
     monkeypatch.setattr(P, "check_archived", lambda repo: pd.DataFrame({"Path": ["x"], "Match": [True]}))
+    monkeypatch.setattr(P, "git_state", lambda repo: {"code_commit": "abc1234", "worktree_clean": True, "porcelain": ""})
     for n, _ in NAMES:
         monkeypatch.setitem(E3.GRID, n, (0.85, 0.90))
         monkeypatch.setitem(E3.EXP3_LABEL, n, n)
@@ -131,3 +132,25 @@ def test_workers_do_not_change_any_output(synthetic_pipeline, tmp_path, dev) -> 
     assert "exp1_fit_hashes.csv" in set(cmp.File) and "exp3_fit_hashes.csv" in set(cmp.File)
     info = json.loads((b / "run_info.json").read_text(encoding="utf-8"))
     assert info["workers"] == 8 and info["elapsed_seconds"] > 0
+
+
+def test_dirty_worktree_stops_formal_but_not_dev_runs(synthetic_pipeline, tmp_path, monkeypatch) -> None:
+    from rul_ranking_pilot.labels import PilotError
+
+    root = synthetic_pipeline
+    monkeypatch.setattr(P, "git_state", lambda repo: {"code_commit": "abc1234", "worktree_clean": False,
+                                                      "porcelain": " M project/rul_v4_core_claim/x.py"})
+    called = []
+    monkeypatch.setattr(P, "prepare_exp1", lambda *a, **k: called.append(1))
+    with pytest.raises(PilotError, match="WORKTREE_NOT_CLEAN"):
+        P.run(root, tmp_path / "formal_dirty", dev=False)
+    assert called == [] and not (tmp_path / "formal_dirty").exists()   # stopped before anything was fitted or evaluated
+    monkeypatch.undo()
+
+
+def test_dev_run_records_dirty_worktree(synthetic_pipeline, tmp_path, monkeypatch) -> None:
+    root = synthetic_pipeline
+    monkeypatch.setattr(P, "git_state", lambda repo: {"code_commit": "abc1234", "worktree_clean": False, "porcelain": " M x"})
+    out = P.run(root, tmp_path / "dev_dirty", dev=True)
+    info = json.loads((out / "run_info.json").read_text(encoding="utf-8"))
+    assert info["worktree_clean"] is False and info["code_commit"] == "abc1234" and info["amendment_02_commit"] == "2fd53bb"

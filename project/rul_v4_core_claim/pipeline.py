@@ -33,6 +33,7 @@ from . import verdicts as V
 from .blinding import allow_evaluation, check_columns
 from .config import (
     AMENDMENT_01_COMMIT,
+    AMENDMENT_02_COMMIT,
     CHECK5_PAIRS,
     DESCRIPTIVE_EXCLUDED_CELL,
     EXP1_C_THETA,
@@ -85,6 +86,21 @@ class Writer:
         if self.dev and name not in {"run_info.json"}:
             raise PilotError(f"DEV_RUN_FILE_NOT_ALLOWED:{name}")
         (self.folder / name).write_text(json.dumps(obj, indent=2, default=_json_default), encoding="utf-8")
+
+
+def git_state(repo: Path) -> dict:
+    """Code commit and whether the work tree is clean (`git status --porcelain` empty; ignored files do not count)."""
+    import subprocess
+
+    def git(*args):
+        return subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, check=True).stdout
+
+    try:
+        commit = git("rev-parse", "HEAD").strip()
+        porcelain = git("status", "--porcelain")
+    except (OSError, subprocess.CalledProcessError) as exc:
+        return {"code_commit": "", "worktree_clean": False, "porcelain": f"GIT_UNAVAILABLE:{type(exc).__name__}"}
+    return {"code_commit": commit, "worktree_clean": porcelain.strip() == "", "porcelain": porcelain}
 
 
 def _json_default(o):
@@ -236,10 +252,16 @@ def run(root: Path, output_dir: Path | None = None, dev: bool = False, experimen
     t_start = time.time()
     lines: list[str] = []
     log = lambda text: _log(lines, text)  # noqa: E731
-    log(f"{PIPELINE_VERSION}; protocol {PROTOCOL_COMMIT}; amendment 01 {AMENDMENT_01_COMMIT}; dev={dev}; experiments={list(experiments)}")
+    log(f"{PIPELINE_VERSION}; protocol {PROTOCOL_COMMIT}; amendment 01 {AMENDMENT_01_COMMIT}; amendment 02 {AMENDMENT_02_COMMIT}; "
+        f"dev={dev}; experiments={list(experiments)}")
 
     w.csv(check_archived(repo), "prereg_hash_check.csv")
     log("archived files verified")
+    git = git_state(repo)
+    if not dev and not git["worktree_clean"]:  # implementation notes 6.13: formal runs only from a clean, committed tree
+        raise PilotError("WORKTREE_NOT_CLEAN: commit or remove the changes below before a formal run (no evaluation was done)"
+                         + "\n" + git["porcelain"].rstrip())
+    log(f"code commit {git['code_commit'] or 'unknown'}; worktree clean: {git['worktree_clean']}")
     before = {f: _file_sha(root / f) for f in INPUT_FILES}
     checks: list[dict] = []
     x1 = prepare_exp1(root, exp1_thetas, checks, log, workers) if "1" in experiments else None
@@ -271,7 +293,7 @@ def run(root: Path, output_dir: Path | None = None, dev: bool = False, experimen
         rows += [{"Experiment": "1", "Dataset": "MIT", "Fitted_Rows": int(sum(len(r.predictions) for r in x1["fits"].results.values()))}] if x1 else []
         w.csv(pd.DataFrame(rows, columns=["Experiment", "Dataset", "Fitted_Rows"]), "dev_prediction_rows.csv")
         w.csv(pd.DataFrame(checks), "sanity_checks.csv")
-        _finish(w, staging, target, root, before, lines, log, dev, experiments, datasets, {}, workers, t_start)
+        _finish(w, staging, target, root, before, lines, log, dev, experiments, datasets, {}, workers, t_start, git)
         return target
 
     window_mismatch = [f"exp{r['Experiment']}" for r in checks if r["Check"] == "WINDOWS_EQUAL_PREP" and r["Pass"] is False]
@@ -283,11 +305,11 @@ def run(root: Path, output_dir: Path | None = None, dev: bool = False, experimen
             decision = _formal(w, root, x1, x3, exp1_ok, exp1_reason, ok04, checks, log, workers)
     w.csv(pd.DataFrame(checks), "sanity_checks.csv")
     w.json(decision, "decision.json")
-    _finish(w, staging, target, root, before, lines, log, dev, experiments, datasets, decision, workers, t_start)
+    _finish(w, staging, target, root, before, lines, log, dev, experiments, datasets, decision, workers, t_start, git)
     return target
 
 
-def _finish(w, staging, target, root, before, lines, log, dev, experiments, datasets, decision, workers, t_start) -> None:
+def _finish(w, staging, target, root, before, lines, log, dev, experiments, datasets, decision, workers, t_start, git) -> None:
     if {f: _file_sha(root / f) for f in INPUT_FILES} != before:
         raise PilotError("INPUT_FILES_CHANGED_DURING_RUN")
     import h5py
@@ -296,6 +318,7 @@ def _finish(w, staging, target, root, before, lines, log, dev, experiments, data
     import sklearn
 
     info = {"pipeline": PIPELINE_VERSION, "protocol_commit": PROTOCOL_COMMIT, "amendment_01_commit": AMENDMENT_01_COMMIT,
+            "amendment_02_commit": AMENDMENT_02_COMMIT, "code_commit": git["code_commit"], "worktree_clean": git["worktree_clean"],
             "dev": dev, "experiments": list(experiments), "datasets": list(datasets),
             "python": sys.version.split()[0], "platform": platform.platform(), "numpy": np.__version__, "pandas": pd.__version__,
             "scipy": scipy.__version__, "scikit_learn": sklearn.__version__, "lifelines": lifelines.__version__,
