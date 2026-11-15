@@ -275,6 +275,35 @@ def fit_dataset(root: Path, data: dict, name: str, gb_params: dict, thetas=None,
     return out
 
 
+def fit_dataset_job(root, name: str, gb_params: dict, thetas=None) -> Exp3Dataset:
+    """One dataset in its own process (implementation notes 6.11): load, then `fit_dataset`. The thread settings are
+    the defaults, as in v2 and v3."""
+    data = load_inputs(Path(root), [name])
+    return fit_dataset(root, data, name, gb_params, thetas=thetas)
+
+
+def fit_datasets(root, datasets, gb_params: dict, thetas=None, workers: int = 1, log=None) -> dict:
+    from .parallel import run_jobs
+
+    if workers <= 1:
+        data = load_inputs(Path(root), datasets)
+        return {n: fit_dataset(root, data, n, gb_params, thetas=thetas, log=log) for n in datasets}
+    out = run_jobs(fit_dataset_job, [(str(root), n, gb_params, thetas) for n in datasets], workers)
+    if log:
+        log(f"exp3 fitted datasets {list(datasets)} in {min(workers, len(datasets))} processes")
+    return dict(zip(datasets, out))
+
+
+def hash_table(ds: Exp3Dataset) -> pd.DataFrame:
+    """SHA-256 of each method's prediction column per (theta, Qref), in sample order. Hashes only (notes 6.11)."""
+    rows = []
+    for (theta, q), g in ds.predictions.groupby(["Theta", "Qref_Definition"], sort=True):
+        for m in EXP3_METHODS:
+            rows.append({"Dataset": ds.name, "Theta": theta, "Qref_Definition": q, "Method": m,
+                         "Predictions_SHA256": _sha(g[f"Pred_{m}"].to_numpy(float))})
+    return pd.DataFrame(rows)
+
+
 # ================================================================ strict common windows (protocol section 4)
 def strict_shares(det: pd.DataFrame) -> pd.Series:
     return det.assign(ex=det.Status.eq(EXACT)).groupby(["Qref_Definition", "Theta"]).ex.mean()
@@ -384,6 +413,28 @@ def evaluate_dataset(ds: Exp3Dataset, thetas, pairs, keep_vectors_for=("RF-GB",)
         if log:
             log(f"exp3 {ds.name} theta={theta:.2f} evaluated ({len(pairs)} pairs)")
     return ci_rows, e1t_rows, sec_rows, vectors, base_rows, draw_sha
+
+
+def _evaluate_job(ds, thetas, pairs, keep):
+    """Worker side of `evaluate_datasets` (each process has its own blinding state). Only `evaluate_datasets`, which is
+    itself guarded, calls this function."""
+    from .blinding import allow_evaluation
+
+    with allow_evaluation():
+        return evaluate_dataset(ds, thetas, pairs, keep_vectors_for=keep)
+
+
+@evaluation
+def evaluate_datasets(dss: dict, thetas_by_ds: dict, pairs, keep=(), workers: int = 1, log=None) -> dict:
+    """`evaluate_dataset` for several datasets, one process per dataset when workers > 1; results in dataset order."""
+    from .parallel import run_jobs
+
+    names = list(dss)
+    if workers <= 1:
+        res = [evaluate_dataset(dss[n], thetas_by_ds[n], pairs, keep_vectors_for=keep, log=log) for n in names]
+    else:
+        res = run_jobs(_evaluate_job, [(dss[n], thetas_by_ds[n], list(pairs), tuple(keep)) for n in names], workers)
+    return dict(zip(names, res))
 
 
 @evaluation

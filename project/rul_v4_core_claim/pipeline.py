@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import platform
 import re
+import time
 import sys
 import tempfile
 from pathlib import Path
@@ -63,7 +64,7 @@ DEV_FILES = frozenset({
     "exp1_features.csv", "exp1_check0_cycles.csv", "exp1_checkS_features.csv", "exp1_checkS_qdlin.csv",
     "exp1_checkS_cycle_life.csv", "exp1_labels.csv", "exp1_labels_detail.csv", "exp1_label_shares.csv",
     "exp1_common_windows.csv", "exp1_cell_sets.csv", "exp1_estimability.csv", "exp1_leakage_audit.csv",
-    "exp1_fit_warnings.csv",
+    "exp1_fit_warnings.csv", "exp1_fit_hashes.csv", "exp3_fit_hashes.csv",
     "exp3_labels.csv", "exp3_samples.csv", "exp3_features_hust.csv", "exp3_features_mit.csv", "exp3_features_nca.csv",
     "exp3_windows.csv", "exp3_method_estimability.csv", "exp3_preprocessing_audit.csv", "exp3_check2_traj_equivalence.csv",
 })
@@ -104,7 +105,15 @@ def _check(rows: list, experiment: str, dataset: str, check: str, ok, detail) ->
 
 
 # ================================================================ experiment 1 inputs (no evaluation)
-def prepare_exp1(root: Path, thetas, checks: list, log) -> dict:
+def prepare_exp1(root: Path, thetas, checks: list, log, workers: int = 1) -> dict:
+    """Experiment 1 inputs, checks and fits; BLAS limited to 1 thread for the whole experiment (notes 6.11)."""
+    from threadpoolctl import threadpool_limits
+
+    with threadpool_limits(limits=1):
+        return _prepare_exp1(root, thetas, checks, log, workers)
+
+
+def _prepare_exp1(root: Path, thetas, checks: list, log, workers: int) -> dict:
     mit = L1.load_mit(root)
     det, tol, labels = L1.build_labels(mit, thetas)
     c1, c2, c3 = L1.check1(root, det, tol), L1.check2(mit, det, tol), L1.check3(det, tol)
@@ -137,8 +146,8 @@ def prepare_exp1(root: Path, thetas, checks: list, log) -> dict:
     inp = E1.Exp1Inputs(cells=cells, design=design, eol=L1.eol_lookup(labels), sets=sets,
                         folds=dict(zip(folds.Cell_ID.astype(str), folds.Fold_ID.astype(int))),
                         split=dict(zip(feat.Cell_ID, feat.Severson_Split)))
-    fits = E1.fit_p_settings(inp, log=log)
-    E1.fit_delta_settings(inp, fits)
+    fits = E1.fit_p_settings(inp, log=log, workers=workers)
+    E1.fit_delta_settings(inp, fits, workers=workers)
     audit = E1.audit_table(fits)
     enet = audit[audit.Model.ne("variance")]
     leak = {"train_test_disjoint": bool(audit.Train_Test_Disjoint.all()),
@@ -172,18 +181,19 @@ def write_exp1_dev_safe(w: Writer, x: dict) -> None:
     w.csv(x["estimability"], "exp1_estimability.csv")
     w.csv(x["audit"], "exp1_leakage_audit.csv")
     w.csv(E1.warning_table(x["fits"]), "exp1_fit_warnings.csv")
+    w.csv(E1.hash_table(x["fits"]), "exp1_fit_hashes.csv")
 
 
 # ================================================================ experiment 3 inputs (no evaluation)
-def prepare_exp3(root: Path, datasets, thetas, checks: list, log) -> dict:
+def prepare_exp3(root: Path, datasets, thetas, checks: list, log, workers: int = 1) -> dict:
     gb_plan = E3.gb_params_from_plan(root)
     _check(checks, "3", "all", "GB_PARAMS_EQUAL_SOH_DESIGN_PLAN", gb_plan == GB_PARAMS, {"plan": gb_plan, "config": GB_PARAMS})
     if gb_plan != GB_PARAMS:
         raise PilotError("GB_PARAMS_DIFFER_FROM_SOH_DESIGN_PLAN")
-    data = E3.load_inputs(root, datasets)
+    fitted = E3.fit_datasets(root, list(datasets), GB_PARAMS, thetas=thetas, workers=workers, log=log)
     out, wins = {}, []
     for name in datasets:
-        ds = E3.fit_dataset(root, data, name, GB_PARAMS, thetas=thetas, log=log)
+        ds = fitted[name]
         for k in ("0", "1", "2", "3", "4_amended", "4_original"):
             _check(checks, "3", name, f"{k}", ds.checks[k], ds.checks["detail"].get(k[0], {}) if k[0] != "4" else ds.checks["detail"]["4"])
         win = E3.windows(name, ds.det)
@@ -206,11 +216,12 @@ def write_exp3_dev_safe(w: Writer, x: dict) -> None:
     w.csv(pd.concat([d.estimability for d in dss], ignore_index=True), "exp3_method_estimability.csv")
     w.csv(pd.concat([d.audit for d in dss], ignore_index=True), "exp3_preprocessing_audit.csv")
     w.csv(pd.concat([d.traj_eq for d in dss], ignore_index=True), "exp3_check2_traj_equivalence.csv")
+    w.csv(pd.concat([E3.hash_table(d) for d in dss], ignore_index=True), "exp3_fit_hashes.csv")
 
 
 # ================================================================ run
 def run(root: Path, output_dir: Path | None = None, dev: bool = False, experiments=("1", "3"), datasets=EXP3_DATASETS,
-        exp1_thetas=EXP1_THETAS, exp3_thetas=None) -> Path:
+        exp1_thetas=EXP1_THETAS, exp3_thetas=None, workers: int = 1) -> Path:
     root = Path(root).resolve()
     repo = root.parent
     if not dev and (tuple(experiments) != ("1", "3") or tuple(datasets) != EXP3_DATASETS or tuple(exp1_thetas) != EXP1_THETAS
@@ -222,6 +233,7 @@ def run(root: Path, output_dir: Path | None = None, dev: bool = False, experimen
     target.parent.mkdir(parents=True, exist_ok=True)
     staging = Path(tempfile.mkdtemp(prefix=f".{target.name}_staging_", dir=target.parent))
     w = Writer(staging, dev)
+    t_start = time.time()
     lines: list[str] = []
     log = lambda text: _log(lines, text)  # noqa: E731
     log(f"{PIPELINE_VERSION}; protocol {PROTOCOL_COMMIT}; amendment 01 {AMENDMENT_01_COMMIT}; dev={dev}; experiments={list(experiments)}")
@@ -230,8 +242,8 @@ def run(root: Path, output_dir: Path | None = None, dev: bool = False, experimen
     log("archived files verified")
     before = {f: _file_sha(root / f) for f in INPUT_FILES}
     checks: list[dict] = []
-    x1 = prepare_exp1(root, exp1_thetas, checks, log) if "1" in experiments else None
-    x3 = prepare_exp3(root, datasets, exp3_thetas, checks, log) if "3" in experiments else None
+    x1 = prepare_exp1(root, exp1_thetas, checks, log, workers) if "1" in experiments else None
+    x3 = prepare_exp3(root, datasets, exp3_thetas, checks, log, workers) if "3" in experiments else None
 
     exp1_ok, exp1_reason = False, "EXPERIMENT_1_NOT_RUN"
     if x1 is not None:
@@ -259,7 +271,7 @@ def run(root: Path, output_dir: Path | None = None, dev: bool = False, experimen
         rows += [{"Experiment": "1", "Dataset": "MIT", "Fitted_Rows": int(sum(len(r.predictions) for r in x1["fits"].results.values()))}] if x1 else []
         w.csv(pd.DataFrame(rows, columns=["Experiment", "Dataset", "Fitted_Rows"]), "dev_prediction_rows.csv")
         w.csv(pd.DataFrame(checks), "sanity_checks.csv")
-        _finish(w, staging, target, root, before, lines, log, dev, experiments, datasets, {})
+        _finish(w, staging, target, root, before, lines, log, dev, experiments, datasets, {}, workers, t_start)
         return target
 
     window_mismatch = [f"exp{r['Experiment']}" for r in checks if r["Check"] == "WINDOWS_EQUAL_PREP" and r["Pass"] is False]
@@ -268,14 +280,14 @@ def run(root: Path, output_dir: Path | None = None, dev: bool = False, experimen
         decision = {"stopped": "COMMON_WINDOWS_DIFFER_FROM_PREP", "experiments": window_mismatch}
     else:
         with allow_evaluation():
-            decision = _formal(w, root, x1, x3, exp1_ok, exp1_reason, ok04, checks, log)
+            decision = _formal(w, root, x1, x3, exp1_ok, exp1_reason, ok04, checks, log, workers)
     w.csv(pd.DataFrame(checks), "sanity_checks.csv")
     w.json(decision, "decision.json")
-    _finish(w, staging, target, root, before, lines, log, dev, experiments, datasets, decision)
+    _finish(w, staging, target, root, before, lines, log, dev, experiments, datasets, decision, workers, t_start)
     return target
 
 
-def _finish(w, staging, target, root, before, lines, log, dev, experiments, datasets, decision) -> None:
+def _finish(w, staging, target, root, before, lines, log, dev, experiments, datasets, decision, workers, t_start) -> None:
     if {f: _file_sha(root / f) for f in INPUT_FILES} != before:
         raise PilotError("INPUT_FILES_CHANGED_DURING_RUN")
     import h5py
@@ -287,14 +299,18 @@ def _finish(w, staging, target, root, before, lines, log, dev, experiments, data
             "dev": dev, "experiments": list(experiments), "datasets": list(datasets),
             "python": sys.version.split()[0], "platform": platform.platform(), "numpy": np.__version__, "pandas": pd.__version__,
             "scipy": scipy.__version__, "scikit_learn": sklearn.__version__, "lifelines": lifelines.__version__,
-            "h5py": h5py.__version__, "input_sha256": before}
+            "h5py": h5py.__version__, "input_sha256": before, "workers": workers,
+            "started_local": time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(t_start)),
+            "elapsed_seconds": round(time.time() - t_start, 1)}
     w.json(info, "run_info.json")
     log("run complete")
     (staging / "processing_log.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
     staging.replace(target)
 
 
-def _formal(w: Writer, root: Path, x1, x3, exp1_ok: bool, exp1_reason: str, ok04: list, checks: list, log) -> dict:
+def _formal(w: Writer, root: Path, x1, x3, exp1_ok: bool, exp1_reason: str, ok04: list, checks: list, log, workers: int = 1) -> dict:
+    from threadpoolctl import threadpool_limits
+
     from rul_pilot_v2.evaluation import draws_for
 
     decision: dict = {"experiment_1_participates": exp1_ok, "experiment_1_reason": exp1_reason}
@@ -302,8 +318,10 @@ def _formal(w: Writer, root: Path, x1, x3, exp1_ok: bool, exp1_reason: str, ok04
     ci3_parts, e1t_parts, sec_parts, base_parts, vec3, draw_sha = [], [], [], [], {}, {}
     c5 = {}
     if x3 is not None:
-        for name, ds in x3["datasets"].items():
-            ci, e1t, sec, _, _, draw_sha[name] = E3.evaluate_dataset(ds, E3.GRID[name], list(CHECK5_PAIRS), keep_vectors_for=(), log=log)
+        dss = x3["datasets"]
+        step1 = E3.evaluate_datasets(dss, {n: E3.GRID[n] for n in dss}, list(CHECK5_PAIRS), (), workers, log)
+        for name, ds in dss.items():
+            ci, e1t, sec, _, _, draw_sha[name] = step1[name]
             ci3_parts += ci
             e1t_parts += e1t
             sec_parts += sec
@@ -321,31 +339,8 @@ def _formal(w: Writer, root: Path, x1, x3, exp1_ok: bool, exp1_reason: str, ok04
     rev1 = ci1 = None
     eq_rows = []
     if x1 is not None:
-        inp, fits = x1["inp"], x1["fits"]
-        draws, sha1 = draws_for(len(inp.cells))
-        ci1, vec1, apes = E1.evaluate_p(inp, fits, draws)
-        rev1 = E1.reversals(ci1)
-        units = E1.h1_units(ci1)
-        base1 = E1.delta_baselines(inp, fits, apes)
-        eq1 = E2.exp1_equivalence_and_power(rev1, ci1, vec1, base1)
-        eq_rows.append(eq1)
-        w.csv(E1.predictions_table(inp, fits), "exp1_predictions.csv")
-        w.csv(E1.hyper_table(fits), "exp1_selected_hyperparameters.csv")
-        w.csv(ci1, "exp1_pair_ci.csv")
-        w.csv(rev1, "exp1_reversals.csv")
-        w.csv(units, "exp1_h1_units.csv")
-        w.csv(base1, "exp1_delta_baselines.csv")
-        w.csv(E1.rmse_table(inp, fits), "exp1_descriptive_rmse.csv")
-        w.csv(E1.common_practice(inp, EXP1_C_THETA, RULES, QREFS), "exp1_common_practice_theta080.csv")
-        ex = frozenset({DESCRIPTIVE_EXCLUDED_CELL})
-        fits_x = E1.fit_p_settings(inp, exclude=ex)
-        ci_x, _, _ = E1.evaluate_p(inp, fits_x, draws, exclude=ex)
-        w.csv(ci_x, "exp1_descriptive_excl_b1c18_pair_ci.csv")
-        w.csv(E1.reversals(ci_x), "exp1_descriptive_excl_b1c18_reversals.csv")
-        w.csv(E1.common_practice(inp, EXP1_C_THETA, RULES, QREFS, exclude=ex), "exp1_descriptive_excl_b1c18_common_practice.csv")
-        decision["H1"] = V.h1(rev1, units, exp1_ok, exp1_reason)
-        decision["exp1_bootstrap_draw_sha256"] = sha1
-        log("exp1 evaluated")
+        with threadpool_limits(limits=1):  # experiment 1: BLAS 1 thread whatever the number of workers (notes 6.11)
+            rev1, ci1 = _formal_exp1(w, x1, exp1_ok, exp1_reason, workers, eq_rows, decision, log)
     else:
         decision["H1"] = {"Verdict": V.UNTESTABLE, "Reason": exp1_reason}
     # ---------------- experiment 3, step 2: remaining pairs within windows and at theta 0.80
@@ -353,10 +348,13 @@ def _formal(w: Writer, root: Path, x1, x3, exp1_ok: bool, exp1_reason: str, ok04
     if x3 is not None:
         win = x3["windows"]
         rest = [p for p in E3.PAIRS if p not in CHECK5_PAIRS]
-        for name, ds in x3["datasets"].items():
+        ths = {}
+        for name in x3["datasets"]:
             th = sorted(E3.window_thetas(win[win.Dataset.eq(name)]) | {EXP3_C_THETA})
-            th = [t for t in E3.GRID[name] if round(t, 2) in th]
-            ci, e1t, sec, vec, base, _ = E3.evaluate_dataset(ds, th, rest, keep_vectors_for=("RF-GB",), log=log)
+            ths[name] = [t for t in E3.GRID[name] if round(t, 2) in th]
+        step2 = E3.evaluate_datasets(x3["datasets"], ths, rest, ("RF-GB",), workers, log)
+        for name in x3["datasets"]:
+            ci, e1t, sec, vec, base, _ = step2[name]
             ci3_parts += ci
             e1t_parts += e1t
             sec_parts += sec
@@ -403,6 +401,40 @@ def _formal(w: Writer, root: Path, x1, x3, exp1_ok: bool, exp1_reason: str, ok04
         decision["H3"] = {"Verdict": V.UNTESTABLE, "Reason": "EXPERIMENT_3_NOT_RUN"}
     log("verdicts written")
     return decision
+
+
+def _formal_exp1(w: Writer, x1: dict, exp1_ok: bool, exp1_reason: str, workers: int, eq_rows: list, decision: dict, log):
+    """Experiment 1 evaluation (formal run only; called inside allow_evaluation, BLAS 1 thread)."""
+    from rul_pilot_v2.evaluation import draws_for
+
+    inp, fits = x1["inp"], x1["fits"]
+    draws, sha1 = draws_for(len(inp.cells))
+    ci1, vec1, apes = E1.evaluate_p(inp, fits, draws)
+    rev1 = E1.reversals(ci1)
+    units = E1.h1_units(ci1)
+    base1 = E1.delta_baselines(inp, fits, apes)
+    eq1 = E2.exp1_equivalence_and_power(rev1, ci1, vec1, base1)
+    eq_rows.append(eq1)
+    w.csv(E1.predictions_table(inp, fits), "exp1_predictions.csv")
+    w.csv(E1.hyper_table(fits), "exp1_selected_hyperparameters.csv")
+    w.csv(ci1, "exp1_pair_ci.csv")
+    w.csv(rev1, "exp1_reversals.csv")
+    w.csv(units, "exp1_h1_units.csv")
+    w.csv(base1, "exp1_delta_baselines.csv")
+    w.csv(E1.rmse_table(inp, fits), "exp1_descriptive_rmse.csv")
+    w.csv(E1.common_practice(inp, EXP1_C_THETA, RULES, QREFS), "exp1_common_practice_theta080.csv")
+    ex = frozenset({DESCRIPTIVE_EXCLUDED_CELL})
+    fits_x = E1.fit_p_settings(inp, exclude=ex, workers=workers)
+    w.csv(E1.warning_table(fits_x), "exp1_descriptive_excl_b1c18_fit_warnings.csv")
+    ci_x, _, _ = E1.evaluate_p(inp, fits_x, draws, exclude=ex)
+    w.csv(ci_x, "exp1_descriptive_excl_b1c18_pair_ci.csv")
+    w.csv(E1.reversals(ci_x), "exp1_descriptive_excl_b1c18_reversals.csv")
+    w.csv(E1.common_practice(inp, EXP1_C_THETA, RULES, QREFS, exclude=ex), "exp1_descriptive_excl_b1c18_common_practice.csv")
+    decision["H1"] = V.h1(rev1, units, exp1_ok, exp1_reason)
+    decision["exp1_bootstrap_draw_sha256"] = sha1
+    decision["exp1_fit_warnings"] = dict(zip(*E1.warning_table(fits).T.values))  # incl. final refits not converged
+    log("exp1 evaluated")
+    return rev1, ci1
 
 
 def x3_predictions(x3: dict) -> pd.DataFrame:

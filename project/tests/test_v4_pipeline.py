@@ -18,19 +18,23 @@ from rul_v4_core_claim import exp3 as E3
 from rul_v4_core_claim import pipeline as P
 
 
+NAMES = (("SYN", 9), ("SYN2", 21))
+
+
 @pytest.fixture
 def synthetic_pipeline(monkeypatch, tmp_path):
     monkeypatch.setattr(M, "INNER_REPEATS", 2)
     monkeypatch.setattr(M, "ENET_N_ALPHAS", 10)
     monkeypatch.setattr(P, "INPUT_FILES", ())
     monkeypatch.setattr(P, "check_archived", lambda repo: pd.DataFrame({"Path": ["x"], "Match": [True]}))
-    monkeypatch.setitem(E3.GRID, "SYN", (0.85, 0.90))
-    monkeypatch.setitem(E3.EXP3_LABEL, "SYN", "SYN")
+    for n, _ in NAMES:
+        monkeypatch.setitem(E3.GRID, n, (0.85, 0.90))
+        monkeypatch.setitem(E3.EXP3_LABEL, n, n)
 
-    def prep1(root, thetas, checks, log):
+    def prep1(root, thetas, checks, log, workers=1):
         inp, labels, sh, win = SYN.exp1_inputs()
-        fits = E1.fit_p_settings(inp, log=log)
-        E1.fit_delta_settings(inp, fits)
+        fits = E1.fit_p_settings(inp, log=log, workers=workers)
+        E1.fit_delta_settings(inp, fits, workers=workers)
         for c in ("0_FEATURES_USE_CYCLES_1_TO_100", "1_LABELS", "2_PHYSICAL_EQUIVALENCE", "3_MONOTONICITY", "4_NO_LEAKAGE_EXP1",
                   "WINDOWS_EQUAL_PREP", "S_SEVERSON_FEATURES"):
             P._check(checks, "1", "MIT", c, True, {})
@@ -41,29 +45,34 @@ def synthetic_pipeline(monkeypatch, tmp_path):
                 "tol": pd.DataFrame({"Cell_ID": ["c"], "EOL_Difference_Tolerance_Minus_Strict": [0.0]}),
                 "estimability": E1.estimability_table(fits), "audit": E1.audit_table(fits)}
 
-    def prep3(root, datasets, thetas, checks, log):
-        ds = T3._synthetic_dataset()
-        ds.det = pd.DataFrame({"Cell_ID": ds.cells})
-        ds.features = pd.DataFrame({"Cell_ID": ds.cells})
-        ds.estimability = pd.DataFrame({"Method": ["RF"], "Estimable": [True]})
-        ds.audit = pd.DataFrame({"Method": ["RF"], "Train_Folds_Clean": [True]})
-        ds.traj_eq = pd.DataFrame({"Max_Rel_Diff": [0.0]})
-        ds.checks = {"0": True, "1": True, "2": True, "3": True, "4_amended": True, "4_original": True, "detail": {}}
-        win = pd.DataFrame([{"Dataset": "SYN", "Pair": p, "Setting_1": a, "Setting_2": b, "Theta": t, "In_Common_Window": t == 0.90}
-                            for (a, b), p in zip(E3.QREF_PAIRS, ("nominal-first", "nominal-first5", "first-first5")) for t in (0.85, 0.90)])
-        return {"datasets": {"SYN": ds}, "windows": win}
+    def prep3(root, datasets, thetas, checks, log, workers=1):
+        out, wins = {}, []
+        for n, seed in NAMES:
+            ds = T3._synthetic_dataset(name=n, seed=seed)
+            ds.det = pd.DataFrame({"Cell_ID": ds.cells})
+            ds.features = pd.DataFrame({"Cell_ID": ds.cells})
+            ds.estimability = pd.DataFrame({"Method": ["RF"], "Estimable": [True]})
+            ds.audit = pd.DataFrame({"Method": ["RF"], "Train_Folds_Clean": [True]})
+            ds.traj_eq = pd.DataFrame({"Max_Rel_Diff": [0.0]})
+            ds.checks = {"0": True, "1": True, "2": True, "3": True, "4_amended": True, "4_original": True, "detail": {}}
+            out[n] = ds
+            wins += [{"Dataset": n, "Pair": p, "Setting_1": a, "Setting_2": b, "Theta": t, "In_Common_Window": t == 0.90}
+                     for (a, b), p in zip(E3.QREF_PAIRS, ("nominal-first", "nominal-first5", "first-first5")) for t in (0.85, 0.90)]
+        return {"datasets": out, "windows": pd.DataFrame(wins)}
 
     monkeypatch.setattr(P, "prepare_exp1", prep1)
     monkeypatch.setattr(P, "prepare_exp3", prep3)
-    # frozen check-5 table for the synthetic dataset (what "v2" would have reported)
+    # frozen check-5 table for the synthetic datasets (what "v2" would have reported)
     root = tmp_path / "project"
     (root / "outputs" / "rul_ranking_pilot_v2").mkdir(parents=True)
+    details = []
     with blinding.allow_evaluation():
-        ci, *_ = E3.evaluate_dataset(T3._synthetic_dataset(), [0.85, 0.90], list(E3.CHECK5_PAIRS))
-    detail, _ = baseline_check(pd.DataFrame(ci))
-    detail.to_csv(root / E3.V2_CHECK5, index=False, encoding="utf-8-sig")
-    monkeypatch.setitem(E3.CHECK5_EXPECTED, "SYN", (int(detail.Best_Clearly_Better.sum()), len(detail)))
-
+        for n, seed in NAMES:
+            ci, *_ = E3.evaluate_dataset(T3._synthetic_dataset(name=n, seed=seed), [0.85, 0.90], list(E3.CHECK5_PAIRS))
+            detail, _ = baseline_check(pd.DataFrame(ci))
+            details.append(detail)
+            monkeypatch.setitem(E3.CHECK5_EXPECTED, n, (int(detail.Best_Clearly_Better.sum()), len(detail)))
+    pd.concat(details).to_csv(root / E3.V2_CHECK5, index=False, encoding="utf-8-sig")
     return root
 
 
@@ -108,3 +117,17 @@ def test_subsets_refused_in_formal_runs(tmp_path) -> None:
 
     with pytest.raises(PilotError):
         P.run(tmp_path, tmp_path / "x", dev=False, experiments=("1",))
+
+
+@pytest.mark.parametrize("dev", [True, False])
+def test_workers_do_not_change_any_output(synthetic_pipeline, tmp_path, dev) -> None:
+    """Implementation notes 6.11: workers=1 and workers=8 give byte-identical outputs (development and formal mode),
+    including the prediction and hyperparameter hashes."""
+    root = synthetic_pipeline
+    a = P.run(root, tmp_path / f"w1_{dev}", dev=dev, workers=1)
+    b = P.run(root, tmp_path / f"w8_{dev}", dev=dev, workers=8)
+    cmp = P.compare_outputs(a, b)
+    assert len(cmp) > 10 and cmp.Identical.all(), cmp[~cmp.Identical]
+    assert "exp1_fit_hashes.csv" in set(cmp.File) and "exp3_fit_hashes.csv" in set(cmp.File)
+    info = json.loads((b / "run_info.json").read_text(encoding="utf-8"))
+    assert info["workers"] == 8 and info["elapsed_seconds"] > 0

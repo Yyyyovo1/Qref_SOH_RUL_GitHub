@@ -147,8 +147,15 @@ def check_s_features(feat: pd.DataFrame, ref: pd.DataFrame, names: list[str]) ->
     ids_ok = set(a.index) == set(r.index) and len(a) == len(r)
     rows = []
     for c in ID_COLUMNS[1:]:
-        rows.append({"Item": c, "Kind": "identity", "Cells": len(r),
-                     "Mismatches": int((a.loc[r.index, c].astype(str).to_numpy() != r[c].astype(str).to_numpy()).sum()) if ids_ok else len(r),
+        # Identity columns (not one of the three check-S items of amendment 01; implementation notes 6.9): numeric columns
+        # are compared as numbers (the MIT inventory stores Author_Cycle_Life as float), the split name as text.
+        if not ids_ok:
+            mism = len(r)
+        elif c == "Severson_Split":
+            mism = int((a.loc[r.index, c].astype(str).to_numpy() != r[c].astype(str).to_numpy()).sum())
+        else:
+            mism = int((pd.to_numeric(a.loc[r.index, c]).to_numpy(float) != pd.to_numeric(r[c]).to_numpy(float)).sum())
+        rows.append({"Item": c, "Kind": "identity", "Cells": len(r), "Mismatches": mism,
                      "Recomputed_Max_Rel_Diff": np.nan, "Max_Abs_Diff_Zero_Reference": np.nan})
     for c in names:
         x = a.loc[r.index, c].to_numpy(float) if ids_ok else np.full(len(r), np.nan)

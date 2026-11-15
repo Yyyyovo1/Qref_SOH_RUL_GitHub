@@ -67,7 +67,7 @@ def fit_predict(model: str, x_train: np.ndarray, y_train_cycles: np.ndarray, x_t
     """Fit on the outer training rows, predict the test rows. `all_rows` (training + test design) is used only for the
     negative control of the leakage audit."""
     from sklearn.exceptions import ConvergenceWarning
-    from sklearn.linear_model import ElasticNetCV, LinearRegression
+    from sklearn.linear_model import ElasticNet, ElasticNetCV, LinearRegression
 
     y = np.log10(np.asarray(y_train_cycles, float))
     counts: Counter = Counter()
@@ -102,8 +102,27 @@ def fit_predict(model: str, x_train: np.ndarray, y_train_cycles: np.ndarray, x_t
                 audit["NegControl_Mean_Differs"] = mean_differs
                 audit["NegControl_Std_Differs"] = (_sha(np.where(a_std > 0, a_std, 1.0)) != _sha(scale)) if not mean_differs else np.nan
                 audit["NegControl_Pass"] = bool(mean_differs or audit["NegControl_Std_Differs"] == True)  # noqa: E712
-    for w in caught:
-        counts[w.category.__name__] += 1
+    total_conv = sum(1 for w in caught if issubclass(w.category, ConvergenceWarning))
+    other = Counter(w.category.__name__ for w in caught if not issubclass(w.category, ConvergenceWarning))
+    if model == "variance":
+        counts.update(other)
+    else:
+        # The final refit happens inside ElasticNetCV.fit together with the inner CV. To count its convergence
+        # warnings separately (implementation notes 6.10), the refit is repeated once with exactly the parameters
+        # LinearModelCV.fit uses (sklearn 1.7.2 _coordinate_descent.py: common params, precompute "auto" -> False,
+        # copy_X); its coefficients must equal the model's bit for bit. The repeat is diagnostic only: predictions come
+        # from the ElasticNetCV model as before.
+        with warnings.catch_warnings(record=True) as caught_refit:
+            warnings.simplefilter("always")
+            again = ElasticNet(alpha=reg.alpha_, l1_ratio=reg.l1_ratio_, fit_intercept=True, precompute=False, max_iter=1000,
+                               tol=1e-4, copy_X=True, selection="cyclic").fit(tr, y)
+        refit_conv = sum(1 for w in caught_refit if issubclass(w.category, ConvergenceWarning))
+        identical = bool(np.array_equal(again.coef_, reg.coef_) and again.intercept_ == reg.intercept_)
+        counts["Inner_CV_ConvergenceWarning"] += total_conv - refit_conv
+        counts["Final_Refit_ConvergenceWarning"] += refit_conv
+        counts.update(other)
+        audit.update({"Final_Refit_Repeat_Identical": identical, "Final_Refit_Converged": refit_conv == 0,
+                      "Inner_CV_Convergence_Warnings": int(total_conv - refit_conv)})
     pred = np.power(10.0, yhat)
     finite = bool(np.all(np.isfinite(coef)) and np.all(np.isfinite(pred)))
     return FitResult(pred, finite, counts, hyper, audit)

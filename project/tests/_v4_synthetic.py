@@ -59,3 +59,38 @@ def rul_samples(n_cells: int = 30, seed: int = 3, exact_every: int = 1):
     x = np.column_stack([rng.normal(size=len(s)), s.t_Index.to_numpy(float), rng.normal(size=len(s))])
     thr = {c: 0.88 for c in cells}
     return s, x, cap, thr, t0
+
+
+def dataset_inputs(name: str, n_cells: int = 25, seed: int = 5):
+    """A small DatasetInputs in the v1/v2/v3 layout (HUST-like A9 features, MIT-like summary features or NCA-like
+    static features), so that the real v1/v2/v3 label, sample and feature functions can be run on it."""
+    from rul_ranking_pilot.labels import DatasetInputs
+    from soh_primary_benchmark_repro.config import PRIMARY_FEATURES
+
+    rng = np.random.default_rng(seed)
+    cells = sorted(f"{name}_c{i:02d}" for i in range(n_cells))
+    caps, feats, qref, src1, src5 = [], [], {}, {}, {}
+    nominal = {"HUST": 1.1, "MIT": 1.1, "NCA": 3.5}[name]
+    for i, c in enumerate(cells):
+        life = 300 + 25 * i
+        n = np.arange(1, life + int(rng.integers(-40, 60)))
+        q = nominal * (1.0 - 0.22 * (n / life) ** 1.5) + rng.normal(0, 0.002 * nominal, n.size)
+        caps.append(pd.DataFrame({"Cell_ID": c, "Raw_Cycle_Index": n.astype(float), "Endpoint_Index": n.astype(float), "Capacity_Ah": q}))
+        f = {"Cell_ID": c, "Raw_Cycle_Index": n.astype(float)}
+        if name == "HUST":
+            f.update({k: rng.normal(size=n.size) for k in PRIMARY_FEATURES})
+        elif name == "MIT":
+            f.update({"IR_Ohm": 0.016 + rng.normal(0, 1e-4, n.size), "Tavg_C": 31 + rng.normal(0, 0.5, n.size),
+                      "Chargetime_min": 12 + rng.normal(0, 0.1, n.size)})
+        feats.append(pd.DataFrame(f))
+        qref[c] = (nominal, float(q[1]), float(np.median(q[1:6])))
+        src1[c], src5[c] = [2], [2, 3, 4, 5, 6]
+    capacity = pd.concat(caps, ignore_index=True)
+    features = pd.concat(feats, ignore_index=True) if name != "NCA" else pd.DataFrame(
+        {"Cell_ID": cells, "Temperature_C": [25.0 + 10 * (i % 3) for i in range(n_cells)], "Charge_CRate": [0.5] * n_cells})
+    q = pd.DataFrame(qref, index=QREFS).T.loc[cells]
+    obs = {c: g[["Raw_Cycle_Index", "Capacity_Ah"]].rename(columns={"Capacity_Ah": "Primary_Capacity_Ah"}).reset_index(drop=True)
+           for c, g in capacity.groupby("Cell_ID")}
+    return DatasetInputs(name=name, cells=cells, observations=obs, capacity=capacity, qref=q,
+                         source_cycles={"first_comparable": src1, "early_median5_comparable": src5}, batch={},
+                         folds={c: i % 5 + 1 for i, c in enumerate(cells)}, features=features)

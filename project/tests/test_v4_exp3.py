@@ -82,9 +82,9 @@ def test_interval_with_vector_equals_v2() -> None:
     assert got == ref and vec.shape == (5000,)
 
 
-def _synthetic_dataset(n_cells: int = 30, thetas=(0.85, 0.90)) -> E3.Exp3Dataset:
+def _synthetic_dataset(n_cells: int = 30, thetas=(0.85, 0.90), name: str = "SYN", seed: int = 9) -> E3.Exp3Dataset:
     """Samples / predictions for one dataset over 2 thetas x 3 Qrefs (predictions are noise around the truth)."""
-    rng = np.random.default_rng(9)
+    rng = np.random.default_rng(seed)
     cells = [f"s{i:02d}" for i in range(n_cells)]
     srows, prows = [], []
     for theta in thetas:
@@ -93,14 +93,14 @@ def _synthetic_dataset(n_cells: int = 30, thetas=(0.85, 0.90)) -> E3.Exp3Dataset
                 status = "EXACT" if i % 6 else "RIGHT"
                 for k in range(3):
                     rul = 400.0 + 20 * i - 100 * k - 300 * (theta - 0.85)
-                    srows.append({"Dataset": "SYN", "Theta": theta, "Qref_Definition": q, "Cell_ID": c, "t_Index": k, "Eligible": True,
+                    srows.append({"Dataset": name, "Theta": theta, "Qref_Definition": q, "Cell_ID": c, "t_Index": k, "Eligible": True,
                                   "Status": status, "RUL": rul if status == "EXACT" else np.nan, "RUL_Lower": rul,
                                   "RUL_Upper": rul if status == "EXACT" else np.inf, "Fold_ID": i % 5 + 1})
-                    prows.append({"Dataset": "SYN", "Theta": theta, "Qref_Definition": q, "Cell_ID": c, "t_Index": k,
+                    prows.append({"Dataset": name, "Theta": theta, "Qref_Definition": q, "Cell_ID": c, "t_Index": k,
                                   **{f"Pred_{m}": rul + rng.normal(0, s) for m, s in (("RF", 30), ("TRAJ", 200), ("WAFT", 80), ("GB", 35))},
                                   "Pred_BASE": 380.0 - 100 * k})
     samples = pd.DataFrame(srows)
-    return E3.Exp3Dataset("SYN", cells, (50, 100, 150), None, samples, None, pd.DataFrame(prows))
+    return E3.Exp3Dataset(name, cells, (50, 100, 150), None, samples, None, pd.DataFrame(prows))
 
 
 def test_exp3_evaluation_end_to_end() -> None:
@@ -152,3 +152,34 @@ def test_check5_reproduction(tmp_path, monkeypatch) -> None:
         bad.loc[bad.index[0], "Best_Method"] = "WAFT" if bad.Best_Method.iloc[0] != "WAFT" else "RF"
         bad.to_csv(tmp_path / E3.V2_CHECK5, index=False, encoding="utf-8-sig")
         assert not E3.check5("SYN", ci, tmp_path)[1]["Reproduced"]
+
+
+@pytest.mark.parametrize("name", ["HUST", "MIT", "NCA"])
+def test_real_v1_v2_v3_tables_pass_the_dev_column_screen(name, monkeypatch, tmp_path) -> None:
+    """dev_run_1 stopped on `Last_Observed_Index`. Run the actual v1/v2/v3 label, sample, feature, fitting and audit code
+    on a synthetic dataset and screen every table that a development run writes for experiment 3."""
+    from rul_v4_core_claim import exp1_labels as L1
+    from rul_v4_core_claim.blinding import forbidden_columns
+    from rul_v4_core_claim.pipeline import Writer
+
+    d = SYN.dataset_inputs(name)
+    monkeypatch.setattr(E3, "frozen_t0", lambda root, n: (50, 100, 150))
+    monkeypatch.setattr(E3, "checks_0_to_3", lambda root, data, n, det, t0: {"0": True, "1": True, "2_labels": True, "3": True, "detail": {}})
+    ds = E3.fit_dataset(tmp_path, {name: d}, name, GB_PARAMS, thetas=(0.85,))
+    win = E3.windows(name, ds.det)
+    tables = {"exp3_labels.csv": ds.det, "exp3_samples.csv": ds.samples, f"exp3_features_{name.lower()}.csv": ds.features,
+              "exp3_windows.csv": win, "exp3_method_estimability.csv": ds.estimability, "exp3_preprocessing_audit.csv": ds.audit,
+              "exp3_check2_traj_equivalence.csv": ds.traj_eq, "exp3_fit_hashes.csv": E3.hash_table(ds)}
+    assert "Last_Observed_Index" in ds.det.columns and "GB" in set(ds.estimability.Method)
+    w = Writer(tmp_path, dev=True)
+    for fname, t in tables.items():
+        assert forbidden_columns(t.columns) == [], (fname, forbidden_columns(t.columns))
+        w.csv(t, fname)
+    assert blinding.forbidden_columns(["Last_Observed_Value", "Observed_A"]) == ["Last_Observed_Value", "Observed_A"]
+    if name == "MIT":   # experiment 1 label tables from the same v1 detector and the tolerance rule
+        det, tol, labels = L1.build_labels(d, thetas=(0.85, 0.90))
+        sh = L1.shares(labels, len(d.cells))
+        for fname, t in {"exp1_labels.csv": labels, "exp1_labels_detail.csv": tol.drop(columns=["EOL_Difference_Tolerance_Minus_Strict"]),
+                         "exp1_label_shares.csv": sh, "exp1_common_windows.csv": L1.windows(sh, (0.85, 0.90))}.items():
+            assert forbidden_columns(t.columns) == [], fname
+            w.csv(t, fname)

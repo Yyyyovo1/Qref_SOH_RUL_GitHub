@@ -28,6 +28,8 @@ ALLOWED_COLUMNS = frozenset({
     "Scaler_Mean_SHA256", "NegControl_Mean_Differs", "NegControl_Std_Differs",
     "Recomputed_Max_Rel_Diff", "Max_Abs_Diff_Zero_Reference",  # check S: features vs archived reference
     "DeltaQ_Mean",                  # Severson input feature (mean of Delta Q), not a model output
+    "Last_Observed_Index",          # v1 label table: index of the last retained observation (dev_run_1 stop, notes 6.9)
+    "Predictions_SHA256", "Hyperparameters_SHA256",  # hashes only, for the workers=1 vs N equivalence (notes 6.11)
 })
 
 

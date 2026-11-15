@@ -262,6 +262,29 @@ def test_check_s_feature_tolerances() -> None:
         assert not S.check_s_features(bad, ref, ["F"])[1]
 
 
+def test_check_s_identity_columns_compare_numbers() -> None:
+    """dev_run_1: the MIT inventory stores Author_Cycle_Life as float; 1852.0 must equal the reference 1852."""
+    ref = pd.DataFrame({"Cell_ID": ["a", "b"], "Batch": [1, 2], "Severson_Split": ["train", "test1"], "Split_Position": [1, 2],
+                        "Author_Cycle_Life": [1852, 2160], "F": [1.0, 2.0]})
+    mine = ref.assign(Author_Cycle_Life=[1852.0, 2160.0], Batch=[1.0, 2.0])
+    table, ok = S.check_s_features(mine, ref, ["F"])
+    assert ok and (table.Mismatches == 0).all()
+    assert not S.check_s_features(ref.assign(Severson_Split=["train", "test2"]), ref, ["F"])[1]
+
+
+def test_convergence_warnings_are_split_inner_cv_and_final_refit() -> None:
+    """Near-duplicate features and almost noise-free y: both the inner CV paths and the final refit hit max_iter."""
+    rng = np.random.default_rng(1)
+    z = rng.normal(size=(30, 2))
+    x = np.column_stack([z[:, [0]] + 1e-2 * rng.normal(size=(30, 8)), z[:, [1]] + 1e-2 * rng.normal(size=(30, 8)), rng.normal(size=(30, 4))])
+    y = 10 ** (2.8 + 0.3 * z[:, 0] - 0.2 * z[:, 1] + 1e-5 * rng.normal(size=30))
+    res = M.fit_predict("full", x, y, x[:2], all_rows=x)
+    assert res.audit["Final_Refit_Repeat_Identical"]
+    assert res.warnings["Inner_CV_ConvergenceWarning"] == res.audit["Inner_CV_Convergence_Warnings"] > 0
+    assert res.warnings["Final_Refit_ConvergenceWarning"] == 1 and not res.audit["Final_Refit_Converged"]
+    assert "ConvergenceWarning" not in res.warnings
+
+
 def test_round5_and_split_rule() -> None:
     assert S.round5(np.array([1.0706892, -0.000460034, 123456.7]).reshape(1, 3)).tolist() == [[1.0707, -0.00046003, 123460.0]]
     order = [f"b1c{i}" for i in range(41)] + [f"b2c{i}" for i in range(43)] + [f"b3c{i}" for i in range(40)]

@@ -11,6 +11,7 @@ import argparse
 from pathlib import Path
 
 from rul_ranking_pilot.labels import PilotError
+from rul_v4_core_claim.blinding import BlindingError
 from rul_v4_core_claim.config import EXP1_THETAS, EXP3_DATASETS
 from rul_v4_core_claim.pipeline import compare_outputs, run
 
@@ -23,6 +24,7 @@ def main() -> int:
     p.add_argument("--experiments", default=None, help="dev only, e.g. 1 or 3")
     p.add_argument("--datasets", default=None, help="dev only, subset of HUST,MIT,NCA for experiment 3")
     p.add_argument("--thetas", default=None, help="dev only, comma-separated theta subset (both experiments)")
+    p.add_argument("--workers", type=int, default=1, help="processes for experiment 1 fits (results do not depend on it)")
     p.add_argument("--compare", nargs=2, type=Path, metavar=("RUN_A", "RUN_B"), help="check 6: compare two runs")
     a = p.parse_args()
     if a.compare:
@@ -38,11 +40,15 @@ def main() -> int:
     exp1_thetas = tuple(t for t in EXP1_THETAS if th is None or t in th)
     try:
         target = run(a.workspace.resolve(), a.output_dir, dev=a.dev, experiments=experiments, datasets=datasets,
-                     exp1_thetas=exp1_thetas, exp3_thetas=tuple(sorted(th)) if th else None)
+                     exp1_thetas=exp1_thetas, exp3_thetas=tuple(sorted(th)) if th else None, workers=a.workers)
     except PilotError as exc:
         print("RUL V4 FAILED")
         print(str(exc))
         return 1
+    except BlindingError as exc:  # a blinding guard stopped the run (no evaluation output was written)
+        print("RUL V4 STOPPED BY THE BLINDING GUARD")
+        print(str(exc))
+        return 3
     print(f"RUL V4 {'DEV RUN' if a.dev else 'FORMAL RUN'} COMPLETE: {target}")
     return 0
 

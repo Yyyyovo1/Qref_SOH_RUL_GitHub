@@ -101,7 +101,8 @@
    - `exp2.py`：实验 2；
    - `verdicts.py`：H1–H3；
    - `pipeline.py`：串联；
-   - `v2v3_agreement.py`：方案 §7 第 6 步。
+   - `v2v3_agreement.py`：方案 §7 第 6 步；
+   - `parallel.py`：多进程执行（§6 第 11 条）。
 2. **存档核对：** 每次运行开始时，核对 `PREREG_RECORD.md` 和 `AMENDMENT_01_RECORD.md` 中列出的 17 个文件的 SHA-256，并核对这两个记录文件与 `config.py` 中的值相同。任何一项不一致就停止。
 3. **输入文件核对：** 沿用 v2、v3 的做法，运行前后核对输入文件的 SHA-256（v2、v3 的全部输入，加上 `trapD_labels.csv`、GB 方案表、v2/v3 的 `check5_baseline.csv`、MIT 折和清单、存档的特征参照文件）。MIT 原始 `.mat` 文件（约 8 GB）和 Attia 数组不做整文件哈希；它们的内容由检查 S 逐项核对。
 4. **实验 1 的可估计性：** 外层训练折少于 4 个电芯时（内层 4 折无法划分），该模型记为不可估计。按准备报告，每折训练电芯至少 87 个，预计不会出现。系数或预测值出现非有限值时，同样记为不可估计。
@@ -131,7 +132,48 @@
    - 开发运行只写白名单文件；
    - 两次正式运行（合成数据）逐字节相同；
    - 检查 5 不复现时停止。
+9. **dev_run_1 之后的两处修复（代码错误，未改变方案和修订 01）：**
+   - **检查 S 的身份列。** `check_s_features` 除了修订 01 规定的 20 个特征，还核对 `Batch`、`Severson_Split`、`Split_Position`、`Author_Cycle_Life` 四个身份列。**这一核对不属于修订 01 规定的检查 S 三项内容**，是代码额外加的一致性核对；但它不通过时，检查 S 也记为不通过。原代码把它们转成字符串比较；MIT 清单中的 `Author_Cycle_Life` 是浮点数，`"1852.0"` 与 `"1852"` 不等，124 个电芯全部被误判为不一致。现在数值列按数值比较，`Severson_Split` 仍按文本比较。
+   - **开发运行的列名检查。** 实验 3 标签表中的 `Last_Observed_Index`（v1 检测器给出的最后一个保留观测的索引，属于标签信息）含有被禁止的词 `Observed`，导致 dev_run_1 在写文件前停止。现在只把 `Last_Observed_Index` 这一个具体列名加入允许列表，`Observed` 这个词本身仍然被禁止（测试核对 `Observed_A` 等仍被拦下）。新增测试：在合成数据集上实际运行 v1、v2、v3 的标签、样本、特征、拟合和审计代码（HUST、MIT、NCA 三种布局），把开发运行会写出的每张表都过一遍列名检查。
+   - **命令行脚本：** 捕获盲态异常，打印 `RUL V4 STOPPED BY THE BLINDING GUARD` 和原因，以退出码 3 结束（原来是未捕获的异常）。
+10. **收敛警告分开计数：**
+    - sklearn 的 `ElasticNetCV.fit` 在同一次调用中完成内层交叉验证和最终整折重拟合，警告无法直接区分来源。
+    - 做法：拟合完成后，用与 sklearn 1.7.2 `LinearModelCV.fit` 完全相同的参数（所选 α、λ，`precompute=False`，`copy_X=True`，`max_iter=1000`，`tol=1e-4`，`selection="cyclic"`）把最终重拟合单独重做一次，只用于计数，并核对它的系数与模型的系数逐位相同（`Final_Refit_Repeat_Identical`）。内层交叉验证的警告数 = 总数 − 重做的重拟合的警告数。预测值仍然来自原来的 `ElasticNetCV` 模型，计算不变。
+    - `max_iter`、`tol` 等设置都没有改。
+    - **输出：**
+      - `exp1_fit_warnings.csv` 给出 `Inner_CV_ConvergenceWarning`、`Final_Refit_ConvergenceWarning`、elastic net 折拟合数、最终重拟合未收敛的折拟合数、重做结果不一致的折拟合数；
+      - 审计表逐折给出 `Final_Refit_Converged` 和 `Inner_CV_Convergence_Warnings`；
+      - 正式运行的 `decision.json` 中同样报告这些计数（`exp1_fit_warnings`）；
+      - 排除 `b1c18` 的描述性重拟合另写 `exp1_descriptive_excl_b1c18_fit_warnings.csv`。
+11. **并行化（只改变执行方式，不改变计算）：**
+    - **实验 1：** `--workers N`。每个 (规则, Q_ref, θ, 模型, 电芯集合) 的外层 5 折拟合作为一个任务，任务按原顺序生成、去重后分发给 N 个进程（`spawn`），结果按提交顺序合并。内层交叉验证的设定随任务一起传入。无论 N 是多少，实验 1 的 BLAS 线程数都用 `threadpoolctl.threadpool_limits(1)` 固定为 1：特征计算、拟合和正式运行中的评价，在主进程和工作进程中都是如此。
+    - **实验 3：** workers > 1 时只按数据集并行，最多 3 个进程，每个进程自己读取数据，并按 v2、v3 的方式拟合和评价，线程设置不变（默认值，与 v2、v3 相同）。正式运行的评价也按数据集分进程；工作进程中的评价由已受盲态保护的 `evaluate_datasets` 调用。
+    - **等价性核对：**
+      - 开发运行另写 `exp1_fit_hashes.csv`、`exp3_fit_hashes.csv`：每次拟合的预测向量和所选超参数的 SHA-256。
+      - 这些表只含哈希，不含任何预测值、超参数或误差，从哈希无法还原数值，因此不违反修订 01 §11。列名 `Predictions_SHA256`、`Hyperparameters_SHA256` 作为具体列名加入允许列表。
+      - 合成数据测试要求 workers = 1 与 workers = 8 在开发模式和正式模式下的全部输出逐字节相同（包括两张哈希表）。实验 3 的正式评价在测试中用两个合成数据集，实际走多进程路径。
+      - 实验 3 按数据集并行的拟合路径需要真实数据加载器，只能在真实数据的开发运行中检验：两次开发运行都用并行代码，要求输出（包括 `exp3_fit_hashes.csv`）逐字节相同。
+    - `run_info.json` 另记 `workers`、开始时间和耗时；检查 6 比较输出时不比较 `run_info.json` 和 `processing_log.txt`（沿用 v1 的 `compare_runs`）。
 
 ## 7. 开发运行记录
 
-（开发运行后补写。）
+### dev_run_1（代码 `c16fab7`，2026-11-14 18:56–19:35，失败）
+
+- **命令：** `python run_v4_core_claim.py --dev --output-dir ../reruns/v4/dev_run_1`，串行。
+- **经过：**
+  - 存档核对通过；实验 1 的标签、检查 1–3、特征、检查 0、检查 S 和全部拟合完成（拟合约 31 分钟）；
+  - 实验 3 的三个数据集拟合完成（约 7 分钟）；
+  - 写出实验 3 标签表时，列名检查拦下 `Last_Observed_Index`，程序停止，临时目录没有改名为输出目录。
+- **已写出的文件：** `prereg_hash_check.csv`、`dataset_checks.csv` 和实验 1 的 13 个文件。没有 `sanity_checks.csv`，没有任何实验 3 的文件。临时目录改名为 `reruns/v4/dev_run_1_failed_c16fab7/` 保留，不参与任何判定。
+- **查看过的内容：**
+  - 检查表和审计表：`dataset_checks.csv`、`exp1_checkS_*.csv`、`exp1_check0_cycles.csv`、`exp1_leakage_audit.csv`（布尔列）、`exp1_estimability.csv`、`exp1_fit_warnings.csv`；
+  - 标签、比例和窗口：`exp1_common_windows.csv`、`exp1_label_shares.csv` 与存档准备文件的对比，`exp1_cell_sets.csv` 的电芯数。
+  - 没有查看、也没有计算任何误差、区间、比较或判定。
+- **发现的两处代码错误：**
+  1. 列名检查误拦 `Last_Observed_Index`；
+  2. 检查 S 的身份列按字符串比较，`Author_Cycle_Life` 被误判不一致，`dataset_checks.csv` 中实验 1 因此显示为 `CHECK_S_FAILED`。
+  - 按数值比较，124 个电芯全部相同；检查 S 的三项本身全部满足（特征最大相对差 4.6×10⁻¹²，`Qdlin` 124/124，寿命 124/124）。
+  - 修复见 §6 第 9 条。
+- **其他观察：** 实验 1 共记录 320,191 次 `ConvergenceWarning`，当时没有区分内层交叉验证和最终重拟合，因此新增 §6 第 10 条的分开计数。
+
+（dev_run_2、dev_run_3 的记录在运行后补写。）

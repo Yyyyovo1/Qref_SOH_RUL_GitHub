@@ -48,26 +48,39 @@ class Exp1Fits:
         return self.results[(rule, q, theta, model, tuple(cells))]
 
 
-def _fit(fits: Exp1Fits, inp: Exp1Inputs, rule: str, q: str, theta: float, model: str, cells: list[str]) -> CVResult:
-    key = (rule, q, theta, model, tuple(cells))
-    if key not in fits.results:
-        eol = inp.eol.get((rule, q, theta), {})
-        res = run_outer_cv(model, cells, eol, inp.design[model], inp.folds)
+def fit_task(model: str, cells: tuple, eol: dict, design: dict, folds: dict, inner_repeats: int, n_alphas: int) -> CVResult:
+    """One outer-CV fit, in this process or in a worker. BLAS is limited to 1 thread whatever the number of workers
+    (implementation notes 6.11); the inner-CV settings travel with the task so that a worker uses the caller's."""
+    from threadpoolctl import threadpool_limits
+
+    from . import exp1_models as M
+
+    M.INNER_REPEATS, M.ENET_N_ALPHAS = inner_repeats, n_alphas
+    with threadpool_limits(limits=1):
+        return run_outer_cv(model, list(cells), eol, design, folds)
+
+
+def _fit_keys(fits: Exp1Fits, inp: Exp1Inputs, keys: list, workers: int, log=None) -> None:
+    from . import exp1_models as M
+    from .parallel import run_jobs
+
+    todo = [k for k in dict.fromkeys(keys) if k not in fits.results]
+    args = [(model, cells, inp.eol.get((rule, q, theta), {}), inp.design[model], inp.folds, M.INNER_REPEATS, M.ENET_N_ALPHAS)
+            for rule, q, theta, model, cells in todo]
+    prog = (lambda i, n: log(f"exp1 fitted {i}/{n}")) if log else None
+    for key, res in zip(todo, run_jobs(fit_task, args, workers, progress=prog)):
         fits.results[key] = res
         fits.warnings.update(res.warnings)
-    return fits.results[key]
 
 
-def fit_p_settings(inp: Exp1Inputs, exclude: frozenset = frozenset(), log=None) -> Exp1Fits:
+def fit_p_settings(inp: Exp1Inputs, exclude: frozenset = frozenset(), log=None, workers: int = 1) -> Exp1Fits:
     fits = Exp1Fits()
+    keys = []
     for r in inp.sets.itertuples(index=False):
-        cells = [c for c in r.Cell_IDs.split("|") if c and c not in exclude]
-        fits.settings.append((r.Rule, r.Qref_1, r.Qref_2, float(r.Theta), tuple(cells)))
-        for q in (r.Qref_1, r.Qref_2):
-            for m in EXP1_MODELS:
-                _fit(fits, inp, r.Rule, q, float(r.Theta), m, cells)
-        if log:
-            log(f"exp1 fitted {r.Rule} {r.Pair} theta={r.Theta:.2f}")
+        cells = tuple(c for c in r.Cell_IDs.split("|") if c and c not in exclude)
+        fits.settings.append((r.Rule, r.Qref_1, r.Qref_2, float(r.Theta), cells))
+        keys += [(r.Rule, q, float(r.Theta), m, cells) for q in (r.Qref_1, r.Qref_2) for m in EXP1_MODELS]
+    _fit_keys(fits, inp, keys, workers, log)
     return fits
 
 
@@ -75,11 +88,25 @@ def nominal_own_cells(inp: Exp1Inputs, rule: str, theta: float, exclude: frozens
     return sorted(c for c in inp.eol.get((rule, "nominal", theta), {}) if c not in exclude)
 
 
-def fit_delta_settings(inp: Exp1Inputs, fits: Exp1Fits, exclude: frozenset = frozenset()) -> None:
+def fit_delta_settings(inp: Exp1Inputs, fits: Exp1Fits, exclude: frozenset = frozenset(), workers: int = 1) -> None:
     """Amendment 01 section 4: for first-first5, nominal variance model on nominal's own labeled EOL > 100 cells."""
-    for rule, q1, q2, theta, _ in list(fits.settings):
-        if q1 != "nominal":
-            _fit(fits, inp, rule, "nominal", theta, "variance", nominal_own_cells(inp, rule, theta, exclude))
+    keys = [(rule, "nominal", theta, "variance", tuple(nominal_own_cells(inp, rule, theta, exclude)))
+            for rule, q1, q2, theta, _ in fits.settings if q1 != "nominal"]
+    _fit_keys(fits, inp, keys, workers)
+
+
+def hash_table(fits: Exp1Fits) -> pd.DataFrame:
+    """Per fit: SHA-256 of the prediction vector (sorted cells) and of the selected hyperparameters. Hashes only, no
+    values (implementation notes 6.11; allowed in development outputs, amendment 01 section 11 is not affected)."""
+    from rul_ranking_pilot.methods import _sha
+
+    rows = []
+    for (rule, q, theta, model, cells), res in fits.results.items():
+        pv = np.array([res.predictions[c] for c in sorted(res.predictions)], float)
+        hv = np.array([[h["Fold_ID"], h["Selected_L1_Ratio"], h["Selected_Lambda"]] for h in res.hyper_rows], float).ravel()
+        rows.append({"Rule": rule, "Qref_Definition": q, "Theta": theta, "Cell_Set_ID": cell_set_id(cells), "Model": model,
+                     "Estimable": res.estimable, "Predictions_SHA256": _sha(pv), "Hyperparameters_SHA256": _sha(hv)})
+    return pd.DataFrame(rows).sort_values(["Rule", "Qref_Definition", "Theta", "Cell_Set_ID", "Model"], kind="stable").reset_index(drop=True)
 
 
 def estimability_table(fits: Exp1Fits) -> pd.DataFrame:
@@ -104,8 +131,14 @@ def audit_table(fits: Exp1Fits) -> pd.DataFrame:
 
 
 def warning_table(fits: Exp1Fits) -> pd.DataFrame:
-    return pd.DataFrame([{"Warning_Category": k, "Count": int(v)} for k, v in sorted(fits.warnings.items())],
-                        columns=["Warning_Category", "Count"])
+    """Warning counts by kind (implementation notes 6.10): inner-CV and final-refit convergence warnings separately,
+    plus the number of fold fits whose final refit did not converge."""
+    rows = [{"Warning_Category": k, "Count": int(v)} for k, v in sorted(fits.warnings.items())]
+    folds = [a for res in fits.results.values() for a in res.audit_rows if "Final_Refit_Converged" in a]
+    rows.append({"Warning_Category": "Fold_Fits_Elastic_Net", "Count": len(folds)})
+    rows.append({"Warning_Category": "Fold_Fits_Final_Refit_Not_Converged", "Count": int(sum(not a["Final_Refit_Converged"] for a in folds))})
+    rows.append({"Warning_Category": "Fold_Fits_Final_Refit_Repeat_Not_Identical", "Count": int(sum(not a["Final_Refit_Repeat_Identical"] for a in folds))})
+    return pd.DataFrame(rows, columns=["Warning_Category", "Count"])
 
 
 # ================================================================ evaluation (formal run only)
@@ -254,7 +287,10 @@ def common_practice(inp: Exp1Inputs, theta: float, rules, qrefs, exclude: frozen
             eol = {c: v for c, v in inp.eol.get((rule, q, theta), {}).items() if c not in exclude}
             by_split = {s: sorted(c for c in eol if inp.split[c] == s) for s in ("train", "test1", "test2")}
             for m in EXP1_MODELS:
-                preds, ok, _ = run_original_split(m, by_split, eol, inp.design[m])
+                from threadpoolctl import threadpool_limits
+
+                with threadpool_limits(limits=1):
+                    preds, ok, _ = run_original_split(m, by_split, eol, inp.design[m])
                 for s in ("train", "test1", "test2"):
                     cs = by_split[s]
                     rec = {"Rule": rule, "Qref_Definition": q, "Theta": theta, "Model": m, "Subset": s, "Labeled_Cells": len(cs)}
