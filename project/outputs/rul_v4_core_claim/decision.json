@@ -1,0 +1,142 @@
+{
+  "experiment_1_participates": true,
+  "experiment_1_reason": "",
+  "H1": {
+    "Verdict": "UNDECIDED",
+    "Supported_Reversals": 0,
+    "Estimable_Comparisons": 152,
+    "Reversal_Theta_Points_By_Rule_Pair_Method": {},
+    "Estimable_Units": 304,
+    "Claim_Supported_Units": 54,
+    "Claim_Supported_Share": 0.17763157894736842,
+    "By_Claim": {
+      "C1": {
+        "estimable": 152,
+        "supported": 33
+      },
+      "C2": {
+        "estimable": 152,
+        "supported": 21
+      }
+    }
+  },
+  "exp1_bootstrap_draw_sha256": "8b7091dfc117c480dc503f4a6f90044b0062d3367d6e5f0bed66d36de6cf8f46",
+  "exp1_fit_warnings": {
+    "Final_Refit_ConvergenceWarning": 4,
+    "Inner_CV_ConvergenceWarning": 320187,
+    "Fold_Fits_Elastic_Net": 950,
+    "Fold_Fits_Final_Refit_Not_Converged": 4,
+    "Fold_Fits_Final_Refit_Repeat_Not_Identical": 0
+  },
+  "exp3_bootstrap_draw_sha256": {
+    "HUST": "64941d622869e2f2291859efc21083955fdd6602d0caf2dfb3ca7fa732852d2f",
+    "MIT": "8b7091dfc117c480dc503f4a6f90044b0062d3367d6e5f0bed66d36de6cf8f46",
+    "NCA": "2778ec936ff05500454a5b30ac8b1e73cb85300ff8c8449079f919024d8614d3"
+  },
+  "H2": {
+    "Verdict": "REFUTED",
+    "Experiment_1_Included": true,
+    "Denominator": 234,
+    "Shares": {
+      "EQUIVALENT": 0.5726495726495726,
+      "NOT_EQUIVALENT": 0.11965811965811966,
+      "IMPRECISE": 0.3076923076923077
+    },
+    "Counts": {
+      "EQUIVALENT": 134,
+      "IMPRECISE": 72,
+      "NOT_EQUIVALENT": 28,
+      "DELTA_UNDEFINED": 10,
+      "NOT_ESTIMABLE": 3
+    },
+    "By_Experiment": {
+      "1": {
+        "EQUIVALENT": 75,
+        "IMPRECISE": 49,
+        "NOT_EQUIVALENT": 28
+      },
+      "3": {
+        "EQUIVALENT": 59,
+        "IMPRECISE": 23,
+        "DELTA_UNDEFINED": 10,
+        "NOT_ESTIMABLE": 3
+      }
+    }
+  },
+  "H3": {
+    "Verdict": "HOLDS",
+    "Datasets_Used": [
+      "HUST",
+      "MIT",
+      "NCA"
+    ],
+    "Supported_Reversals": 0,
+    "Estimable_Comparisons": 272,
+    "By_Dataset": {
+      "HUST": {
+        "estimable": 145,
+        "reversals": 0
+      },
+      "MIT": {
+        "estimable": 111,
+        "reversals": 0
+      },
+      "NCA": {
+        "estimable": 16,
+        "reversals": 0
+      }
+    },
+    "Power_20pct_Median_E1_E2": 0.9994252180640946,
+    "Power_20pct_N": 172,
+    "Low_Power_Note": false
+  },
+  "check5": {
+    "HUST": {
+      "settings": 102,
+      "passed": 99,
+      "expected": [
+        99,
+        102
+      ],
+      "counts_equal": true,
+      "rows_equal_frozen": true,
+      "row_mismatches": 0,
+      "Reproduced": true,
+      "Pass": true,
+      "Clearly_Better_Share": 0.9705882352941176
+    },
+    "MIT": {
+      "settings": 115,
+      "passed": 82,
+      "expected": [
+        82,
+        115
+      ],
+      "counts_equal": true,
+      "rows_equal_frozen": true,
+      "row_mismatches": 0,
+      "Reproduced": true,
+      "Pass": true,
+      "Clearly_Better_Share": 0.7130434782608696
+    },
+    "TJU_NCA": {
+      "settings": 105,
+      "passed": 87,
+      "expected": [
+        87,
+        105
+      ],
+      "counts_equal": true,
+      "rows_equal_frozen": true,
+      "row_mismatches": 0,
+      "Reproduced": true,
+      "Pass": true,
+      "Clearly_Better_Share": 0.8285714285714286
+    }
+  },
+  "exp3_datasets_passing_checks_0_4": [
+    "HUST",
+    "MIT",
+    "NCA"
+  ]
+}

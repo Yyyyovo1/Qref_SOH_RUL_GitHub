@@ -1,0 +1,6 @@
+﻿Warning_Category,Count
+Final_Refit_ConvergenceWarning,24
+Inner_CV_ConvergenceWarning,257831
+Fold_Fits_Elastic_Net,950
+Fold_Fits_Final_Refit_Not_Converged,24
+Fold_Fits_Final_Refit_Repeat_Not_Identical,0

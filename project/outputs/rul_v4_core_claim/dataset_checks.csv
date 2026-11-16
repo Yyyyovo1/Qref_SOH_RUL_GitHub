@@ -1,0 +1,5 @@
+﻿Experiment,Dataset,Passes_Checks,Reason,Check_0,Check_1,Check_2,Check_3,Check_4_amended,Check_4_original
+1,MIT,True,,,,,,,
+3,HUST,True,,True,True,True,True,True,True
+3,MIT,True,,True,True,True,True,True,True
+3,NCA,True,,True,True,True,True,True,True
