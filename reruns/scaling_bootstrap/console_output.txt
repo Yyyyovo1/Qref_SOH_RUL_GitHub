@@ -1,0 +1,180 @@
+{
+ "own_vs_pipeline_cell_mae_q_max_abs_diff": 1.790234627208065e-15,
+ "XJTU_cells": 55,
+ "XJTU_draw_sha256": "2e8a1afa9101de2c4af7927c31f1e112adde5be2922437d03422aa90207e1ded",
+ "HUST_cells": 77,
+ "HUST_draw_sha256": "64941d622869e2f2291859efc21083955fdd6602d0caf2dfb3ca7fa732852d2f",
+ "seed": 20260928,
+ "replicates": 5000,
+ "statistic": "median(model A cell MAE_Q) - median(model B cell MAE_Q)",
+ "interval": "linear percentile 2.5/97.5",
+ "cell_order": "lexicographic Cell_ID",
+ "numpy": "2.5.3",
+ "pandas": "2.2.3"
+}
+Dataset    Qref Method     Pair  Observed_Difference_Of_Medians_Ah  CI95_Lower_Ah  CI95_Upper_Ah CI_Includes_Zero
+   XJTU nominal    OWN    RF-GB                           -0.00173       -0.00564        0.00000              YES
+   XJTU nominal    OWN RF-Ridge                           -0.00929       -0.01599       -0.00623               NO
+   XJTU nominal    OWN GB-Ridge                           -0.00756       -0.01228       -0.00310               NO
+   XJTU nominal  TRAIN    RF-GB                           -0.00173       -0.00564        0.00000              YES
+   XJTU nominal  TRAIN RF-Ridge                           -0.00929       -0.01599       -0.00623               NO
+   XJTU nominal  TRAIN GB-Ridge                           -0.00756       -0.01228       -0.00310               NO
+   XJTU nominal    NOM    RF-GB                           -0.00173       -0.00564        0.00000              YES
+   XJTU nominal    NOM RF-Ridge                           -0.00929       -0.01599       -0.00623               NO
+   XJTU nominal    NOM GB-Ridge                           -0.00756       -0.01228       -0.00310               NO
+   XJTU   first    OWN    RF-GB                           -0.00258       -0.00555        0.00071              YES
+   XJTU   first    OWN RF-Ridge                           -0.01385       -0.01772       -0.00479               NO
+   XJTU   first    OWN GB-Ridge                           -0.01126       -0.01509       -0.00257               NO
+   XJTU   first  TRAIN    RF-GB                           -0.00170       -0.00555        0.00230              YES
+   XJTU   first  TRAIN RF-Ridge                           -0.01119       -0.01796       -0.00315               NO
+   XJTU   first  TRAIN GB-Ridge                           -0.00949       -0.01346       -0.00319               NO
+   XJTU   first    NOM    RF-GB                            0.00046       -0.00441        0.00405              YES
+   XJTU   first    NOM RF-Ridge                           -0.00572       -0.01864        0.01060              YES
+   XJTU   first    NOM GB-Ridge                           -0.00617       -0.01815        0.00958              YES
+   XJTU  first5    OWN    RF-GB                           -0.00230       -0.00581        0.00127              YES
+   XJTU  first5    OWN RF-Ridge                           -0.00860       -0.01623       -0.00270               NO
+   XJTU  first5    OWN GB-Ridge                           -0.00629       -0.01326       -0.00052               NO
+   XJTU  first5  TRAIN    RF-GB                            0.00170       -0.00826        0.00489              YES
+   XJTU  first5  TRAIN RF-Ridge                           -0.00827       -0.01593        0.00021              YES
+   XJTU  first5  TRAIN GB-Ridge                           -0.00997       -0.01634        0.00103              YES
+   XJTU  first5    NOM    RF-GB                           -0.00354       -0.00953        0.00289              YES
+   XJTU  first5    NOM RF-Ridge                           -0.01630       -0.02918        0.00233              YES
+   XJTU  first5    NOM GB-Ridge                           -0.01276       -0.02375        0.00554              YES
+   HUST nominal    OWN    RF-GB                           -0.00176       -0.00367        0.00100              YES
+   HUST nominal    OWN RF-Ridge                           -0.01089       -0.01399       -0.00638               NO
+   HUST nominal    OWN GB-Ridge                           -0.00913       -0.01235       -0.00563               NO
+   HUST nominal  TRAIN    RF-GB                           -0.00176       -0.00367        0.00100              YES
+   HUST nominal  TRAIN RF-Ridge                           -0.01089       -0.01399       -0.00638               NO
+   HUST nominal  TRAIN GB-Ridge                           -0.00913       -0.01235       -0.00563               NO
+   HUST nominal    NOM    RF-GB                           -0.00176       -0.00367        0.00100              YES
+   HUST nominal    NOM RF-Ridge                           -0.01089       -0.01399       -0.00638               NO
+   HUST nominal    NOM GB-Ridge                           -0.00913       -0.01235       -0.00563               NO
+   HUST   first    OWN    RF-GB                           -0.00112       -0.00248        0.00074              YES
+   HUST   first    OWN RF-Ridge                           -0.01179       -0.01397       -0.00784               NO
+   HUST   first    OWN GB-Ridge                           -0.01067       -0.01244       -0.00699               NO
+   HUST   first  TRAIN    RF-GB                            0.00004       -0.00358        0.00187              YES
+   HUST   first  TRAIN RF-Ridge                           -0.00836       -0.01428       -0.00587               NO
+   HUST   first  TRAIN GB-Ridge                           -0.00840       -0.01234       -0.00584               NO
+   HUST   first    NOM    RF-GB                           -0.00353       -0.00582        0.00189              YES
+   HUST   first    NOM RF-Ridge                           -0.00398       -0.00652       -0.00083               NO
+   HUST   first    NOM GB-Ridge                           -0.00044       -0.00680        0.00209              YES
+   HUST  first5    OWN    RF-GB                           -0.00161       -0.00305        0.00062              YES
+   HUST  first5    OWN RF-Ridge                           -0.01191       -0.01396       -0.00788               NO
+   HUST  first5    OWN GB-Ridge                           -0.01030       -0.01217       -0.00695               NO
+   HUST  first5  TRAIN    RF-GB                           -0.00100       -0.00288        0.00229              YES
+   HUST  first5  TRAIN RF-Ridge                           -0.01001       -0.01365       -0.00552               NO
+   HUST  first5  TRAIN GB-Ridge                           -0.00901       -0.01257       -0.00598               NO
+   HUST  first5    NOM    RF-GB                           -0.00228       -0.00623        0.00165              YES
+   HUST  first5    NOM RF-Ridge                           -0.00387       -0.00685       -0.00059               NO
+   HUST  first5    NOM GB-Ridge                           -0.00159       -0.00594        0.00220              YES
+Dataset    Qref Method         Ranking  Frequency  Observed_Ranking
+   HUST   first    NOM RF < GB < Ridge     0.5552              True
+   HUST   first    NOM GB < RF < Ridge     0.2578             False
+   HUST   first    NOM RF < Ridge < GB     0.1728             False
+   HUST   first    NOM Ridge < RF < GB     0.0102             False
+   HUST   first    NOM GB < Ridge < RF     0.0028             False
+   HUST   first    NOM Ridge < GB < RF     0.0012             False
+   HUST   first    OWN RF < GB < Ridge     0.8832              True
+   HUST   first    OWN GB < RF < Ridge     0.1168             False
+   HUST   first  TRAIN RF < GB < Ridge     0.6746             False
+   HUST   first  TRAIN GB < RF < Ridge     0.3254              True
+   HUST  first5    NOM RF < GB < Ridge     0.5900              True
+   HUST  first5    NOM RF < Ridge < GB     0.2150             False
+   HUST  first5    NOM GB < RF < Ridge     0.1820             False
+   HUST  first5    NOM Ridge < RF < GB     0.0088             False
+   HUST  first5    NOM GB < Ridge < RF     0.0024             False
+   HUST  first5    NOM Ridge < GB < RF     0.0018             False
+   HUST  first5    OWN RF < GB < Ridge     0.9156              True
+   HUST  first5    OWN GB < RF < Ridge     0.0844             False
+   HUST  first5  TRAIN RF < GB < Ridge     0.6906              True
+   HUST  first5  TRAIN GB < RF < Ridge     0.3094             False
+   HUST nominal    NOM RF < GB < Ridge     0.8726              True
+   HUST nominal    NOM GB < RF < Ridge     0.1274             False
+   HUST nominal    OWN RF < GB < Ridge     0.8726              True
+   HUST nominal    OWN GB < RF < Ridge     0.1274             False
+   HUST nominal  TRAIN RF < GB < Ridge     0.8726              True
+   HUST nominal  TRAIN GB < RF < Ridge     0.1274             False
+   XJTU   first    NOM GB < RF < Ridge     0.3204              True
+   XJTU   first    NOM RF < GB < Ridge     0.2944             False
+   XJTU   first    NOM Ridge < GB < RF     0.2532             False
+   XJTU   first    NOM Ridge < RF < GB     0.1106             False
+   XJTU   first    NOM GB < Ridge < RF     0.0176             False
+   XJTU   first    NOM RF < Ridge < GB     0.0038             False
+   XJTU   first    OWN RF < GB < Ridge     0.9558              True
+   XJTU   first    OWN GB < RF < Ridge     0.0418             False
+   XJTU   first    OWN RF < Ridge < GB     0.0016             False
+   XJTU   first    OWN Ridge < RF < GB     0.0008             False
+   XJTU   first  TRAIN RF < GB < Ridge     0.7884              True
+   XJTU   first  TRAIN GB < RF < Ridge     0.2084             False
+   XJTU   first  TRAIN GB < Ridge < RF     0.0020             False
+   XJTU   first  TRAIN RF < Ridge < GB     0.0008             False
+   XJTU   first  TRAIN Ridge < RF < GB     0.0002             False
+   XJTU   first  TRAIN Ridge < GB < RF     0.0002             False
+   XJTU  first5    NOM RF < GB < Ridge     0.6944              True
+   XJTU  first5    NOM GB < RF < Ridge     0.1618             False
+   XJTU  first5    NOM RF < Ridge < GB     0.0940             False
+   XJTU  first5    NOM Ridge < RF < GB     0.0364             False
+   XJTU  first5    NOM Ridge < GB < RF     0.0104             False
+   XJTU  first5    NOM GB < Ridge < RF     0.0030             False
+   XJTU  first5    OWN RF < GB < Ridge     0.9142              True
+   XJTU  first5    OWN GB < RF < Ridge     0.0628             False
+   XJTU  first5    OWN RF < Ridge < GB     0.0156             False
+   XJTU  first5    OWN Ridge < RF < GB     0.0026             False
+   XJTU  first5    OWN Ridge < GB < RF     0.0026             False
+   XJTU  first5    OWN GB < Ridge < RF     0.0022             False
+   XJTU  first5  TRAIN GB < RF < Ridge     0.4974              True
+   XJTU  first5  TRAIN RF < GB < Ridge     0.4202             False
+   XJTU  first5  TRAIN RF < Ridge < GB     0.0484             False
+   XJTU  first5  TRAIN GB < Ridge < RF     0.0162             False
+   XJTU  first5  TRAIN Ridge < GB < RF     0.0124             False
+   XJTU  first5  TRAIN Ridge < RF < GB     0.0054             False
+   XJTU nominal    NOM RF < GB < Ridge     0.9712              True
+   XJTU nominal    NOM GB < RF < Ridge     0.0282             False
+   XJTU nominal    NOM RF < Ridge < GB     0.0006             False
+   XJTU nominal    OWN RF < GB < Ridge     0.9712              True
+   XJTU nominal    OWN GB < RF < Ridge     0.0282             False
+   XJTU nominal    OWN RF < Ridge < GB     0.0006             False
+   XJTU nominal  TRAIN RF < GB < Ridge     0.9712              True
+   XJTU nominal  TRAIN GB < RF < Ridge     0.0282             False
+   XJTU nominal  TRAIN RF < Ridge < GB     0.0006             False
+Dataset Method Model Measured_Qref  Observed_Measured_Minus_Nominal_Ah  CI95_Lower_Ah  CI95_Upper_Ah CI_Includes_Zero  Measured_Higher_Frequency
+   XJTU    OWN    RF         first                            -0.00053       -0.00245        0.00899              YES                     0.4594
+   XJTU    OWN    RF        first5                            -0.00024       -0.00240        0.00733              YES                     0.4766
+   XJTU    OWN    GB         first                             0.00032       -0.00421        0.00853              YES                     0.5958
+   XJTU    OWN    GB        first5                             0.00033       -0.00470        0.00638              YES                     0.4862
+   XJTU    OWN Ridge         first                             0.00403       -0.00521        0.01194              YES                     0.7822
+   XJTU    OWN Ridge        first5                            -0.00093       -0.00832        0.00817              YES                     0.4186
+   XJTU  TRAIN    RF         first                             0.00366        0.00193        0.00956               NO                     0.9962
+   XJTU  TRAIN    RF        first5                             0.00734        0.00078        0.01125               NO                     0.9866
+   XJTU  TRAIN    GB         first                             0.00362        0.00015        0.00845               NO                     0.9758
+   XJTU  TRAIN    GB        first5                             0.00391       -0.00150        0.01460              YES                     0.8994
+   XJTU  TRAIN Ridge         first                             0.00556       -0.00060        0.00939              YES                     0.9578
+   XJTU  TRAIN Ridge        first5                             0.00632       -0.00596        0.01579              YES                     0.8242
+   XJTU    NOM    RF         first                             0.09787        0.08895        0.10645               NO                     1.0000
+   XJTU    NOM    RF        first5                             0.06293        0.05637        0.07348               NO                     1.0000
+   XJTU    NOM    GB         first                             0.09568        0.08475        0.10328               NO                     1.0000
+   XJTU    NOM    GB        first5                             0.06473        0.05506        0.07502               NO                     1.0000
+   XJTU    NOM Ridge         first                             0.09430        0.07064        0.11053               NO                     1.0000
+   XJTU    NOM Ridge        first5                             0.06994        0.04811        0.08427               NO                     1.0000
+   HUST    OWN    RF         first                            -0.00071       -0.00417        0.00057              YES                     0.0898
+   HUST    OWN    RF        first5                            -0.00071       -0.00406        0.00050              YES                     0.0664
+   HUST    OWN    GB         first                            -0.00136       -0.00401        0.00031              YES                     0.0476
+   HUST    OWN    GB        first5                            -0.00087       -0.00380        0.00074              YES                     0.0880
+   HUST    OWN Ridge         first                             0.00019       -0.00319        0.00247              YES                     0.3542
+   HUST    OWN Ridge        first5                             0.00031       -0.00309        0.00239              YES                     0.3844
+   HUST  TRAIN    RF         first                             0.00151       -0.00252        0.00286              YES                     0.3838
+   HUST  TRAIN    RF        first5                             0.00023       -0.00243        0.00323              YES                     0.3918
+   HUST  TRAIN    GB         first                            -0.00030       -0.00254        0.00109              YES                     0.2240
+   HUST  TRAIN    GB        first5                            -0.00053       -0.00278        0.00113              YES                     0.1384
+   HUST  TRAIN Ridge         first                            -0.00103       -0.00226        0.00128              YES                     0.2442
+   HUST  TRAIN Ridge        first5                            -0.00065       -0.00197        0.00127              YES                     0.2096
+   HUST    NOM    RF         first                             0.05371        0.04799        0.05886               NO                     1.0000
+   HUST    NOM    RF        first5                             0.05306        0.04717        0.05864               NO                     1.0000
+   HUST    NOM    GB         first                             0.05548        0.04692        0.06042               NO                     1.0000
+   HUST    NOM    GB        first5                             0.05358        0.04666        0.05975               NO                     1.0000
+   HUST    NOM Ridge         first                             0.04680        0.04168        0.05202               NO                     1.0000
+   HUST    NOM Ridge        first5                             0.04605        0.04097        0.05136               NO                     1.0000
+Dataset   Qref Alternative_Method  OWN_RF_minus_GB              OWN_CI  ALT_RF_minus_GB              ALT_CI Supported_Reversal
+   XJTU first5              TRAIN        -0.002304 [-0.00581, 0.00127]         0.001700 [-0.00826, 0.00489]                 NO
+   HUST  first              TRAIN        -0.001120 [-0.00248, 0.00074]         0.000037 [-0.00358, 0.00187]                 NO
+   XJTU  first                NOM        -0.002584 [-0.00555, 0.00071]         0.000456 [-0.00441, 0.00405]                 NO

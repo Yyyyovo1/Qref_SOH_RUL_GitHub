@@ -1,14 +1,15 @@
 cff-version: 1.2.0
 message: "If you use this code or data, please cite it as below and cite the original dataset publications listed in DATA_SOURCES.md."
-title: "Reference capacity as a hidden threshold: code and processed data for SOH/RUL label-definition shift in public lithium-ion battery datasets"
+title: "Reference capacity, end-of-life threshold and endpoint rule in lithium-ion battery SOH/RUL benchmarks: code, processed data and supplementary materials"
 type: software
 authors:
   - family-names: Yang
     given-names: Jianhao
     affiliation: "School of Materials and Environment, Guangxi Minzu University"
     email: jianhaoyang98@gmail.com
+    orcid: "https://orcid.org/0009-0005-6629-9804"
 license: MIT
-version: "1.0.0"
+version: "2.0.0"
 keywords:
   - lithium-ion battery
   - state of health
@@ -17,10 +18,26 @@ keywords:
   - end of life
   - censoring
   - benchmark reproducibility
+  - preregistration
 abstract: >-
-  Code, processed data, and supplementary tables for a study of how the
-  reference capacity used to define capacity-based state of health changes
-  end-of-life thresholds, endpoint censoring, exact point-RUL label
-  availability, and SOH benchmark errors in the XJTU and HUST public datasets.
-  Associated manuscript: technical brief prepared for the International
-  Journal of Prognostics and Health Management.
+  Code, processed data, frozen outputs and supplementary materials for a
+  study of how the reference capacity used to define capacity-based state of
+  health (nominal capacity or a measured early-cycle reference), the
+  end-of-life threshold fraction and the endpoint rule change end-of-life
+  labels, censoring, SOH benchmark errors and the conclusions of RUL method
+  comparisons. Datasets: CALCE CS2 (quality-control development), XJTU (55
+  NCM cells), HUST (77 LFP/graphite cells), MIT/Severson et al. (124
+  LFP/graphite cells) and TJU (66 NCA and 55 NCM cells). Version 2.0.0 adds
+  the MIT and TJU pipelines, the RUL method-comparison tests v1-v4 (protocols,
+  amendments, reports and frozen outputs), the scripts and data behind
+  Figures 1-6 and Supplementary Tables S1-S15, and Supplementary Notes S1-S4
+  of the manuscript prepared for the Journal of Energy Storage. Version 1.0.0
+  (doi:10.5281/zenodo.23889698) accompanied the IJPHM technical brief.
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23889698"
+    description: "Version 1.0.0 (IJPHM technical brief)"
+  - type: doi
+    value: "10.5281/zenodo.24222903"
+    description: "Preregistration of RUL test v4 (protocol, preparatory outputs, amendments 01 and 02; concept DOI)"
+repository-code: "https://github.com/Yyyyovo1/Qref_SOH_RUL_GitHub"

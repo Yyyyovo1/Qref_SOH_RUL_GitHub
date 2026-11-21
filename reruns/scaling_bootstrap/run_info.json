@@ -1,0 +1,14 @@
+{
+  "own_vs_pipeline_cell_mae_q_max_abs_diff": 1.790234627208065e-15,
+  "XJTU_cells": 55,
+  "XJTU_draw_sha256": "2e8a1afa9101de2c4af7927c31f1e112adde5be2922437d03422aa90207e1ded",
+  "HUST_cells": 77,
+  "HUST_draw_sha256": "64941d622869e2f2291859efc21083955fdd6602d0caf2dfb3ca7fa732852d2f",
+  "seed": 20260928,
+  "replicates": 5000,
+  "statistic": "median(model A cell MAE_Q) - median(model B cell MAE_Q)",
+  "interval": "linear percentile 2.5/97.5",
+  "cell_order": "lexicographic Cell_ID",
+  "numpy": "2.5.3",
+  "pandas": "2.2.3"
+}

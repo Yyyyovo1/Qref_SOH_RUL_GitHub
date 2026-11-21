@@ -1,5 +1,5 @@
 # License status
 
-The author's code, processed data, figures, and supplementary materials in this repository are released under the MIT License (see `LICENSE`).
+The author's code, processed data, figures and supplementary materials in this repository are released under the MIT License (see `LICENSE`).
 
-No raw third-party dataset is redistributed. Processed data derived from the CALCE, XJTU, and HUST datasets remain subject to the attribution requirements of those sources; users should cite the original data publications listed in `DATA_SOURCES.md`. The MIT License does not grant rights in third-party materials beyond those granted by their owners.
+No raw third-party dataset is redistributed. Processed data derived from the CALCE, XJTU, HUST, MIT/Severson et al. and TJU datasets remain subject to the attribution requirements of those sources; users should cite the original data publications listed in `DATA_SOURCES.md`. The HUST, MIT and TJU data are released by their owners under CC BY 4.0; the derived MIT and TJU files carry their own notes (`project/outputs/mit_124_final_v1/DATA_LICENSE.md`, `project/outputs/tju_final_v2/DATA_LICENSE.md`). The per-cell arrays of Attia et al. (2021) (MIT License) were used only to verify the extracted Severson et al. features; the comparison table `reruns/v4_prep/1_feature_comparison_vs_attia2021.csv` reports differences, not the arrays themselves. The MIT License of this repository does not grant rights in third-party materials beyond those granted by their owners.
